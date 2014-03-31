@@ -19,7 +19,7 @@ public class MockDatabase implements Database {
      * Luo tyhjän tietokantaolion.
      */
     public MockDatabase() {
-        db = new ArrayList<>();
+        db = new ArrayList<Viite>();
         counter = 0;
     }
        
