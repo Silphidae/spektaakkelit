@@ -1,12 +1,15 @@
 package GUI;
+
 import Database.MockDatabase;
 import Engine.IEngine;
 import java.util.Arrays;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class MainWindow extends javax.swing.JFrame {
+
     private IEngine engine;
-    
-            
+
     /**
      * Creates new form MainWindow
      */
@@ -238,18 +241,31 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        engine.lisaaArticle(
-                textFieldCitationKey.getText(), 
-                textFieldAuthor.getText(), 
-                textFieldTitle.getText(), 
-                textFieldJournal.getText(), 
-                Integer.parseInt(textFieldVolume.getText()), 
-                Integer.parseInt(textFieldNumber.getText()), 
+        ArrayList<String> virheet = engine.lisaaArticle(
+                textFieldCitationKey.getText(),
+                textFieldAuthor.getText(),
+                textFieldTitle.getText(),
+                textFieldJournal.getText(),
+                Integer.parseInt(textFieldVolume.getText()),
+                Integer.parseInt(textFieldNumber.getText()),
                 Integer.parseInt(textFieldYear.getText()),
-                Integer.parseInt(textFieldPage1.getText()), 
-                Integer.parseInt(textFieldPage2.getText()), 
-                textFieldPublisher.getText(), 
+                Integer.parseInt(textFieldPage1.getText()),
+                Integer.parseInt(textFieldPage2.getText()),
+                textFieldPublisher.getText(),
                 textFieldAdress.getText());
+        
+        if (virheet != null) {
+            String virheviesti = "";
+            
+            for (String virhe : virheet) {
+                virheviesti += virhe + "\n";
+            }
+            
+            JOptionPane.showMessageDialog(this, virheviesti);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Viite lisättiin onnistuneesti");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
