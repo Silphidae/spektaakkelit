@@ -43,7 +43,7 @@ public class EngineStub implements IEngine {
         //jos oli virheitä palautetaan ne
         return tarkastaja.getVirheet();
     }
-    
+        
     @Override
     public ArrayList<String> listaaKaikkiViitteet() {
         ArrayList<String> sisalto = new ArrayList<String>();

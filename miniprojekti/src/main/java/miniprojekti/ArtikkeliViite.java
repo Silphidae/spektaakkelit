@@ -103,7 +103,6 @@ public class ArtikkeliViite extends Viite {
         }
     }
     
-    
     @Override
     public String toString() {
         return author + ". \"" + title + "\" " + 
