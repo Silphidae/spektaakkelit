@@ -22,22 +22,42 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaAuthor(String author) {
+        if (author.isEmpty()) {
+            virheet.add("Kirjoittajan nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaTitle(String title) {
+        if (title.isEmpty()) {
+            virheet.add("Otsikko ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaJournal(String journal) {
+        if (journal.isEmpty()) {
+            virheet.add("Lehden nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaVolume(int volume) {
+        if (volume < 0) {
+            virheet.add("Vuosikerta ei saa olla negatiivinen");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaNumber(int number) {
+        if (number < 0) {
+            virheet.add("Lehden numero ei saa olla negatiivinen");
+            return false;
+        }
         return true;
     }
 
@@ -48,7 +68,7 @@ public class Syotetarkastaja {
             virheet.add("Vuoden pitää olla väliltä " + vuosiAlaraja + "-" + tamaVuosi);
             return false;
         }
-        
+
         return true;
     }
 
@@ -62,10 +82,18 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaPublisher(String publisher) {
+        if (publisher.isEmpty()) {
+            virheet.add("Julkaisija ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaAddress(String address) {
+        if (address.isEmpty()) {
+            virheet.add("Osoite ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
