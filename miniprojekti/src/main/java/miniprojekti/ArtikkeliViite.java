@@ -36,10 +36,13 @@ public class ArtikkeliViite extends Viite {
     }
     
     
-    // User story 2 ?
+    
     @Override
     public String toString() {
-        return "";
+        return author + ". \"" + title + "\" " + 
+                journal + " " + volume + "." + number +
+                "(" + year + "): " + page1 + "-" + page2 + 
+                ". " + publisher;
     }
     
 }

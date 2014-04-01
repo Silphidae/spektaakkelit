@@ -10,4 +10,5 @@ public interface Database {
     public void insertEntry(Viite viite);
     public Viite getEntry(int i);
     public void removeEntry(int i);
+    public int getSize();
 }

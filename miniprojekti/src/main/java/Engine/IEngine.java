@@ -1,6 +1,8 @@
 
 package Engine;
 
+import java.util.ArrayList;
+
 public interface IEngine {
     public void lisaaArticle(
             String citationKey,
@@ -15,4 +17,6 @@ public interface IEngine {
             String publisher,
             String address
     );
+    
+    public ArrayList<String> listaaKaikkiViitteet();
 }

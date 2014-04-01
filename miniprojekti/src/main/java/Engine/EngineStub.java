@@ -2,6 +2,7 @@
 package Engine;
 
 import Database.Database;
+import java.util.ArrayList;
 import miniprojekti.ArtikkeliViite;
 
 public class EngineStub implements IEngine {
@@ -22,6 +23,19 @@ public class EngineStub implements IEngine {
             journal, volume, number, year, page1, page2, publisher, address);
         db.insertEntry(viite);
     }
-
+    
+    @Override
+    public ArrayList<String> listaaKaikkiViitteet() {
+        ArrayList<String> sisalto = new ArrayList<String>();
+        
+        int i = 0;
+        while (i<db.getSize()){
+            System.out.println(db.getEntry(i).toString());
+            sisalto.add(db.getEntry(i).toString());
+            i++;
+        }
+        
+        return sisalto;
+    }
     
 }

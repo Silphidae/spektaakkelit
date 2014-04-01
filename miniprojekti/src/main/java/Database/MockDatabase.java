@@ -52,4 +52,13 @@ public class MockDatabase implements Database {
         db.remove(i);
     }
     
+    /**
+     * Palauttaa tietokannassa olevien viitteiden lukumäärän.
+     * @return Tietokannan koko
+     */
+    @Override
+    public int getSize() {
+        return db.size();
+    }
+    
 }
