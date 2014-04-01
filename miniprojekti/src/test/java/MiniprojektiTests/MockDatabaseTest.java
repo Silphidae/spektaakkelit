@@ -54,4 +54,15 @@ public class MockDatabaseTest extends TestCase {
         assertNotSame(viite2, db.getEntry(1));
         assertEquals(viite3, db.getEntry(1));
     }
+    
+    public void testTietokannanKoko() {
+        Viite viite = new ArtikkeliViite("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+        db.insertEntry(viite);
+        Viite viite2 = new ArtikkeliViite("key2", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+        db.insertEntry(viite2);
+        Viite viite3 = new ArtikkeliViite("key3", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+        db.insertEntry(viite3);
+        
+        assertEquals(3, db.getSize());
+    }
 }

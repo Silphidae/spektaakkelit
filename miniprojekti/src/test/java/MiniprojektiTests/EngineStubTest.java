@@ -8,6 +8,7 @@ import Database.Database;
 import Database.MockDatabase;
 import Engine.EngineStub;
 import Engine.IEngine;
+import java.util.ArrayList;
 import junit.framework.TestCase;
 
 /**
@@ -39,5 +40,22 @@ public class EngineStubTest extends TestCase {
     public void testArtikkelinLisays() {
         engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
         assertNotNull(db.getEntry(0));        
+    }
+    
+    public void testViitteidenListaus() {
+            engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+            engine.lisaaArticle("key2", "testihenkilö2", "testaustieto2", "valitut palat2", 12, 212, 1672, 68, 99, "kustantaja", "osoite2");
+            engine.lisaaArticle("key3", "testihenkilö3", "testaustieto3", "valitut palat3", 12, 212, 1672, 68, 99, "kustantaja3", "osoite3");
+            
+            assertEquals(3, engine.listaaKaikkiViitteet().size());
+    }
+    
+    public void testLisaaArticlePalauttaaNullKunViiteVirheeton() {
+        assertNull(engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite"));
+    }
+    
+    public void testLisaaArticlePalauttaaListanVirheistaKunSyotetettyVirheellisiaArvoja() {
+        ArrayList<String> virheet = engine.lisaaArticle("@%", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 0, 2, 1, "kustantaja", "osoite");
+        assertEquals(3, virheet.size());
     }
 }
