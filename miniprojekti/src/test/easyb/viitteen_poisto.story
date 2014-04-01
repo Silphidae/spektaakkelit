@@ -10,7 +10,6 @@ scenario "kayttaja voi poistaa haluamansa viitteen", {
         engine = new EngineStub(db)
         engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1993, 4, 5, "publisher", "address")
         engine.listaaKaikkiViitteet()
-
     } 
 
     when 'poistettava viite valittu', {
