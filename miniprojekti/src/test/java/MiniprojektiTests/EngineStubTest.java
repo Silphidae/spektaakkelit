@@ -4,6 +4,8 @@
  */
 package MiniprojektiTests;
 
+import Database.Database;
+import Database.MockDatabase;
 import Engine.EngineStub;
 import Engine.IEngine;
 import junit.framework.TestCase;
@@ -15,6 +17,7 @@ import junit.framework.TestCase;
 public class EngineStubTest extends TestCase {
 
     private IEngine engine;
+    private Database db = new MockDatabase();
 
     public EngineStubTest(String testName) {
         super(testName);
@@ -23,7 +26,7 @@ public class EngineStubTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        engine = new EngineStub();
+        engine = new EngineStub(db);
     }
 
     @Override
@@ -35,6 +38,6 @@ public class EngineStubTest extends TestCase {
 
     public void testArtikkelinLisays() {
         engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
-        // tämä kesken.. ei pääse käsiksi tietokantaan..
+        assertNotNull(db.getEntry(0));        
     }
 }

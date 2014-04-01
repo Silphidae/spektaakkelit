@@ -1,14 +1,16 @@
 package GUI;
+import Database.MockDatabase;
 import Engine.IEngine;
 
 public class MainWindow extends javax.swing.JFrame {
     private IEngine engine;
+    
             
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
-        engine = new Engine.EngineStub();
+        engine = new Engine.EngineStub(new MockDatabase());
         initComponents();
     }
 

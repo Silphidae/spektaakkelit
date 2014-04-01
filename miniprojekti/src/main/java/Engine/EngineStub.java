@@ -2,7 +2,6 @@
 package Engine;
 
 import Database.Database;
-import Database.MockDatabase;
 import miniprojekti.ArtikkeliViite;
 
 public class EngineStub implements IEngine {
@@ -10,8 +9,8 @@ public class EngineStub implements IEngine {
     private Database db;
     
     
-    public EngineStub() {
-        db = new MockDatabase();
+    public EngineStub(Database database) {
+        db = database;
     }
 
     
