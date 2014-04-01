@@ -1,8 +1,11 @@
 
 package Engine;
 
+import java.util.ArrayList;
+
 public interface IEngine {
-    public void lisaaArticle(
+    //Halutaan palauttavan listan virheistä
+    public ArrayList<String> lisaaArticle(
             String citationKey,
             String author,
             String title,
