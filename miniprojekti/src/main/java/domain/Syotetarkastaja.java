@@ -20,6 +20,28 @@ public class Syotetarkastaja {
 
         return true;
     }
+    
+    public boolean tarkasta(Kentta kentta, String syote) {
+        switch(kentta) {
+            case address:
+                return tarkastaAddress(syote);
+            case author:
+                return tarkastaAuthor(syote);
+            case journal:
+                return tarkastaJournal(syote);
+            case number:
+                return tarkastaNumber(Integer.parseInt(syote));
+            case publisher:
+                return tarkastaPublisher(syote);
+            case title:
+                return tarkastaTitle(syote);
+            case volume:
+                return tarkastaVolume(Integer.parseInt(syote));
+            case year:
+                return tarkastaYear(Integer.parseInt(syote));
+        }
+        return false;
+    }
 
     public boolean tarkastaAuthor(String author) {
         if (author.isEmpty()) {

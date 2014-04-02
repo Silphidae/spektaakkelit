@@ -273,9 +273,7 @@ public class MainWindow extends javax.swing.JFrame {
                 Integer.parseInt(textFieldNumber.getText()),
                 Integer.parseInt(textFieldYear.getText()),
                 Integer.parseInt(textFieldPage1.getText()),
-                Integer.parseInt(textFieldPage2.getText()),
-                textFieldPublisher.getText(),
-                textFieldAdress.getText());
+                Integer.parseInt(textFieldPage2.getText()));
         
         if (virheet != null) {
             String virheviesti = "";

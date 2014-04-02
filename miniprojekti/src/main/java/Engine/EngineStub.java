@@ -2,9 +2,11 @@
 package Engine;
 
 import Database.Database;
-import java.util.ArrayList;
 import domain.ArtikkeliViite;
+import domain.Kentta;
 import domain.Syotetarkastaja;
+import domain.Viite;
+import java.util.ArrayList;
 
 public class EngineStub implements IEngine {
     
@@ -19,23 +21,21 @@ public class EngineStub implements IEngine {
     @Override
     public ArrayList<String> lisaaArticle(String citationKey, String author, String title, 
             String journal, int volume, int number, int year, int page1, 
-            int page2, String publisher, String address) {
+            int page2) {
         
         Syotetarkastaja tarkastaja = new Syotetarkastaja();
         ArtikkeliViite viite = new ArtikkeliViite(tarkastaja);
         //Lisätään arvot uuteen viite-olioon, joka tarkastaa ne samalla
-        viite.lisaaCitationKey(citationKey);
-        viite.lisaaAuthor(author);
-        viite.lisaaTitle(title);
-        viite.lisaaJournal(journal);
-        viite.lisaaVolume(volume);
-        viite.lisaaNumber(number);
-        viite.lisaaYear(year);
-        viite.lisaaPage1Page2(page1, page2);
-        viite.lisaaPublisher(publisher);
-        viite.lisaaAddress(address);
+        viite.lisaaViiteavain(citationKey);
+        viite.lisaaKentta(Kentta.author, author);
+        viite.lisaaKentta(Kentta.title, title);
+        viite.lisaaKentta(Kentta.journal, journal);
+        viite.lisaaKentta(Kentta.volume, Integer.toString(volume));
+        viite.lisaaKentta(Kentta.number, Integer.toString(number));
+        viite.lisaaKentta(Kentta.year, Integer.toString(year));
+        viite.lisaaKentta(Kentta.pages, Integer.toString(page1)+ "-"+ Integer.toString(page2));
         
-        if (tarkastaja.getVirheet().isEmpty()) {
+        if (tarkastaja.getVirheet().isEmpty() && kaikkiPakollisetKentat(viite)) {
             db.insertEntry(viite);
             return null;
         }
@@ -56,6 +56,15 @@ public class EngineStub implements IEngine {
         }
         
         return sisalto;
+    }
+    
+    public boolean kaikkiPakollisetKentat(Viite viite) {
+        for (Kentta kentta : viite.getPakollisetKentat()) {
+            if(!viite.kaytossaOlevatKentat().contains(kentta)) {
+                return false;
+            }
+        }
+        return true;
     }
     
 }

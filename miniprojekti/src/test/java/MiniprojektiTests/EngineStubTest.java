@@ -38,24 +38,24 @@ public class EngineStubTest extends TestCase {
     // public void testHello() {}
 
     public void testArtikkelinLisays() {
-        engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+        engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99);
         assertNotNull(db.getEntry(0));        
     }
     
     public void testViitteidenListaus() {
-            engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
-            engine.lisaaArticle("key2", "testihenkilö2", "testaustieto2", "valitut palat2", 12, 212, 1672, 68, 99, "kustantaja", "osoite2");
-            engine.lisaaArticle("key3", "testihenkilö3", "testaustieto3", "valitut palat3", 12, 212, 1672, 68, 99, "kustantaja3", "osoite3");
+            engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99);
+            engine.lisaaArticle("key2", "testihenkilö2", "testaustieto2", "valitut palat2", 12, 212, 1672, 68, 99);
+            engine.lisaaArticle("key3", "testihenkilö3", "testaustieto3", "valitut palat3", 12, 212, 1672, 68, 99);
             
             assertEquals(3, engine.listaaKaikkiViitteet().size());
     }
     
     public void testLisaaArticlePalauttaaNullKunViiteVirheeton() {
-        assertNull(engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite"));
+        assertNull(engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99));
     }
     
     public void testLisaaArticlePalauttaaListanVirheistaKunSyotetettyVirheellisiaArvoja() {
-        ArrayList<String> virheet = engine.lisaaArticle("@%", "", "", "", -12, -212, 0, 2, 1, "", "");
+        ArrayList<String> virheet = engine.lisaaArticle("@%", "", "", "", -12, -212, 0, 2, 1);
         assertEquals(10, virheet.size());
     }
 }

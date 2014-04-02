@@ -4,9 +4,10 @@
  */
 package MiniprojektiTests;
 
-import junit.framework.TestCase;
 import domain.ArtikkeliViite;
+import domain.Syotetarkastaja;
 import domain.Viite;
+import junit.framework.TestCase;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ArtikkeliViiteTest extends TestCase {
     // TODO add test methods here. The name must begin with 'test'. For example:
 
     public void testViitteenLuonti() {
-        viite = new ArtikkeliViite("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99, "kustantaja", "osoite");
+        viite = new ArtikkeliViite(new Syotetarkastaja());
         assertNotNull(viite);
     }
 }
