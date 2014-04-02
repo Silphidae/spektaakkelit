@@ -1,4 +1,4 @@
-package miniprojekti;
+package domain;
 
 import java.util.ArrayList;
 import java.util.Calendar;

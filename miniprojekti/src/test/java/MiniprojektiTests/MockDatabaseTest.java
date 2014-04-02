@@ -7,8 +7,8 @@ package MiniprojektiTests;
 import Database.Database;
 import Database.MockDatabase;
 import junit.framework.TestCase;
-import miniprojekti.ArtikkeliViite;
-import miniprojekti.Viite;
+import domain.ArtikkeliViite;
+import domain.Viite;
 
 /**
  *

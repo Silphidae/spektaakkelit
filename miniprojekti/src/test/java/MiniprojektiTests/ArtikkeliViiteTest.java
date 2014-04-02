@@ -5,8 +5,8 @@
 package MiniprojektiTests;
 
 import junit.framework.TestCase;
-import miniprojekti.ArtikkeliViite;
-import miniprojekti.Viite;
+import domain.ArtikkeliViite;
+import domain.Viite;
 
 /**
  *

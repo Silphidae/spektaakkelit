@@ -3,8 +3,8 @@ package Engine;
 
 import Database.Database;
 import java.util.ArrayList;
-import miniprojekti.ArtikkeliViite;
-import miniprojekti.Syotetarkastaja;
+import domain.ArtikkeliViite;
+import domain.Syotetarkastaja;
 
 public class EngineStub implements IEngine {
     
