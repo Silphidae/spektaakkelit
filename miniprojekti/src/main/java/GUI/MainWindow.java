@@ -306,7 +306,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void paivitaViitelista() {
-        String[] sisalto = engine.listaaKaikkiViitteet().toArray(new String[0]);
+        String[] sisalto = engine.listaaKaikkiViitteet();
         
         //halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
         Arrays.sort(sisalto);

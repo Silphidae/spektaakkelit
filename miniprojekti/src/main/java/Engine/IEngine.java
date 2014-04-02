@@ -19,5 +19,5 @@ public interface IEngine {
             String address
     );
     
-    public ArrayList<String> listaaKaikkiViitteet();
+    public String[] listaaKaikkiViitteet();
 }
