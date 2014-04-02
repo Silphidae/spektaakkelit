@@ -45,17 +45,23 @@ public class EngineStub implements IEngine {
     }
         
     @Override
-    public ArrayList<String> listaaKaikkiViitteet() {
-        ArrayList<String> sisalto = new ArrayList<String>();
+    public String[] listaaKaikkiViitteet() {
+        String[] sisalto = new String[db.getSize()];
         
         int i = 0;
         while (i<db.getSize()){
-            System.out.println(db.getEntry(i).toString());
-            sisalto.add(db.getEntry(i).toString());
+            sisalto[i] = db.getEntry(i).toString();
             i++;
         }
         
         return sisalto;
+    }
+    
+    @Override
+    public void poistaViite(int i){
+        if (i>=0 && i<db.getSize()){
+            db.removeEntry(i);
+        }
     }
     
 }

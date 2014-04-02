@@ -4,7 +4,7 @@ import Database.MockDatabase;
 import Engine.IEngine;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -296,20 +296,47 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // tällä poistetaan valitut viitteet.
-        // valittuina olevat listan jäsenet ovat:
-        // viitelista.getSelectedValuesList();
-        // valittujen listan jäsenten indeksit ovat:
-        // viitelista.getSelectedIndices();
-        // jotta lista pysyy ajan tasalla, kannattaa lopuksi kutsua
+        int valitutViitteet = viitelista.getSelectedValuesList().size();
+        int valinta = 0;
+                
+        if (valitutViitteet == 0) {
+            JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
+        }
+        else if (valitutViitteet<6) {
+            String poistettavat = "";
+            
+            for (Object o : viitelista.getSelectedValuesList()){
+                poistettavat += o.toString() + "\n";
+            }
+            
+            valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko seuraavat viitteet:\n" + poistettavat);
+        } 
+        else {
+            valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko " + valitutViitteet + " viitettä?");
+        }
+        
+        if (valinta == JOptionPane.YES_OPTION){
+            Integer[] indeksit = new Integer[viitelista.getSelectedIndices().length];
+            
+            int i = 0;
+            for (int luku : viitelista.getSelectedIndices()) {
+                indeksit[i++] = Integer.valueOf(luku);
+            }
+            
+            Arrays.sort(indeksit, Collections.reverseOrder());
+            for (Integer indeksi : indeksit){
+                engine.poistaViite(indeksi);
+            }
+        } 
+        
         paivitaViitelista();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void paivitaViitelista() {
-        String[] sisalto = engine.listaaKaikkiViitteet().toArray(new String[0]);
+        String[] sisalto = engine.listaaKaikkiViitteet();
         
-        //halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
-        Arrays.sort(sisalto);
+        // halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
+        // Arrays.sort(sisalto);
         
         viitelista.setListData(sisalto);
     }

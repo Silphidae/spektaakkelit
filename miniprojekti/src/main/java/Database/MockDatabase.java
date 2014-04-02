@@ -50,6 +50,7 @@ public class MockDatabase implements Database {
     @Override
     public void removeEntry(int i) {
         db.remove(i);
+        counter--;
     }
     
     /**
