@@ -20,4 +20,6 @@ public interface IEngine {
     );
     
     public String[] listaaKaikkiViitteet();
+    
+    public void poistaViite(int i);
 }

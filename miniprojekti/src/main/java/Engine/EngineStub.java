@@ -46,8 +46,8 @@ public class EngineStub implements IEngine {
         
     @Override
     public String[] listaaKaikkiViitteet() {
-        //ArrayList<String> sisalto = new ArrayList<String>();
         String[] sisalto = new String[db.getSize()];
+        
         int i = 0;
         while (i<db.getSize()){
             sisalto[i] = db.getEntry(i).toString();
@@ -55,6 +55,13 @@ public class EngineStub implements IEngine {
         }
         
         return sisalto;
+    }
+    
+    @Override
+    public void poistaViite(int i){
+        if (i>=0 && i<db.getSize()){
+            db.removeEntry(i);
+        }
     }
     
 }
