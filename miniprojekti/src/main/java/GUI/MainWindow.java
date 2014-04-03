@@ -274,18 +274,28 @@ public class MainWindow extends javax.swing.JFrame {
                 Integer.parseInt(textFieldYear.getText()),
                 Integer.parseInt(textFieldPage1.getText()),
                 Integer.parseInt(textFieldPage2.getText()));
-        
+
         if (virheet != null) {
             String virheviesti = "";
-            
+
             for (String virhe : virheet) {
                 virheviesti += virhe + "\n";
             }
-            
+
             JOptionPane.showMessageDialog(this, virheviesti);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Viite lisättiin onnistuneesti");
+            
+            //tyhjennetaan kentat
+            textFieldCitationKey.setText("");
+            textFieldAuthor.setText("");
+            textFieldTitle.setText("");
+            textFieldJournal.setText("");
+            textFieldVolume.setText("");
+            textFieldNumber.setText("");
+            textFieldYear.setText("");
+            textFieldPage1.setText("");
+            textFieldPage2.setText("");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -296,49 +306,46 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int valitutViitteet = viitelista.getSelectedValuesList().size();
         int valinta = 0;
-                
+
         if (valitutViitteet == 0) {
             JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
-        }
-        else if (valitutViitteet<6) {
+        } else if (valitutViitteet < 6) {
             String poistettavat = "";
-            
-            for (Object o : viitelista.getSelectedValuesList()){
+
+            for (Object o : viitelista.getSelectedValuesList()) {
                 poistettavat += o.toString() + "\n";
             }
-            
+
             valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko seuraavat viitteet:\n" + poistettavat);
-        } 
-        else {
+        } else {
             valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko " + valitutViitteet + " viitettä?");
         }
-        
-        if (valinta == JOptionPane.YES_OPTION){
+
+        if (valinta == JOptionPane.YES_OPTION) {
             Integer[] indeksit = new Integer[viitelista.getSelectedIndices().length];
-            
+
             int i = 0;
             for (int luku : viitelista.getSelectedIndices()) {
                 indeksit[i++] = Integer.valueOf(luku);
             }
-            
+
             Arrays.sort(indeksit, Collections.reverseOrder());
-            for (Integer indeksi : indeksit){
+            for (Integer indeksi : indeksit) {
                 engine.poistaViite(indeksi);
             }
-        } 
-        
+        }
+
         paivitaViitelista();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void paivitaViitelista() {
         String[] sisalto = engine.listaaKaikkiViitteet();
-        
+
         // halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
         // Arrays.sort(sisalto);
-        
         viitelista.setListData(sisalto);
     }
-    
+
     /**
      * @param args the command line arguments
      */
