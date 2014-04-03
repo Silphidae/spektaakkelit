@@ -1,4 +1,4 @@
-package MiniprojektiTests;
+package domain;
 
 import Syotetarkistus.Syotetarkastaja;
 import domain.Article;

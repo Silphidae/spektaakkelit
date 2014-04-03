@@ -72,11 +72,14 @@
                     <targetClasses>
                         <param>Database*</param>
                         <param>Engine*</param>
-                        <param>Syotetarkistus</param>
-                        <param>domain</param>
+                        <param>Syotetarkistus*</param>
+                        <param>domain*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>MiniprojektiTests*</param>
+                        <param>Database*</param>
+                        <param>Engine*</param>
+                        <param>Syotetarkistus*</param>
+                        <param>domain*</param>
                     </targetTests>
                 </configuration>
             </plugin>
