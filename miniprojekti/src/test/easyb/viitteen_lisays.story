@@ -30,6 +30,6 @@ scenario "kayttaja syottama viite ei tallennu, jos siina virheita", {
     }
 
     then 'viite ei tallennu ohjelmaan', {
-        engine.listaaKaikkiViitteet().size().shouldBeEqual 0
+        engine.listaaKaikkiViitteet().length.shouldBeEqual 0
     }
 }

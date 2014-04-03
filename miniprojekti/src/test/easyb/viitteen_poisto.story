@@ -17,6 +17,6 @@ scenario "kayttaja voi poistaa haluamansa viitteen", {
     }
 
     then 'viite on poistettu ohjelmasta', {
-        engine.listaaKaikkiViitteet().size().shouldBeEqual 0
+        engine.listaaKaikkiViitteet().length.shouldBeEqual 0
     }
 }

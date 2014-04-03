@@ -56,6 +56,15 @@ public class EngineStubTest extends TestCase {
 
     public void testLisaaArticlePalauttaaListanVirheistaKunSyotetettyVirheellisiaArvoja() {
         ArrayList<String> virheet = engine.lisaaArticle("@%", "", "", "", -12, -212, 0, 2, 1);
-        assertEquals(7, virheet.size());
+        assertEquals(8, virheet.size());
+    }
+    
+    public void testPoistaViiteToimii() {
+        engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99);
+        engine.lisaaArticle("key2", "testihenkilö2", "testaustieto2", "valitut palat2", 12, 212, 1672, 68, 99);
+        engine.lisaaArticle("key3", "testihenkilö3", "testaustieto3", "valitut palat3", 12, 212, 1672, 68, 99);
+        
+        engine.poistaViite(1);
+        assertEquals(2, engine.listaaKaikkiViitteet().length);
     }
 }

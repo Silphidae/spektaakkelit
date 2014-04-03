@@ -18,6 +18,6 @@ scenario "kayttaja voi listata viitteet", {
     }
 
     then 'viitteet nakyvat listana', {
-        lista.size().shouldBeEqual 2
+        lista.length.shouldBeEqual 2
     }
 }
