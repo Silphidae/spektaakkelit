@@ -60,7 +60,8 @@ public class Syotetarkastaja {
             case organization:
                 //TODO
             case pages:
-                //TODO
+                String[] sivut = syote.split("-");
+                return tarkastaPage1Page2(Integer.parseInt(sivut[0]), Integer.parseInt(sivut[1]));
             case publisher:
                 //TODO
                 return tarkastaPublisher(syote);
