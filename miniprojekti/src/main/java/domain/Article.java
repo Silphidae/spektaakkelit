@@ -16,4 +16,12 @@ public class Article extends Viite {
                 Kentta.volume, Kentta.number, Kentta.pages, Kentta.month, Kentta.note, Kentta.key);
         this.tarkastaja = tarkastaja;
     }
+
+    @Override
+    public String toString() {
+        return kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title) + ", " + 
+                kentat.get(Kentta.journal) + ", " + kentat.get(Kentta.year);
+    }
+    
+    
 }

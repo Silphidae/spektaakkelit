@@ -28,51 +28,52 @@ public class Syotetarkastaja {
             case address:
                 return tarkastaAddress(syote);
             case annote:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case author:
                 return tarkastaAuthor(syote);
             case booktitle:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case chapter:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case crossref:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case edition:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case editor:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case eprint:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case howpublished:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case institution:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case journal:
                 return tarkastaJournal(syote);
             case key:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case month:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case note:
-                throw new UnsupportedOperationException("Not supported yet.");    
+                //TODO
             case number:
                 return tarkastaNumber(Integer.parseInt(syote));
             case organization:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case pages:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case publisher:
+                //TODO
                 return tarkastaPublisher(syote);
             case school:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case series:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case title:
                 return tarkastaTitle(syote);
             case type:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case url:
-                throw new UnsupportedOperationException("Not supported yet.");
+                //TODO
             case volume:
                 return tarkastaVolume(Integer.parseInt(syote));
             case year:

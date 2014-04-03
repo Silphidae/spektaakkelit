@@ -34,8 +34,12 @@ public class ArticleTest extends TestCase {
     }
     // TODO add test methods here. The name must begin with 'test'. For example:
     
-    public void testPakollisetKentatOikein() {
-        assertEquals(artikkeli.getPakollisetKentat(), 
-                EnumSet.of(Kentta.author, Kentta.title, Kentta.journal, Kentta.year));
+    public void testToString() {
+        artikkeli.lisaaKentta(Kentta.title, "Viimeiset banjonsoittajat");
+        artikkeli.lisaaKentta(Kentta.author, "Antti Akateeminen");
+        artikkeli.lisaaKentta(Kentta.journal, "Advances in the theory of Banjos");
+        artikkeli.lisaaKentta(Kentta.year, "2013");
+        assertEquals(artikkeli.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
+                + " Advances in the theory of Banjos, 2013");
     }
 }
