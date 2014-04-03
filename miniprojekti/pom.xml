@@ -68,6 +68,17 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>0.30</version>
+                <configuration>
+                    <targetClasses>
+                        <param>Database*</param>
+                        <param>Engine*</param>
+                        <param>Syotetarkistus</param>
+                        <param>domain</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>MiniprojektiTests*</param>
+                    </targetTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
