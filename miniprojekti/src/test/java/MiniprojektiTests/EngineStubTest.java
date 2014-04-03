@@ -47,7 +47,7 @@ public class EngineStubTest extends TestCase {
             engine.lisaaArticle("key2", "testihenkilö2", "testaustieto2", "valitut palat2", 12, 212, 1672, 68, 99, "kustantaja", "osoite2");
             engine.lisaaArticle("key3", "testihenkilö3", "testaustieto3", "valitut palat3", 12, 212, 1672, 68, 99, "kustantaja3", "osoite3");
             
-            assertEquals(3, engine.listaaKaikkiViitteet().size());
+            assertEquals(3, engine.listaaKaikkiViitteet().length);
     }
     
     public void testLisaaArticlePalauttaaNullKunViiteVirheeton() {
