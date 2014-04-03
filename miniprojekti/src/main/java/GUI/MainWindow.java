@@ -322,14 +322,13 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         if (valinta == JOptionPane.YES_OPTION) {
-            Integer[] indeksit = new Integer[viitelista.getSelectedIndices().length];
+            int[] indeksit = new int[viitelista.getSelectedIndices().length];
 
-            int i = 0;
+            int i = viitelista.getSelectedIndices().length-1;
             for (int luku : viitelista.getSelectedIndices()) {
-                indeksit[i++] = Integer.valueOf(luku);
+                indeksit[i--] = luku;
             }
 
-            Arrays.sort(indeksit, Collections.reverseOrder());
             for (Integer indeksi : indeksit) {
                 engine.poistaViite(indeksi);
             }
@@ -337,10 +336,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         paivitaViitelista();
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    
+    /**
+     * Päivittää viitteiden listausnäkymän
+     */
     private void paivitaViitelista() {
         String[] sisalto = engine.listaaKaikkiViitteet();
-
         // halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
         // Arrays.sort(sisalto);
         viitelista.setListData(sisalto);
