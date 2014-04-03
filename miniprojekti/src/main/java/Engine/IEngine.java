@@ -14,9 +14,7 @@ public interface IEngine {
             int number,
             int year,
             int page1,
-            int page2,
-            String publisher,
-            String address
+            int page2
     );
     
     public String[] listaaKaikkiViitteet();

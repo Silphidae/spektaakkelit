@@ -1,6 +1,6 @@
 package Database;
 
-import miniprojekti.Viite;
+import domain.Viite;
 
 /**
  * Rajapintaluokka tietokannalle
