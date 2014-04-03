@@ -1,5 +1,5 @@
 import Database.*
-import miniprojekti.*
+import domain.*
 import Engine.*
 
 description 'kayttaja pystyy lisaamaan artikkelityyppisen viitteen'
@@ -11,7 +11,7 @@ scenario "kayttajan lisaama viite tallentuu ohjelmaan", {
     }
 
     when 'viitteen tiedot kirjattu lomakkeeseen', {
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1999, 4, 5, "publisher", "address")
+        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1999, 4, 5)
     }
 
     then 'viite tallennettu ohjelmaan', {
@@ -26,10 +26,10 @@ scenario "kayttaja syottama viite ei tallennu, jos siina virheita", {
     }
 
      when 'syotetaan virheellisia arvoja', {
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 0, 99, 5, "publisher", "address")
+        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 0, 99, 5)
     }
 
     then 'viite ei tallennu ohjelmaan', {
-        db.getSize().shouldBeEqual 0
+        engine.listaaKaikkiViitteet().size().shouldBeEqual 0
     }
 }

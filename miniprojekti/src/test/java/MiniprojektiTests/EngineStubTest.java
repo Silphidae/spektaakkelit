@@ -56,6 +56,6 @@ public class EngineStubTest extends TestCase {
 
     public void testLisaaArticlePalauttaaListanVirheistaKunSyotetettyVirheellisiaArvoja() {
         ArrayList<String> virheet = engine.lisaaArticle("@%", "", "", "", -12, -212, 0, 2, 1);
-        assertEquals(10, virheet.size());
+        assertEquals(7, virheet.size());
     }
 }

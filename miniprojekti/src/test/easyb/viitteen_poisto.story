@@ -1,5 +1,5 @@
 import Database.*
-import miniprojekti.*
+import domain.*
 import Engine.*
 
 description 'kayttaja voi poistaa viitteen ohjelmasta' 
@@ -8,7 +8,7 @@ scenario "kayttaja voi poistaa haluamansa viitteen", {
     given 'viitteet listattu', {
         db = new MockDatabase()
         engine = new EngineStub(db)
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1993, 4, 5, "publisher", "address")
+        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1993, 4, 5)
         engine.listaaKaikkiViitteet()
     } 
 
@@ -17,6 +17,6 @@ scenario "kayttaja voi poistaa haluamansa viitteen", {
     }
 
     then 'viite on poistettu ohjelmasta', {
-        db.getSize().shouldBeEqual 0
+        engine.listaaKaikkiViitteet().size().shouldBeEqual 0
     }
 }
