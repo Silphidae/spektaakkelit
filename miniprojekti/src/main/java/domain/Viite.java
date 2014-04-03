@@ -18,6 +18,10 @@ public abstract class Viite {
         }
     }
 
+    public String getViiteavain() {
+        return viiteavain;
+    }
+
     public void lisaaKentta(Kentta kentta, String syote) {
         if (sallitutKentat.contains(kentta) && !kaytossaOlevatKentat().contains(kentta)) {
             if (tarkastaja.tarkasta(kentta, syote)) {
@@ -36,6 +40,10 @@ public abstract class Viite {
 
     public void poistaKentta(Kentta kentta) {
         kentat.remove(kentta);
+    }
+    
+    public String getKentanSisalto(Kentta kentta) {
+        return kentat.get(kentta);
     }
 
     public Set<Kentta> getPakollisetKentat() {

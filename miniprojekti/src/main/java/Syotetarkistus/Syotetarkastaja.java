@@ -27,16 +27,52 @@ public class Syotetarkastaja {
         switch(kentta) {
             case address:
                 return tarkastaAddress(syote);
+            case annote:
+                throw new UnsupportedOperationException("Not supported yet.");
             case author:
                 return tarkastaAuthor(syote);
+            case booktitle:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case chapter:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case crossref:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case edition:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case editor:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case eprint:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case howpublished:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case institution:
+                throw new UnsupportedOperationException("Not supported yet.");
             case journal:
                 return tarkastaJournal(syote);
+            case key:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case month:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case note:
+                throw new UnsupportedOperationException("Not supported yet.");    
             case number:
                 return tarkastaNumber(Integer.parseInt(syote));
+            case organization:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case pages:
+                throw new UnsupportedOperationException("Not supported yet.");
             case publisher:
                 return tarkastaPublisher(syote);
+            case school:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case series:
+                throw new UnsupportedOperationException("Not supported yet.");
             case title:
                 return tarkastaTitle(syote);
+            case type:
+                throw new UnsupportedOperationException("Not supported yet.");
+            case url:
+                throw new UnsupportedOperationException("Not supported yet.");
             case volume:
                 return tarkastaVolume(Integer.parseInt(syote));
             case year:
