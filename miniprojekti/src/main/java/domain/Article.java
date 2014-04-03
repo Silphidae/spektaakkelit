@@ -1,14 +1,15 @@
 package domain;
 
+import Syotetarkistus.Syotetarkastaja;
 import java.util.EnumMap;
 import java.util.EnumSet;
 
 /**
  *
  */
-public class ArtikkeliViite extends Viite {
+public class Article extends Viite {
     
-    public ArtikkeliViite(Syotetarkastaja tarkastaja) {
+    public Article(Syotetarkastaja tarkastaja) {
         this.kentat = new EnumMap(Kentta.class);
         this.pakollisetKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.journal, Kentta.year);
         this.sallitutKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.journal, Kentta.year,

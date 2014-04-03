@@ -1,9 +1,9 @@
 package Engine;
 
 import Database.Database;
-import domain.ArtikkeliViite;
+import domain.Article;
 import domain.Kentta;
-import domain.Syotetarkastaja;
+import Syotetarkistus.Syotetarkastaja;
 import domain.Viite;
 import java.util.ArrayList;
 
@@ -21,7 +21,8 @@ public class EngineStub implements IEngine {
             int page2) {
 
         Syotetarkastaja tarkastaja = new Syotetarkastaja();
-        ArtikkeliViite viite = new ArtikkeliViite(tarkastaja);
+        Article viite = new Article(tarkastaja);
+        
         //Lisätään arvot uuteen viite-olioon, joka tarkastaa ne samalla
         viite.lisaaViiteavain(citationKey);
         viite.lisaaKentta(Kentta.author, author);

@@ -1,5 +1,7 @@
-package domain;
+package Syotetarkistus;
 
+
+import domain.Kentta;
 import java.util.ArrayList;
 import java.util.Calendar;
 

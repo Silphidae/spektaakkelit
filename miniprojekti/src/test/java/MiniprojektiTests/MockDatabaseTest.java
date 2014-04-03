@@ -6,8 +6,8 @@ package MiniprojektiTests;
 
 import Database.Database;
 import Database.MockDatabase;
-import domain.ArtikkeliViite;
-import domain.Syotetarkastaja;
+import domain.Article;
+import Syotetarkistus.Syotetarkastaja;
 import domain.Viite;
 import junit.framework.TestCase;
 
@@ -40,17 +40,17 @@ public class MockDatabaseTest extends TestCase {
     // public void testHello() {}
 
     public void testViitteenLisaysJaHaku() {
-        Viite viite = new ArtikkeliViite(tarkastaja);
+        Viite viite = new Article(tarkastaja);
         db.insertEntry(viite);
         assertEquals(viite, db.getEntry(0));
     }
 
     public void testViitteenPoisto() {
-        Viite viite = new ArtikkeliViite(tarkastaja);
+        Viite viite = new Article(tarkastaja);
         db.insertEntry(viite);
-        Viite viite2 = new ArtikkeliViite(tarkastaja);
+        Viite viite2 = new Article(tarkastaja);
         db.insertEntry(viite2);
-        Viite viite3 = new ArtikkeliViite(tarkastaja);
+        Viite viite3 = new Article(tarkastaja);
         db.insertEntry(viite3);
 
         db.removeEntry(1);
@@ -60,11 +60,11 @@ public class MockDatabaseTest extends TestCase {
     }
     
     public void testTietokannanKoko() {
-        Viite viite = new ArtikkeliViite(tarkastaja);
+        Viite viite = new Article(tarkastaja);
         db.insertEntry(viite);
-        Viite viite2 = new ArtikkeliViite(tarkastaja);
+        Viite viite2 = new Article(tarkastaja);
         db.insertEntry(viite2);
-        Viite viite3 = new ArtikkeliViite(tarkastaja);
+        Viite viite3 = new Article(tarkastaja);
         db.insertEntry(viite3);
         
         assertEquals(3, db.getSize());
