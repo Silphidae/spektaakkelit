@@ -33,13 +33,15 @@ public class EngineStub implements IEngine {
         viite.lisaaKentta(Kentta.year, Integer.toString(year));
         viite.lisaaKentta(Kentta.pages, Integer.toString(page1) + "-" + Integer.toString(page2));
 
-        if (tarkastaja.getVirheet().isEmpty() && kaikkiPakollisetKentat(viite)) {
+        if (tarkastaja.getVirheet().isEmpty() && viite.kenttaMaarittelyVirheet().isEmpty()) {
             db.insertEntry(viite);
             return null;
         }
+        ArrayList<String> virheet = tarkastaja.getVirheet();
+        virheet.addAll(viite.kenttaMaarittelyVirheet());
 
         //jos oli virheitä palautetaan ne
-        return tarkastaja.getVirheet();
+        return virheet;
     }
 
     @Override
@@ -60,14 +62,5 @@ public class EngineStub implements IEngine {
         if (i >= 0 && i < db.getSize()) {
             db.removeEntry(i);
         }
-    }
-
-    public boolean kaikkiPakollisetKentat(Viite viite) {
-        for (Kentta kentta : viite.getPakollisetKentat()) {
-            if (!viite.kaytossaOlevatKentat().contains(kentta)) {
-                return false;
-            }
-        }
-        return true;
     }
 }

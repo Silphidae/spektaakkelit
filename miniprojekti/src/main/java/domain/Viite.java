@@ -1,13 +1,13 @@
 package domain;
 
 import Syotetarkistus.Syotetarkastaja;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class Viite {
 
     protected Map<Kentta, String> kentat;
-    protected Set<Kentta> pakollisetKentat;
     protected Set<Kentta> sallitutKentat;
     protected String viiteavain;
     protected Syotetarkastaja tarkastaja;
@@ -46,11 +46,12 @@ public abstract class Viite {
         return kentat.get(kentta);
     }
 
-    public Set<Kentta> getPakollisetKentat() {
-        return pakollisetKentat;
-    }
-
     public Set<Kentta> kaytossaOlevatKentat() {
         return kentat.keySet();
     }
+    /**
+     * Metodi tarkastaa onko viitteelle määritelty kaikki sen pakolliset kentät.
+     * @return Lista virheistä , jos niitä on.
+     */
+    public abstract List<String> kenttaMaarittelyVirheet();
 }

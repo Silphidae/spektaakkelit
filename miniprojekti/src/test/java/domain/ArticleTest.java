@@ -42,4 +42,16 @@ public class ArticleTest extends TestCase {
         assertEquals(artikkeli.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
                 + " Advances in the theory of Banjos, 2013");
     }
+    
+    public void testVirheilmoituksetTulevatOikein() {
+        
+        assertEquals(4, artikkeli.kenttaMaarittelyVirheet().size());
+        
+        artikkeli.lisaaKentta(Kentta.author, "Pekka");
+        artikkeli.lisaaKentta(Kentta.title, "Artikkelin nimi");
+        assertEquals(2, artikkeli.kenttaMaarittelyVirheet().size());
+        
+        artikkeli.lisaaKentta(Kentta.annote, "jotakin");
+        assertEquals(2, artikkeli.kenttaMaarittelyVirheet().size());
+    }
 }
