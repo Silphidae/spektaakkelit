@@ -25,17 +25,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>tomcat-dbcp</groupId>
-            <artifactId>tomcat-dbcp</artifactId>
-            <version>tomcat-dbcp</version>
-        </dependency>
-        <dependency>
-            <groupId>postgres</groupId>
-            <artifactId>postgres</artifactId>
-            <version>postgres</version>
-        </dependency>
+        </dependency>     
     </dependencies>
     
     <build>
@@ -92,12 +82,6 @@
                         <param>domain*</param>
                     </targetTests>
                 </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat6-maven-plugin</artifactId>
-                <version>2.3-SNAPSHOT</version>
             </plugin>
         </plugins>
     </build>
