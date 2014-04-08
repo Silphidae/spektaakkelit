@@ -27,14 +27,14 @@
             <version>2.5</version>
         </dependency>
         <dependency>
-            <groupId>tomcat-dbcp</groupId>
-            <artifactId>tomcat-dbcp</artifactId>
-            <version>tomcat-dbcp</version>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>dbcp</artifactId>
+            <version>6.0.39</version>
         </dependency>
         <dependency>
-            <groupId>postgres</groupId>
-            <artifactId>postgres</artifactId>
-            <version>postgres</version>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
         </dependency>
     </dependencies>
     
