@@ -1,6 +1,5 @@
 package Syotetarkistus;
 
-
 import domain.Kentta;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,68 +18,78 @@ public class Syotetarkastaja {
                 return false;
             }
         }
-
         return true;
     }
-    
+
     public boolean tarkasta(Kentta kentta, String syote) {
-        switch(kentta) {
+        switch (kentta) {
             case address:
                 return tarkastaAddress(syote);
             case annote:
-                //TODO
+                return tarkastaAnnote(syote);
             case author:
                 return tarkastaAuthor(syote);
             case booktitle:
-                //TODO
+                return tarkastaBooktitle(syote);
             case chapter:
-                //TODO
+                return tarkastaChapter(syote);
             case crossref:
-                //TODO
+                return tarkastaCrossref(syote);
             case edition:
-                //TODO
+                return tarkastaEdition(syote);
             case editor:
-                //TODO
+                return tarkastaEditor(syote);
             case eprint:
-                //TODO
+                return tarkastaEprint(syote);
             case howpublished:
-                //TODO
+                return tarkastaHowpublished(syote);
             case institution:
-                //TODO
+                return tarkastaInstitution(syote);
             case journal:
                 return tarkastaJournal(syote);
             case key:
-                //TODO
+                return tarkastaKey(syote);
             case month:
-                //TODO
+                return tarkastaMonth(syote);
             case note:
-                //TODO
+                return tarkastaNote(syote);
             case number:
-                return tarkastaNumber(Integer.parseInt(syote));
+                return tarkastaNumber(syote);
             case organization:
-                //TODO
+                return tarkastaOrganization(syote);
             case pages:
-                String[] sivut = syote.split("-");
-                return tarkastaPage1Page2(Integer.parseInt(sivut[0]), Integer.parseInt(sivut[1]));
+                return tarkastaPages(syote);
             case publisher:
-                //TODO
                 return tarkastaPublisher(syote);
             case school:
-                //TODO
+                return tarkastaSchool(syote);
             case series:
-                //TODO
+                return tarkastaSeries(syote);
             case title:
                 return tarkastaTitle(syote);
             case type:
-                //TODO
+                return tarkastaType(syote);
             case url:
-                //TODO
+                return tarkastaUrl(syote);
             case volume:
-                return tarkastaVolume(Integer.parseInt(syote));
+                return tarkastaVolume(syote);
             case year:
-                return tarkastaYear(Integer.parseInt(syote));
+                return tarkastaYear(syote);
         }
         return false;
+    }
+
+    public boolean tarkastaAddress(String address) {
+        if (address.isEmpty()) {
+            virheet.add("Osoite ei saa olla tyhjä");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean tarkastaAnnote(String annote) {
+        //TODO
+        return true;
     }
 
     public boolean tarkastaAuthor(String author) {
@@ -91,11 +100,43 @@ public class Syotetarkastaja {
         return true;
     }
 
-    public boolean tarkastaTitle(String title) {
-        if (title.isEmpty()) {
-            virheet.add("Otsikko ei saa olla tyhjä");
-            return false;
-        }
+    public boolean tarkastaBooktitle(String booktitle) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaChapter(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaCrossref(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaEdition(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaEditor(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaEprint(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaHowpublished(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaInstitution(String syote) {
+        //TODO
         return true;
     }
 
@@ -107,30 +148,42 @@ public class Syotetarkastaja {
         return true;
     }
 
-    public boolean tarkastaVolume(int volume) {
-        if (volume < 0) {
-            virheet.add("Vuosikerta ei saa olla negatiivinen");
-            return false;
-        }
+    private boolean tarkastaKey(String syote) {
+        //TODO
         return true;
     }
 
-    public boolean tarkastaNumber(int number) {
-        if (number < 0) {
-            virheet.add("Lehden numero ei saa olla negatiivinen");
-            return false;
-        }
+    private boolean tarkastaMonth(String syote) {
+        //TODO
         return true;
     }
 
-    public boolean tarkastaYear(int year) {
-        int vuosiAlaraja = 1500;
-        int tamaVuosi = Calendar.getInstance().get(Calendar.YEAR); //Hakee nykyisen 
-        if (year < vuosiAlaraja || year > tamaVuosi) {
-            virheet.add("Vuoden pitää olla väliltä " + vuosiAlaraja + "-" + tamaVuosi);
+    private boolean tarkastaNote(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaNumber(String syote) {
+        try {
+            int number = Integer.parseInt(syote);
+            if (number < 0) {
+                virheet.add("Lehden numero ei saa olla negatiivinen");
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            virheet.add("Lehden numeron tulee olla positiivinen kokonaisluku.");
             return false;
         }
+    }
 
+    private boolean tarkastaOrganization(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaPages(String syote) {
+        //TODO
         return true;
     }
 
@@ -151,16 +204,64 @@ public class Syotetarkastaja {
         return true;
     }
 
-    public boolean tarkastaAddress(String address) {
-        if (address.isEmpty()) {
-            virheet.add("Osoite ei saa olla tyhjä");
+    private boolean tarkastaSchool(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaSeries(String syote) {
+        //TODO
+        return true;
+    }
+
+    public boolean tarkastaTitle(String title) {
+        if (title.isEmpty()) {
+            virheet.add("Otsikko ei saa olla tyhjä");
             return false;
         }
+        return true;
+    }
+
+    private boolean tarkastaType(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaUrl(String syote) {
+        //TODO
+        return true;
+    }
+
+    private boolean tarkastaVolume(String syote) {
+        //TODO
+        return true;
+    }
+
+    public boolean tarkastaVolume(int volume) {
+        if (volume < 0) {
+            virheet.add("Vuosikerta ei saa olla negatiivinen");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean tarkastaYear(String syote) {
+        //TODO
+        return true;
+    }
+
+    public boolean tarkastaYear(int year) {
+        int vuosiAlaraja = 1500;
+        int tamaVuosi = Calendar.getInstance().get(Calendar.YEAR); //Hakee nykyisen 
+        if (year < vuosiAlaraja || year > tamaVuosi) {
+            virheet.add("Vuoden pitää olla väliltä " + vuosiAlaraja + "-" + tamaVuosi);
+            return false;
+        }
+
         return true;
     }
 
     public ArrayList<String> getVirheet() {
         return virheet;
     }
-
 }
