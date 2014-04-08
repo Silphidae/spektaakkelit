@@ -200,15 +200,6 @@ public class Syotetarkastaja {
         return false;
     }
 
-    public boolean tarkastaPage1Page2(int page1, int page2) {
-        if (page2 < page1) {
-            virheet.add("Sivu2 ei saa olla pienempi kuin sivu1");
-            return false;
-        }
-
-        return true;
-    }
-
     public boolean tarkastaPublisher(String publisher) {
         if (publisher.isEmpty()) {
             virheet.add("Julkaisija ei saa olla tyhjä");
