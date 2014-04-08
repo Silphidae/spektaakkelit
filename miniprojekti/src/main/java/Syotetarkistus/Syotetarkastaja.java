@@ -2,11 +2,11 @@ package Syotetarkistus;
 
 import domain.Kentta;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 public class Syotetarkastaja {
 
-    private ArrayList<String> virheet = new ArrayList<String>();
+    private ArrayList<String> virheet = new ArrayList<>();
 
     public boolean tarkastaCitationKey(String citationKey) {
         String[] eiSallitutMerkit = {"@", "\'", ",", "\\", "#", "}", "{", "~", "%", " "};
@@ -105,37 +105,37 @@ public class Syotetarkastaja {
         return true;
     }
 
-    private boolean tarkastaChapter(String syote) {
+    public boolean tarkastaChapter(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaCrossref(String syote) {
+    public boolean tarkastaCrossref(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaEdition(String syote) {
+    public boolean tarkastaEdition(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaEditor(String syote) {
+    public boolean tarkastaEditor(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaEprint(String syote) {
+    public boolean tarkastaEprint(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaHowpublished(String syote) {
+    public boolean tarkastaHowpublished(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaInstitution(String syote) {
+    public boolean tarkastaInstitution(String syote) {
         //TODO
         return true;
     }
@@ -148,22 +148,22 @@ public class Syotetarkastaja {
         return true;
     }
 
-    private boolean tarkastaKey(String syote) {
+    public boolean tarkastaKey(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaMonth(String syote) {
+    public boolean tarkastaMonth(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaNote(String syote) {
+    public boolean tarkastaNote(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaNumber(String syote) {
+    public boolean tarkastaNumber(String syote) {
         try {
             int number = Integer.parseInt(syote);
             if (number < 0) {
@@ -177,14 +177,27 @@ public class Syotetarkastaja {
         }
     }
 
-    private boolean tarkastaOrganization(String syote) {
+    public boolean tarkastaOrganization(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaPages(String syote) {
-        //TODO
-        return true;
+    public boolean tarkastaPages(String syote) {
+        if (syote.matches("[0-9]+-[0-9]+")) {
+            String[] sivut = syote.split("-");
+            int eka = Integer.parseInt(sivut[0]);
+            int toka = Integer.parseInt(sivut[1]);
+            if (toka < eka) {
+                virheet.add("Jälkimmäisen sivunumeron tulee olla ensimmäistä suurempi.");
+                return false;
+            }
+            return true;
+        }
+        if (syote.matches("[0-9]+\\+||[0-9]+")) {
+            return true;
+        }
+        virheet.add("Sivujen tulee olla muotoa 123-456, 78+ tai 90");
+        return false;
     }
 
     public boolean tarkastaPage1Page2(int page1, int page2) {
@@ -204,12 +217,12 @@ public class Syotetarkastaja {
         return true;
     }
 
-    private boolean tarkastaSchool(String syote) {
+    public boolean tarkastaSchool(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaSeries(String syote) {
+    public boolean tarkastaSeries(String syote) {
         //TODO
         return true;
     }
@@ -222,43 +235,38 @@ public class Syotetarkastaja {
         return true;
     }
 
-    private boolean tarkastaType(String syote) {
+    public boolean tarkastaType(String syote) {
         //TODO
         return true;
     }
 
-    private boolean tarkastaUrl(String syote) {
-        //TODO
+    public boolean tarkastaUrl(String syote) {
+
         return true;
     }
 
-    private boolean tarkastaVolume(String syote) {
-        //TODO
-        return true;
-    }
-
-    public boolean tarkastaVolume(int volume) {
-        if (volume < 0) {
-            virheet.add("Vuosikerta ei saa olla negatiivinen");
+    public boolean tarkastaVolume(String syote) {
+        try {
+            int volume = Integer.parseInt(syote);
+            if (volume < 0) {
+                virheet.add("Volume ei saa olla negatiivinen");
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            virheet.add("Volumen tulee olla positiivinen kokonaisluku.");
             return false;
         }
-        return true;
     }
 
-    private boolean tarkastaYear(String syote) {
-        //TODO
-        return true;
-    }
-
-    public boolean tarkastaYear(int year) {
-        int vuosiAlaraja = 1500;
-        int tamaVuosi = Calendar.getInstance().get(Calendar.YEAR); //Hakee nykyisen 
-        if (year < vuosiAlaraja || year > tamaVuosi) {
-            virheet.add("Vuoden pitää olla väliltä " + vuosiAlaraja + "-" + tamaVuosi);
+    public boolean tarkastaYear(String syote) {
+        try {
+            int year = Integer.parseInt(syote);
+            return true;
+        } catch (NumberFormatException e) {
+            virheet.add("Vuoden tulee olla kokonaisluku.");
             return false;
         }
-
-        return true;
     }
 
     public ArrayList<String> getVirheet() {
