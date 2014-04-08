@@ -36,7 +36,7 @@ public class EngineStubTest extends TestCase {
     }
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
-
+    
     public void testArtikkelinLisays() {
         engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99);
         assertNotNull(db.getEntry(0));
