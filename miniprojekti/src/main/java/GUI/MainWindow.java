@@ -2,10 +2,25 @@ package GUI;
 
 import Database.MockDatabase;
 import Engine.IEngine;
-import java.util.Arrays;
+import domain.Article;
+import domain.Kentta;
+import domain.Viite;
+import domain.Viitetyyppi;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -17,11 +32,14 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         engine = new Engine.EngineStub(new MockDatabase());
         initComponents();
+        paivitaViitetyypit();
+
     }
 
     public MainWindow(IEngine engine) {
         this.engine = engine;
         initComponents();
+        paivitaViitetyypit();
     }
 
     /**
@@ -35,35 +53,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jTabbedPane3 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
+        listaus = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         viitelista = new javax.swing.JList();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        textFieldCitationKey = new javax.swing.JTextField();
-        textFieldAuthor = new javax.swing.JTextField();
-        textFieldTitle = new javax.swing.JTextField();
-        textFieldJournal = new javax.swing.JTextField();
-        textFieldVolume = new javax.swing.JTextField();
-        textFieldNumber = new javax.swing.JTextField();
-        textFieldYear = new javax.swing.JTextField();
-        textFieldPage1 = new javax.swing.JTextField();
-        textFieldPublisher = new javax.swing.JTextField();
-        textFieldAdress = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        textFieldPage2 = new javax.swing.JTextField();
+        lisays = new javax.swing.JPanel();
+        valitse = new javax.swing.JLabel();
+        viitetyypit = new javax.swing.JComboBox();
+        lisaa = new javax.swing.JButton();
+        kentatScroll = new javax.swing.JScrollPane();
+        kentat = new javax.swing.JPanel();
+        tahti = new javax.swing.JLabel();
+        onPakollinen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,161 +86,98 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton4.setText("Muokkaa");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
+        listaus.setLayout(listausLayout);
+        listausLayout.setHorizontalGroup(
+            listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(listausLayout.createSequentialGroup()
                 .addContainerGap(50, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listausLayout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        listausLayout.setVerticalGroup(
+            listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(listausLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addContainerGap())
         );
 
-        jTabbedPane3.addTab("Listaus", jPanel3);
+        jTabbedPane3.addTab("Listaus", listaus);
 
-        jLabel1.setText("citation key:");
+        valitse.setText("Valitse viitetyyppi");
 
-        jLabel2.setText("author:");
-
-        jLabel3.setText("title:");
-
-        jLabel4.setText("journal:");
-
-        jLabel5.setText("volume:");
-
-        jLabel6.setText("number:");
-
-        jLabel7.setText("year:");
-
-        jLabel8.setText("pages:");
-
-        jLabel9.setText("publisher:");
-
-        jLabel10.setText("address:");
-
-        jButton1.setText("Lisää");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        viitetyypit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                viitetyypitActionPerformed(evt);
             }
         });
 
-        jLabel11.setText("--");
+        lisaa.setText("Lisää viite");
+        lisaa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lisaaActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textFieldCitationKey)
-                            .addComponent(textFieldAuthor)
-                            .addComponent(textFieldTitle)
-                            .addComponent(textFieldJournal)
-                            .addComponent(textFieldVolume)
-                            .addComponent(textFieldNumber)
-                            .addComponent(textFieldYear, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(textFieldPage1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textFieldPage2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(textFieldPublisher)
-                            .addComponent(textFieldAdress))))
-                .addContainerGap(179, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        kentatScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        kentat.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        kentat.setLayout(new javax.swing.BoxLayout(kentat, javax.swing.BoxLayout.Y_AXIS));
+        kentatScroll.setViewportView(kentat);
+
+        tahti.setForeground(java.awt.Color.red);
+        tahti.setText("*");
+
+        onPakollinen.setText("= pakollinen kenttä");
+
+        javax.swing.GroupLayout lisaysLayout = new javax.swing.GroupLayout(lisays);
+        lisays.setLayout(lisaysLayout);
+        lisaysLayout.setHorizontalGroup(
+            lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(kentatScroll, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(lisaysLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(textFieldCitationKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(valitse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(textFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(textFieldJournal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(textFieldVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(textFieldNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(textFieldYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(textFieldPage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
-                    .addComponent(textFieldPage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lisaysLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(tahti)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(onPakollinen)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                .addComponent(lisaa)
+                .addGap(59, 59, 59))
+        );
+        lisaysLayout.setVerticalGroup(
+            lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lisaysLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valitse)
+                    .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(kentatScroll)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lisaa)
+                    .addComponent(tahti)
+                    .addComponent(onPakollinen))
+                .addContainerGap())
         );
 
-        jTabbedPane3.addTab("Viitteen lisäys", jPanel4);
+        jTabbedPane3.addTab("Viitteen lisäys", lisays);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -248,51 +187,11 @@ public class MainWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane3)
-                .addContainerGap())
+            .addComponent(jTabbedPane3)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList<String> virheet = engine.lisaaArticle(
-                textFieldCitationKey.getText(),
-                textFieldAuthor.getText(),
-                textFieldTitle.getText(),
-                textFieldJournal.getText(),
-                Integer.parseInt(textFieldVolume.getText()),
-                Integer.parseInt(textFieldNumber.getText()),
-                Integer.parseInt(textFieldYear.getText()),
-                Integer.parseInt(textFieldPage1.getText()),
-                Integer.parseInt(textFieldPage2.getText()));
-
-        if (virheet != null) {
-            String virheviesti = "";
-
-            for (String virhe : virheet) {
-                virheviesti += virhe + "\n";
-            }
-
-            JOptionPane.showMessageDialog(this, virheviesti);
-        } else {
-            JOptionPane.showMessageDialog(this, "Viite lisättiin onnistuneesti");
-            
-            //tyhjennetaan kentat
-            textFieldCitationKey.setText("");
-            textFieldAuthor.setText("");
-            textFieldTitle.setText("");
-            textFieldJournal.setText("");
-            textFieldVolume.setText("");
-            textFieldNumber.setText("");
-            textFieldYear.setText("");
-            textFieldPage1.setText("");
-            textFieldPage2.setText("");
-            textFieldPublisher.setText("");
-            textFieldAdress.setText("");
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int valitutViitteet = viitelista.getSelectedValuesList().size();
@@ -315,7 +214,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (valinta == JOptionPane.YES_OPTION) {
             int[] indeksit = new int[viitelista.getSelectedIndices().length];
 
-            int i = viitelista.getSelectedIndices().length-1;
+            int i = viitelista.getSelectedIndices().length - 1;
             for (int luku : viitelista.getSelectedIndices()) {
                 indeksit[i--] = luku;
             }
@@ -330,8 +229,168 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jTabbedPane3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane3FocusGained
         paivitaViitelista();
+
     }//GEN-LAST:event_jTabbedPane3FocusGained
- 
+
+    private void viitetyypitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viitetyypitActionPerformed
+        kentat.removeAll();
+
+        Viitetyyppi viitetyyppi = (Viitetyyppi) viitetyypit.getSelectedItem();
+
+        Set<Kentta> pakollisetKentat = engine.getPakollisetKentat(viitetyyppi);
+        Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
+
+        //luodaan alkuun pakolliset kentät tähden kera
+        luoLomake(pakollisetKentat, true);
+
+        //lopuksi muut sallitut kentät
+        luoLomake(muutKentat, false);
+
+        //paivitetaan kentat-paneeli ja skrollaus
+        kentat.validate();
+        kentat.repaint();
+
+        kentatScroll.validate();
+
+    }//GEN-LAST:event_viitetyypitActionPerformed
+
+    private void luoLomake(Set<Kentta> viitteenKentat, boolean pakollinen) {
+        if (viitteenKentat == null) {
+            return;
+        }
+
+        Viitetyyppi tyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
+
+        Arrays.sort(viitteenKentat.toArray());
+
+        //Kirjalla täytyy olla joko kirjoittaja tai editori, tarkistetaan kaydäänkö läpi pakollista settiä,
+        //jossa ne ovat
+        if (tyyppi == Viitetyyppi.book && pakollinen) {
+            JPanel kenttaAlue = new JPanel();
+            kenttaAlue.add(new JComboBox(new Kentta[]{Kentta.author, Kentta.editor}));
+            kenttaAlue.add(new JTextArea(1, 20));
+
+            JLabel tahti = new JLabel("*");
+            tahti.setForeground(Color.RED);
+            kenttaAlue.add(tahti);
+
+            kenttaAlue.add(new JLabel("Erottele henkilöt pilkulla"));
+
+            kentat.add(kenttaAlue);
+            //lisätään seuraavaksi muut kentät silmukassa joten poistetaan ensin nämä, etteivät tule kahdesti
+            viitteenKentat.remove(Kentta.author);
+            viitteenKentat.remove(Kentta.editor);
+        }
+
+        for (Kentta kentta : viitteenKentat) {
+            JPanel kenttaAlue = new JPanel();
+            kenttaAlue.add(new JLabel(kentta.toString()));
+            kenttaAlue.add(new JTextArea(1, 20));
+
+            if (pakollinen) {
+                JLabel tahti = new JLabel("*");
+                tahti.setForeground(Color.RED);
+                kenttaAlue.add(tahti);
+            }
+
+            kentat.add(kenttaAlue);
+        }
+    }
+
+    private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
+        HashMap<Kentta, String> lomakkeenSisalto = haeLomakkeenTiedot();
+        Viitetyyppi lisattavanViitteenTyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
+
+        ArrayList<String> virheet = engine.lisaaViite(lisattavanViitteenTyyppi, lomakkeenSisalto);
+
+        if (virheet != null) {
+            String virheviesti = "";
+
+            for (String virhe : virheet) {
+                virheviesti += virhe + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, virheviesti);
+        } else {
+            JOptionPane.showMessageDialog(this, "Viite lisättiin onnistuneesti");
+            tyhjennaKentat();
+        }
+    }//GEN-LAST:event_lisaaActionPerformed
+
+    public HashMap<Kentta, String> haeLomakkeenTiedot() {
+        HashMap<Kentta, String> lomakkeenSisalto = new HashMap();
+
+        //kentat-paneeli sisältää joukon paneeleita, yksi per viitteen kenttä
+        Component[] paneelitKomponentteina = kentat.getComponents();
+
+        for (Component komponentti : paneelitKomponentteina) {
+            JPanel sisaltaaKentanJaSyotteen;
+            Kentta kentta = null;
+            String syote = "";
+
+            //tarkistetaan vielä kuitenkin, että onhan komponentti paneeli ja muutetaan se
+            if (komponentti instanceof JPanel) {
+                sisaltaaKentanJaSyotteen = (JPanel) komponentti;
+            } else {
+                continue;
+            }
+
+            Component[] tiedot = sisaltaaKentanJaSyotteen.getComponents();
+
+            //tiedetään, että ensimmäinenä komponenttina voi olla jlabel tai combobox, jos kyseessä on kirja
+            if (tiedot[0] instanceof JLabel) {
+                JLabel lomakkeenKentta = (JLabel) tiedot[0];
+                kentta = Kentta.valueOf(lomakkeenKentta.getText());
+
+            } else if (tiedot[0] instanceof JComboBox) {
+                JComboBox box = (JComboBox) tiedot[0];
+                kentta = Kentta.valueOf(box.getSelectedItem().toString());
+            }
+            
+            //toisena komponenttina jokaisen paneelin pitäisi sisältää tekstikenttä, johon
+            //käyttäjä on mahdollisesti kirjoittanut jotain
+            if (tiedot[1] instanceof JTextComponent) {
+                JTextComponent tekstikentta = (JTextComponent) tiedot[1];
+                syote = tekstikentta.getText();
+            }
+
+            lomakkeenSisalto.put(kentta, syote);
+        }
+        System.out.println(lomakkeenSisalto);
+        return lomakkeenSisalto;
+    }
+
+    private void tyhjennaKentat() {
+        Component[] komponentit = kentat.getComponents();
+        JPanel paneeli = null;
+
+        for (Component komponentti : komponentit) {
+            if (komponentti instanceof JPanel) {
+                paneeli = (JPanel) komponentti;
+            } else {
+                continue;
+            }
+            Component[] tiedot = paneeli.getComponents();
+
+            for (Component paneelinSisalto : tiedot) {
+                if (paneelinSisalto instanceof JTextComponent) {
+                    JTextComponent tekstikentta = (JTextComponent) paneelinSisalto;
+                    tekstikentta.setText("");
+                }
+            }
+        }
+    }
+
+    private void paivitaViitetyypit() {
+        //combobox luodaan automaattisesti mutta sen arvot eivät ole oikein joten päivitetään ne
+        viitetyypit.removeAllItems();
+
+        Viitetyyppi[] tyypit = engine.getViitetyypit();
+
+        viitetyypit.setModel(new DefaultComboBoxModel(tyypit));
+        viitetyypit.setSelectedIndex(0);
+    }
+
     /**
      * Päivittää viitteiden listausnäkymän
      */
@@ -343,36 +402,21 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTextField textFieldAdress;
-    private javax.swing.JTextField textFieldAuthor;
-    private javax.swing.JTextField textFieldCitationKey;
-    private javax.swing.JTextField textFieldJournal;
-    private javax.swing.JTextField textFieldNumber;
-    private javax.swing.JTextField textFieldPage1;
-    private javax.swing.JTextField textFieldPage2;
-    private javax.swing.JTextField textFieldPublisher;
-    private javax.swing.JTextField textFieldTitle;
-    private javax.swing.JTextField textFieldVolume;
-    private javax.swing.JTextField textFieldYear;
+    private javax.swing.JPanel kentat;
+    private javax.swing.JScrollPane kentatScroll;
+    private javax.swing.JButton lisaa;
+    private javax.swing.JPanel lisays;
+    private javax.swing.JPanel listaus;
+    private javax.swing.JLabel onPakollinen;
+    private javax.swing.JLabel tahti;
+    private javax.swing.JLabel valitse;
     private javax.swing.JList viitelista;
+    private javax.swing.JComboBox viitetyypit;
     // End of variables declaration//GEN-END:variables
+
 }

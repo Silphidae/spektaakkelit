@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
  */
 public class Article extends Viite {
+    
+    private static final Set pakollisetKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.journal, Kentta.year);
+    private static final Set eiPakollisetKentat = EnumSet.of(Kentta.volume, Kentta.number, Kentta.pages, Kentta.month, Kentta.note, Kentta.key);
     
     public Article(Syotetarkastaja tarkastaja) {
         this.kentat = new EnumMap(Kentta.class);
@@ -40,6 +44,15 @@ public class Article extends Viite {
             virheet.add("Artikkelille tulee olla määriteltynä kenttä year");
         }
         return virheet;
+    }
+    
+
+    public static Set<Kentta> getPakollisetKentat() {
+        return pakollisetKentat;
+    }
+    
+    public static Set<Kentta> getEiPakollisetKentat() {
+        return eiPakollisetKentat;
     }
     
     
