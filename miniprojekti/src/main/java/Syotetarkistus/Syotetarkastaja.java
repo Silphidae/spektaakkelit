@@ -1,6 +1,8 @@
 package Syotetarkistus;
 
 import domain.Kentta;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,69 +81,97 @@ public class Syotetarkastaja {
         return false;
     }
 
-    public boolean tarkastaAddress(String address) {
-        if (address.isEmpty()) {
+    public boolean tarkastaAddress(String syote) {
+        if (syote.isEmpty()) {
             virheet.add("Osoite ei saa olla tyhjä");
             return false;
         }
         return true;
     }
 
-    public boolean tarkastaAnnote(String annote) {
+    public boolean tarkastaAnnote(String syote) {
         //TODO
         return true;
     }
 
-    public boolean tarkastaAuthor(String author) {
-        if (author.isEmpty()) {
+    public boolean tarkastaAuthor(String syote) {
+        //TODO Kirjoittaja annettu Bibtex-muodossa.
+        if (syote.isEmpty()) {
             virheet.add("Kirjoittajan nimi ei saa olla tyhjä");
             return false;
         }
         return true;
     }
 
-    public boolean tarkastaBooktitle(String booktitle) {
-        //TODO
+    public boolean tarkastaBooktitle(String syote) {
+        if (syote.isEmpty()) {
+            virheet.add("Kirjan nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaChapter(String syote) {
-        //TODO
-        return true;
+        try {
+            int chapter = Integer.parseInt(syote);
+            if (chapter < 0) {
+                virheet.add("Luvun numero ei saa olla negatiivinen");
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            virheet.add("Luvun numeron tulee olla positiivinen kokonaisluku.");
+            return false;
+        }
     }
 
     public boolean tarkastaCrossref(String syote) {
-        //TODO
+        //TODO tarkastus, että crossref on ref-generaattorin antamassa muodossa.
         return true;
     }
 
     public boolean tarkastaEdition(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Painos ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaEditor(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Toimittajan nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaEprint(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Eprint ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaHowpublished(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Julkaisumuoto ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaInstitution(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Järjestön nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
-    public boolean tarkastaJournal(String journal) {
-        if (journal.isEmpty()) {
+    public boolean tarkastaJournal(String syote) {
+        if (syote.isEmpty()) {
             virheet.add("Lehden nimi ei saa olla tyhjä");
             return false;
         }
@@ -149,17 +179,26 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaKey(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Avain ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaMonth(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Kuukausi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaNote(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Note ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
@@ -178,7 +217,10 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaOrganization(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Organisaation nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
@@ -200,8 +242,8 @@ public class Syotetarkastaja {
         return false;
     }
 
-    public boolean tarkastaPublisher(String publisher) {
-        if (publisher.isEmpty()) {
+    public boolean tarkastaPublisher(String syote) {
+        if (syote.isEmpty()) {
             virheet.add("Julkaisija ei saa olla tyhjä");
             return false;
         }
@@ -209,12 +251,18 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaSchool(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Koulun nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaSeries(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Sarjan nimi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
@@ -227,13 +275,21 @@ public class Syotetarkastaja {
     }
 
     public boolean tarkastaType(String syote) {
-        //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Tyyppi ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
     public boolean tarkastaUrl(String syote) {
-
-        return true;
+        try {
+            URL url = new URL(syote);
+            return true;
+        } catch (MalformedURLException e) {
+            virheet.add("Url ei validi.");
+            return false;
+        }
     }
 
     public boolean tarkastaVolume(String syote) {

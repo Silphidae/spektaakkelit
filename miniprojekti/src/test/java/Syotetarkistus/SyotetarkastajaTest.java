@@ -35,10 +35,6 @@ public class SyotetarkastajaTest extends TestCase {
         assertTrue(tarkastaja.tarkastaAuthor("Pekka"));
         assertFalse(tarkastaja.tarkastaAuthor(""));
     }
-    
-    public void testBooktitle() {
-        //TODO
-    }
 
     public void testTitle() {
         assertTrue(tarkastaja.tarkastaTitle("Banjonsoiton sata vuotta"));
