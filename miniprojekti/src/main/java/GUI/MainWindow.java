@@ -54,8 +54,9 @@ public class MainWindow extends javax.swing.JFrame {
         listaus = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         viitelista = new javax.swing.JList();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        poista = new javax.swing.JButton();
+        muokkaa = new javax.swing.JButton();
+        bibtex = new javax.swing.JButton();
         lisays = new javax.swing.JPanel();
         valitse = new javax.swing.JLabel();
         viitetyypit = new javax.swing.JComboBox();
@@ -75,14 +76,21 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(viitelista);
 
-        jButton3.setText("Poista");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        poista.setText("Poista");
+        poista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                poistaActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Muokkaa");
+        muokkaa.setText("Muokkaa");
+
+        bibtex.setText("Luo BibTeX-tiedosto");
+        bibtex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bibtexActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
@@ -92,9 +100,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listausLayout.createSequentialGroup()
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
+                        .addComponent(bibtex)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(muokkaa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(poista))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -105,8 +115,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(poista)
+                    .addComponent(muokkaa)
+                    .addComponent(bibtex))
                 .addContainerGap())
         );
 
@@ -191,7 +202,7 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void poistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaActionPerformed
         int valitutViitteet = viitelista.getSelectedValuesList().size();
         int valinta = 0;
 
@@ -223,7 +234,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         paivitaViitelista();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_poistaActionPerformed
 
     private void jTabbedPane3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane3FocusGained
         paivitaViitelista();
@@ -326,6 +337,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lisaaActionPerformed
 
+    private void bibtexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibtexActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bibtexActionPerformed
+
     public HashMap<Kentta, String> haeLomakkeenTiedot() {
         HashMap<Kentta, String> lomakkeenSisalto = new HashMap();
 
@@ -413,8 +428,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton bibtex;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
@@ -423,7 +437,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel listaus;
     private javax.swing.JPanel lomake;
     private javax.swing.JScrollPane lomakeScroll;
+    private javax.swing.JButton muokkaa;
     private javax.swing.JLabel onPakollinen;
+    private javax.swing.JButton poista;
     private javax.swing.JLabel tahti;
     private javax.swing.JLabel valitse;
     private javax.swing.JList viitelista;
