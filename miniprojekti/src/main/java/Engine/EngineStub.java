@@ -108,4 +108,15 @@ public class EngineStub implements IEngine {
         }
         return null;
     }
+
+    @Override
+    public ArrayList<Viite> getViitteet() {
+        ArrayList<Viite> viitteet = new ArrayList<>();
+        int i = 0;
+        while (i < db.getSize()) {
+            viitteet.add(db.getEntry(i));
+            i++;
+        }
+        return viitteet;
+    }
 }

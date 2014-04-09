@@ -1,17 +1,16 @@
 package domain;
 
+import Engine.IEngine;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Bibtex {
 
-    private List<Viite> viitteet;
+    private IEngine moottori;
 
-    public Bibtex(ArrayList<Viite> viitteet) {
-        this.viitteet = viitteet;
+    public Bibtex(IEngine moottori) {
+        this.moottori = moottori;
     }
 
     private String muunnaAakkoset(String sana) {
@@ -37,7 +36,7 @@ public class Bibtex {
     public File generoiTiedosto(String tiedostonNimi) throws FileNotFoundException {
         File bibtexTiedosto = new File(tiedostonNimi);
         try (PrintWriter tiedosto = new PrintWriter(bibtexTiedosto)) {
-            for (Viite viite : viitteet) {
+            for (Viite viite : moottori.getViitteet()) {
                 tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getViiteavain() + ",");
                 for (Kentta kentta : viite.kaytossaOlevatKentat()) {
                     tiedosto.println(kentta.name() + " = {" + muunnaAakkoset(viite.getKentanSisalto(kentta)) + "},");

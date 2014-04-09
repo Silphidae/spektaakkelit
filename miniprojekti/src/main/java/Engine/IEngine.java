@@ -1,6 +1,7 @@
 package Engine;
 
 import domain.Kentta;
+import domain.Viite;
 import domain.Viitetyyppi;
 import java.util.ArrayList;
 import java.util.Map;
@@ -13,6 +14,8 @@ public interface IEngine {
 
     public String[] listaaKaikkiViitteet();
 
+    public ArrayList<Viite> getViitteet();
+    
     public void poistaViite(int i);
 
     public Viitetyyppi[] getViitetyypit();
