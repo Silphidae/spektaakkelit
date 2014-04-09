@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 import javax.swing.text.JTextComponent;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -267,19 +268,18 @@ public class MainWindow extends javax.swing.JFrame {
         if (viitteenKentat == null) {
             return;
         }
-
+        
         Viitetyyppi tyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
-
-        Arrays.sort(viitteenKentat.toArray());
-
         //Kirjalla täytyy olla joko kirjoittaja tai editori, joten  käydään tämä erikoistapaus
         //läpi ensiksi
         if (tyyppi == Viitetyyppi.book && pakollinen) {
             JPanel kenttaAlue = new JPanel();
             kenttaAlue.add(new JComboBox(new Kentta[]{Kentta.author, Kentta.editor}));
+            
             JTextArea tekstikentta = new JTextArea(1, 20);
             tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
             kenttaAlue.add(tekstikentta);
+            
             JLabel tahti = new JLabel("*");
             tahti.setForeground(Color.RED);
             kenttaAlue.add(tahti);
@@ -290,6 +290,8 @@ public class MainWindow extends javax.swing.JFrame {
             viitteenKentat.remove(Kentta.author);
             viitteenKentat.remove(Kentta.editor);
         }
+        
+        Arrays.sort(viitteenKentat.toArray());
 
         for (Kentta kentta : viitteenKentat) {
             JPanel kenttaAlue = new JPanel();           
@@ -315,6 +317,8 @@ public class MainWindow extends javax.swing.JFrame {
             }       
             lomake.add(kenttaAlue);
         }
+        
+        ToolTipManager.sharedInstance().setInitialDelay(0);
     }
 
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
