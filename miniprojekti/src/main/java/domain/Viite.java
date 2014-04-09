@@ -8,6 +8,7 @@ import java.util.Set;
 public abstract class Viite {
 
     protected Map<Kentta, String> kentat;
+   // protected static Set<Kentta> pakollisetKentat;
     protected Set<Kentta> sallitutKentat;
     protected String viiteavain;
     protected Syotetarkastaja tarkastaja;
@@ -20,6 +21,12 @@ public abstract class Viite {
 
     public String getViiteavain() {
         return viiteavain;
+    }
+    
+    public void lisaaKentat(Map<Kentta, String> arvot) {
+        for (Kentta kentta : arvot.keySet()) {
+            lisaaKentta(kentta, arvot.get(kentta));
+        }
     }
 
     public void lisaaKentta(Kentta kentta, String syote) {

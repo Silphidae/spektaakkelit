@@ -1,23 +1,23 @@
-
 package Engine;
 
+import domain.Kentta;
+import domain.Viitetyyppi;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public interface IEngine {
+
     //Halutaan palauttavan listan virheistä
-    public ArrayList<String> lisaaArticle(
-            String citationKey,
-            String author,
-            String title,
-            String journal,
-            int volume,
-            int number,
-            int year,
-            int page1,
-            int page2
-    );
-    
+    public ArrayList<String> lisaaViite(Viitetyyppi tyyppi, Map arvot);
+
     public String[] listaaKaikkiViitteet();
-    
+
     public void poistaViite(int i);
+
+    public Viitetyyppi[] getViitetyypit();
+
+    public Set<Kentta> getPakollisetKentat(Viitetyyppi tyyppi);
+
+    public Set<Kentta> getEiPakollisetKentat(Viitetyyppi tyyppi);
 }

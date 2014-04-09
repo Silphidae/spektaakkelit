@@ -1,11 +1,16 @@
 package Engine;
 
 import Database.Database;
-import domain.Article;
-import domain.Kentta;
 import Syotetarkistus.Syotetarkastaja;
+import domain.Article;
+import domain.Book;
+import domain.InProceedings;
+import domain.Kentta;
 import domain.Viite;
+import domain.Viitetyyppi;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class EngineStub implements IEngine {
 
@@ -16,29 +21,32 @@ public class EngineStub implements IEngine {
     }
 
     @Override
-    public ArrayList<String> lisaaArticle(String citationKey, String author, String title,
-            String journal, int volume, int number, int year, int page1,
-            int page2) {
+    public ArrayList<String> lisaaViite(Viitetyyppi tyyppi, Map arvot) {
 
+        Viite lisattava;
         Syotetarkastaja tarkastaja = new Syotetarkastaja();
-        Article viite = new Article(tarkastaja);
-        
-        //Lisätään arvot uuteen viite-olioon, joka tarkastaa ne samalla
-        viite.lisaaViiteavain(citationKey);
-        viite.lisaaKentta(Kentta.author, author);
-        viite.lisaaKentta(Kentta.title, title);
-        viite.lisaaKentta(Kentta.journal, journal);
-        viite.lisaaKentta(Kentta.volume, Integer.toString(volume));
-        viite.lisaaKentta(Kentta.number, Integer.toString(number));
-        viite.lisaaKentta(Kentta.year, Integer.toString(year));
-        viite.lisaaKentta(Kentta.pages, Integer.toString(page1) + "-" + Integer.toString(page2));
 
-        if (tarkastaja.getVirheet().isEmpty() && viite.kenttaMaarittelyVirheet().isEmpty()) {
-            db.insertEntry(viite);
+        if (tyyppi == Viitetyyppi.article) {
+            lisattava = new Article(tarkastaja);
+
+        } else if (tyyppi == Viitetyyppi.book) {
+            lisattava = new Book(tarkastaja);
+
+        } else if (tyyppi == Viitetyyppi.inproceedings) {
+            lisattava = new InProceedings(tarkastaja);
+
+        } else {
+            return null;
+        }
+
+        lisattava.lisaaKentat(arvot);
+
+        if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
+            db.insertEntry(lisattava);
             return null;
         }
         ArrayList<String> virheet = tarkastaja.getVirheet();
-        virheet.addAll(viite.kenttaMaarittelyVirheet());
+        virheet.addAll(lisattava.kenttaMaarittelyVirheet());
 
         //jos oli virheitä palautetaan ne
         return virheet;
@@ -62,5 +70,38 @@ public class EngineStub implements IEngine {
         if (i >= 0 && i < db.getSize()) {
             db.removeEntry(i);
         }
+    }
+
+    @Override
+    public Viitetyyppi[] getViitetyypit() {
+        return Viitetyyppi.values();
+    }
+
+    @Override
+    public Set<Kentta> getPakollisetKentat(Viitetyyppi tyyppi) {
+        if (tyyppi == Viitetyyppi.article) {
+            return Article.getPakollisetKentat();
+
+        } else if (tyyppi == Viitetyyppi.book) {
+            return Book.getPakollisetKentat();
+
+        } else if (tyyppi == Viitetyyppi.inproceedings) {
+            return InProceedings.getPakollisetKentat();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<Kentta> getEiPakollisetKentat(Viitetyyppi tyyppi) {
+        if (tyyppi == Viitetyyppi.article) {
+            return Article.getEiPakollisetKentat();
+
+        } else if (tyyppi == Viitetyyppi.book) {
+            return Book.getEiPakollisetKentat();
+
+        } else if (tyyppi == Viitetyyppi.inproceedings) {
+            return InProceedings.getEiPakollisetKentat();
+        }
+        return null;
     }
 }
