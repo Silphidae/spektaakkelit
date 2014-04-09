@@ -46,6 +46,7 @@ public abstract class Viite {
         return kentat.get(kentta);
     }
 
+    
     public Set<Kentta> kaytossaOlevatKentat() {
         return kentat.keySet();
     }
