@@ -17,8 +17,8 @@ public class TietokantaYhteys {
         
         BasicDataSource ds = new BasicDataSource();
         ds.setUrl("jdbc:postgresql://localhost/ottohant");
-        ds.setUsername(TietokantaAsetukset.kayttaja);
-        ds.setPassword(TietokantaAsetukset.salasana);
+        ds.setUsername("korvaa käyttäjällä");
+        ds.setPassword("korvaa salasanalla");
         ds.setDriverClassName("org.postgresql.Driver");
         ds.setRemoveAbandoned(true);
         ds.setRemoveAbandonedTimeout(30);
