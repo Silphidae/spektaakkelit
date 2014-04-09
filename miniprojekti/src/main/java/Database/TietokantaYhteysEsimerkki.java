@@ -16,21 +16,13 @@ public class TietokantaYhteysEsimerkki {
 
         try {
             //Alustetaan muuttuja jossa on Select-kysely, joka palauttaa lukuarvon:
-            String sqlkysely = "SELECT * FROM tuotteet;";
+            String sqlkysely = "SELECT * FROM viitteet;";
 
             kysely = yhteys.prepareStatement(sqlkysely);
             tulokset = kysely.executeQuery();
             if (tulokset.next()) {
-                //Tuloksen arvoksi pitäisi tulla numero mp3-soitin
-                String tulos = tulokset.getString("nimi");
-                System.out.println("Tulos: " + tulos);
-            } else {
-                System.out.println("Virhe!");
-            }
-
-            if (tulokset.next()) {
-                //Tuloksen arvoksi pitäisi tulla numero 3.
-                int tulos = tulokset.getInt("Tuotenumero");
+                //Tuloksen arvoksi pitäisi tulla Otto Hantula
+                String tulos = tulokset.getString("author");
                 System.out.println("Tulos: " + tulos);
             } else {
                 System.out.println("Virhe!");
@@ -38,12 +30,8 @@ public class TietokantaYhteysEsimerkki {
 
             tulokset.close();
             kysely.close();
-                    } catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Virhe: " + e.getMessage());
         }
-
-            System.out.println("moi");
-
-
-        }
     }
+}
