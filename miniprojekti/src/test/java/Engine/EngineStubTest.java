@@ -49,13 +49,10 @@ public class EngineStubTest extends TestCase {
         tiedot.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, tiedot);
 
-        tiedot.put(Kentta.organization, "Laitos");
+        tiedot.put(Kentta.booktitle, "Hieno kirja");
         engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
 
-        tiedot.put(Kentta.publisher, "WSOY");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        assertEquals(3, db.getSize());
+        assertEquals(2, db.getSize());
 
     }
 
@@ -68,11 +65,14 @@ public class EngineStubTest extends TestCase {
         tiedot.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, tiedot);
 
+        //booktitle on pakollinen kenttä inproceedingissä
+        tiedot.put(Kentta.booktitle, "Parasta ikinä");
+        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
+        
+        
         tiedot.put(Kentta.organization, "Laitos");
         engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
 
-        tiedot.put(Kentta.publisher, "WSOY");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
 
         assertEquals(3, engine.listaaKaikkiViitteet().length);
     }
@@ -91,7 +91,7 @@ public class EngineStubTest extends TestCase {
         HashMap<Kentta, String> tiedot = new HashMap();
         tiedot.put(Kentta.year, "1.5");
         tiedot.put(Kentta.title, "");
-        tiedot.put(Kentta.journal, "Paras Lehti");
+        tiedot.put(Kentta.booktitle, "Parasta ikinä");
         
         ArrayList<String> virheet = engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
         
@@ -109,15 +109,12 @@ public class EngineStubTest extends TestCase {
         tiedot.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, tiedot);
 
-        tiedot.put(Kentta.organization, "Laitos");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        tiedot.put(Kentta.publisher, "WSOY");
+        tiedot.put(Kentta.booktitle, "Mahtavaa");
         engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
 
         engine.poistaViite(1);
 
-        assertEquals(2, db.getSize());
+        assertEquals(1, db.getSize());
     }
 
     public void testPoistaViiteEiPoistaMitaanKunIndeksiaEiOle() {
@@ -129,7 +126,7 @@ public class EngineStubTest extends TestCase {
         tiedot.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, tiedot);
 
-        tiedot.put(Kentta.publisher, "WSOY");
+        tiedot.put(Kentta.booktitle, "Muhahaha");
         engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
         
         engine.poistaViite(-1);
