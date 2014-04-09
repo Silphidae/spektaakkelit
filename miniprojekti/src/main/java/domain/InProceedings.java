@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class InProceedings extends Viite {
 
-    public static Set pakollisetKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.journal, Kentta.year);
+    public static Set pakollisetKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.booktitle, Kentta.year);
     public static final Set eiPakollisetKentat = EnumSet.of(Kentta.editor, Kentta.publisher, Kentta.volume, Kentta.number, Kentta.pages, Kentta.month,
             Kentta.note, Kentta.key, Kentta.series, Kentta.address, Kentta.edition, Kentta.booktitle,
             Kentta.organization);
@@ -38,7 +38,7 @@ public class InProceedings extends Viite {
         if (!kentat.containsKey(Kentta.title)) {
             virheet.add("Konferenssijulkaisulla tulee olla määriteltynä kenttä title.");
         }
-        if (!kentat.containsKey(Kentta.journal)) {
+        if (!kentat.containsKey(Kentta.booktitle)) {
             virheet.add("Konferenssijulkaisulla tulee olla määriteltynä kenttä booktitle");
         }
         if (!kentat.containsKey(Kentta.year)) {

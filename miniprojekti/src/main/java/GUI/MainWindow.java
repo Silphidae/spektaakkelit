@@ -2,15 +2,13 @@ package GUI;
 
 import Database.MockDatabase;
 import Engine.IEngine;
-import domain.Article;
 import domain.Kentta;
-import domain.Viite;
 import domain.Viitetyyppi;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
@@ -62,8 +60,8 @@ public class MainWindow extends javax.swing.JFrame {
         valitse = new javax.swing.JLabel();
         viitetyypit = new javax.swing.JComboBox();
         lisaa = new javax.swing.JButton();
-        kentatScroll = new javax.swing.JScrollPane();
-        kentat = new javax.swing.JPanel();
+        lomakeScroll = new javax.swing.JScrollPane();
+        lomake = new javax.swing.JPanel();
         tahti = new javax.swing.JLabel();
         onPakollinen = new javax.swing.JLabel();
 
@@ -129,11 +127,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        kentatScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lomakeScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        kentat.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        kentat.setLayout(new javax.swing.BoxLayout(kentat, javax.swing.BoxLayout.Y_AXIS));
-        kentatScroll.setViewportView(kentat);
+        lomake.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lomake.setLayout(new javax.swing.BoxLayout(lomake, javax.swing.BoxLayout.Y_AXIS));
+        lomakeScroll.setViewportView(lomake);
 
         tahti.setForeground(java.awt.Color.red);
         tahti.setText("*");
@@ -144,7 +142,7 @@ public class MainWindow extends javax.swing.JFrame {
         lisays.setLayout(lisaysLayout);
         lisaysLayout.setHorizontalGroup(
             lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kentatScroll, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(lomakeScroll, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(lisaysLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(valitse)
@@ -168,7 +166,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(valitse)
                     .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kentatScroll)
+                .addComponent(lomakeScroll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lisaa)
@@ -233,7 +231,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane3FocusGained
 
     private void viitetyypitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viitetyypitActionPerformed
-        kentat.removeAll();
+        lomake.removeAll();
 
         Viitetyyppi viitetyyppi = (Viitetyyppi) viitetyypit.getSelectedItem();
 
@@ -241,20 +239,20 @@ public class MainWindow extends javax.swing.JFrame {
         Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
 
         //luodaan alkuun pakolliset kentät tähden kera
-        luoLomake(pakollisetKentat, true);
+        lisaaLomakkeeseen(pakollisetKentat, true);
 
         //lopuksi muut sallitut kentät
-        luoLomake(muutKentat, false);
+        lisaaLomakkeeseen(muutKentat, false);
 
-        //paivitetaan kentat-paneeli ja skrollaus
-        kentat.validate();
-        kentat.repaint();
+        //paivitetaan lomake-paneeli ja skrollaus
+        lomake.validate();
+        lomake.repaint();
 
-        kentatScroll.validate();
+        lomakeScroll.validate();
 
     }//GEN-LAST:event_viitetyypitActionPerformed
 
-    private void luoLomake(Set<Kentta> viitteenKentat, boolean pakollinen) {
+    private void lisaaLomakkeeseen(Set<Kentta> viitteenKentat, boolean pakollinen) {
         if (viitteenKentat == null) {
             return;
         }
@@ -263,37 +261,48 @@ public class MainWindow extends javax.swing.JFrame {
 
         Arrays.sort(viitteenKentat.toArray());
 
-        //Kirjalla täytyy olla joko kirjoittaja tai editori, tarkistetaan kaydäänkö läpi pakollista settiä,
-        //jossa ne ovat
+        //Kirjalla täytyy olla joko kirjoittaja tai editori, joten  käydään tämä erikoistapaus
+        //läpi ensiksi
         if (tyyppi == Viitetyyppi.book && pakollinen) {
             JPanel kenttaAlue = new JPanel();
             kenttaAlue.add(new JComboBox(new Kentta[]{Kentta.author, Kentta.editor}));
-            kenttaAlue.add(new JTextArea(1, 20));
-
+            JTextArea tekstikentta = new JTextArea(1, 20);
+            tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
+            kenttaAlue.add(tekstikentta);
             JLabel tahti = new JLabel("*");
             tahti.setForeground(Color.RED);
             kenttaAlue.add(tahti);
 
-            kenttaAlue.add(new JLabel("Erottele henkilöt pilkulla"));
-
-            kentat.add(kenttaAlue);
+            lomake.add(kenttaAlue);
+            
             //lisätään seuraavaksi muut kentät silmukassa joten poistetaan ensin nämä, etteivät tule kahdesti
             viitteenKentat.remove(Kentta.author);
             viitteenKentat.remove(Kentta.editor);
         }
 
         for (Kentta kentta : viitteenKentat) {
-            JPanel kenttaAlue = new JPanel();
+            JPanel kenttaAlue = new JPanel();           
             kenttaAlue.add(new JLabel(kentta.toString()));
-            kenttaAlue.add(new JTextArea(1, 20));
+            JTextArea tekstikentta = new JTextArea(1, 20);
+            
+            
+            if (kentta == Kentta.pages) {
+                tekstikentta.setToolTipText("Anna sivut muodossa: 21, 21-40 tai 21+");
+            } 
+            
+            if (kentta == Kentta.author || kentta == Kentta.editor) {
+                tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
+            }
+            
+            kenttaAlue.add(tekstikentta);
+            
 
             if (pakollinen) {
                 JLabel tahti = new JLabel("*");
                 tahti.setForeground(Color.RED);
                 kenttaAlue.add(tahti);
-            }
-
-            kentat.add(kenttaAlue);
+            }       
+            lomake.add(kenttaAlue);
         }
     }
 
@@ -320,8 +329,8 @@ public class MainWindow extends javax.swing.JFrame {
     public HashMap<Kentta, String> haeLomakkeenTiedot() {
         HashMap<Kentta, String> lomakkeenSisalto = new HashMap();
 
-        //kentat-paneeli sisältää joukon paneeleita, yksi per viitteen kenttä
-        Component[] paneelitKomponentteina = kentat.getComponents();
+        //lomake sisältää joukon paneeleita, yksi per viitteen kenttä
+        Component[] paneelitKomponentteina = lomake.getComponents();
 
         for (Component komponentti : paneelitKomponentteina) {
             JPanel sisaltaaKentanJaSyotteen;
@@ -337,7 +346,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             Component[] tiedot = sisaltaaKentanJaSyotteen.getComponents();
 
-            //tiedetään, että ensimmäinenä komponenttina voi olla jlabel tai combobox, jos kyseessä on kirja
+            //tiedetään, että ensimmäinenä komponenttina voi olla jlabel tai combobox
             if (tiedot[0] instanceof JLabel) {
                 JLabel lomakkeenKentta = (JLabel) tiedot[0];
                 kentta = Kentta.valueOf(lomakkeenKentta.getText());
@@ -361,9 +370,10 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void tyhjennaKentat() {
-        Component[] komponentit = kentat.getComponents();
+        Component[] komponentit = lomake.getComponents();
         JPanel paneeli = null;
 
+        //lomake sisältää paljon jpaneeleita
         for (Component komponentti : komponentit) {
             if (komponentti instanceof JPanel) {
                 paneeli = (JPanel) komponentti;
@@ -371,7 +381,8 @@ public class MainWindow extends javax.swing.JFrame {
                 continue;
             }
             Component[] tiedot = paneeli.getComponents();
-
+            
+            //jokainen jpaaneli sisältää tekstikentän
             for (Component paneelinSisalto : tiedot) {
                 if (paneelinSisalto instanceof JTextComponent) {
                     JTextComponent tekstikentta = (JTextComponent) paneelinSisalto;
@@ -407,11 +418,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JPanel kentat;
-    private javax.swing.JScrollPane kentatScroll;
     private javax.swing.JButton lisaa;
     private javax.swing.JPanel lisays;
     private javax.swing.JPanel listaus;
+    private javax.swing.JPanel lomake;
+    private javax.swing.JScrollPane lomakeScroll;
     private javax.swing.JLabel onPakollinen;
     private javax.swing.JLabel tahti;
     private javax.swing.JLabel valitse;
