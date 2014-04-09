@@ -1,5 +1,6 @@
 package Engine;
 
+import AvaimenGenerointi.Avaingeneraattori;
 import Database.Database;
 import Syotetarkistus.Syotetarkastaja;
 import domain.Article;
@@ -15,9 +16,11 @@ import java.util.Set;
 public class EngineStub implements IEngine {
 
     private Database db;
+    private Avaingeneraattori ag;
 
     public EngineStub(Database database) {
         db = database;
+        ag = new Avaingeneraattori(db);
     }
 
     @Override
@@ -42,6 +45,7 @@ public class EngineStub implements IEngine {
         lisattava.lisaaKentat(arvot);
 
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
+            lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
             db.insertEntry(lisattava);
             return null;
         }
