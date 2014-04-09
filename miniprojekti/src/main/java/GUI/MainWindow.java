@@ -346,6 +346,7 @@ public class MainWindow extends javax.swing.JFrame {
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
         try {
             bibtex.generoiTiedosto(tiedosto + ".bib");
+            JOptionPane.showMessageDialog(this, "Projektin juureen on nyt lisätty " + tiedosto + ".bib niminen tiedosto.");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
