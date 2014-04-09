@@ -11,7 +11,7 @@ scenario "kayttajan lisaama viite tallentuu ohjelmaan", {
     }
 
     when 'viitteen tiedot kirjattu lomakkeeseen', {
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1999, 4, 5)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite tallennettu ohjelmaan', {
@@ -26,10 +26,12 @@ scenario "kayttaja syottama viite ei tallennu, jos siina virheita", {
     }
 
      when 'syotetaan virheellisia arvoja', {
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 0, 99, 5)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):""])
     }
 
     then 'viite ei tallennu ohjelmaan', {
         engine.listaaKaikkiViitteet().length.shouldBeEqual 0
     }
 }
+
+
