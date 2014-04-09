@@ -3,4 +3,4 @@
 /miniprojekti/build/
 /miniprojekti_maven/target/
 /miniprojekti/target/
-*/TietokantaAsetukset.java
+/miniprojekti/src/main/java/Database/TietokantaAsetukset.java
