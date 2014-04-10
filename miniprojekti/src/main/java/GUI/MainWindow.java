@@ -8,6 +8,9 @@ import domain.Viitetyyppi;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +29,8 @@ import javax.swing.text.JTextComponent;
 public class MainWindow extends javax.swing.JFrame {
 
     private IEngine engine;
+    private int x; //käytetään lomakkeen GridBagLayoutissa määrittämään gridx
+    private int y; //käytetään lomakkeen GridBagLayoutissa määrittämään gridy
 
     /**
      * Creates new form MainWindow
@@ -35,12 +40,18 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         paivitaViitetyypit();
 
+        x = 0;
+        y = 0;
+
     }
 
     public MainWindow(IEngine engine) {
         this.engine = engine;
         initComponents();
         paivitaViitetyypit();
+
+        x = 0;
+        y = 0;
     }
 
     /**
@@ -66,7 +77,6 @@ public class MainWindow extends javax.swing.JFrame {
         lisaa = new javax.swing.JButton();
         lomakeScroll = new javax.swing.JScrollPane();
         lomake = new javax.swing.JPanel();
-        tahti = new javax.swing.JLabel();
         onPakollinen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -144,13 +154,10 @@ public class MainWindow extends javax.swing.JFrame {
         lomakeScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         lomake.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        lomake.setLayout(new javax.swing.BoxLayout(lomake, javax.swing.BoxLayout.Y_AXIS));
+        lomake.setLayout(null);
         lomakeScroll.setViewportView(lomake);
 
-        tahti.setForeground(java.awt.Color.red);
-        tahti.setText("*");
-
-        onPakollinen.setText("= pakollinen kenttä");
+        onPakollinen.setText("*= pakollinen kenttä");
 
         javax.swing.GroupLayout lisaysLayout = new javax.swing.GroupLayout(lisays);
         lisays.setLayout(lisaysLayout);
@@ -164,11 +171,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lisaysLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(tahti)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(44, 44, 44)
                 .addComponent(onPakollinen)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                 .addComponent(lisaa)
                 .addGap(59, 59, 59))
         );
@@ -180,11 +185,10 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(valitse)
                     .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lomakeScroll)
+                .addComponent(lomakeScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lisaa)
-                    .addComponent(tahti)
                     .addComponent(onPakollinen))
                 .addContainerGap())
         );
@@ -245,7 +249,9 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane3FocusGained
 
     private void viitetyypitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viitetyypitActionPerformed
+
         lomake.removeAll();
+        lomake.setLayout(new GridBagLayout());
 
         Viitetyyppi viitetyyppi = (Viitetyyppi) viitetyypit.getSelectedItem();
 
@@ -255,9 +261,7 @@ public class MainWindow extends javax.swing.JFrame {
         //luodaan alkuun pakolliset kentät tähden kera
         lisaaLomakkeeseen(pakollisetKentat, true);
 
-        //lopuksi muut sallitut kentät
         lisaaLomakkeeseen(muutKentat, false);
-
         //paivitetaan lomake-paneeli ja skrollaus
         lomake.validate();
         lomake.repaint();
@@ -266,40 +270,62 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_viitetyypitActionPerformed
 
-    private void lisaaLomakkeeseen(Set<Kentta> viitteenKentat, boolean pakollinen) {
-        if (viitteenKentat == null) {
-            return;
-        }
-        
-        Viitetyyppi tyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
+    private void lisaaLomakkeeseen(Set<Kentta> kentat, boolean pakollinen) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(4, 4, 4, 4);
+
         //Kirjalla täytyy olla joko kirjoittaja tai editori, joten  käydään tämä erikoistapaus
         //läpi ensiksi
-        if (tyyppi == Viitetyyppi.book && pakollinen) {
-            JPanel kenttaAlue = new JPanel();
-            kenttaAlue.add(new JComboBox(new Kentta[]{Kentta.author, Kentta.editor}));
-            
-            JTextArea tekstikentta = new JTextArea(1, 20);
-            tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
-            kenttaAlue.add(tekstikentta);
-            
-            JLabel tahti = new JLabel("*");
-            tahti.setForeground(Color.RED);
-            kenttaAlue.add(tahti);
+        Viitetyyppi tyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
 
-            lomake.add(kenttaAlue);
+        if (tyyppi == Viitetyyppi.book && pakollinen) {
+            JComboBox valinta = new JComboBox(new Kentta[]{Kentta.author, Kentta.editor});
+            valinta.setName("kirja");
+            gbc.anchor = GridBagConstraints.SOUTHEAST;
+            lomake.add(valinta, gbc);
+
+            x++;
+            gbc.gridx = x;
+
+            JTextArea tekstikentta = new JTextArea(1, 20);
+            tekstikentta.setLineWrap(true);
+            tekstikentta.setWrapStyleWord(true);
+            tekstikentta.setMargin(new Insets(2, 2, 2, 2));
+            //asetetaan tekstikentälle sama nimi kuin comboboxilla jotta ne voidaan tunnistaa myöhemmin
+            tekstikentta.setName(valinta.getName());
+            tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
+            lomake.add(tekstikentta, gbc);
+
+            x++;
+            gbc.gridx = x;
+
+            lomake.add(new JLabel("*"), gbc);
+
+            y++;
+            x = 0;
 
             //lisätään seuraavaksi muut kentät silmukassa joten poistetaan ensin nämä, etteivät tule kahdesti
-            viitteenKentat.remove(Kentta.author);
-            viitteenKentat.remove(Kentta.editor);
+            kentat.remove(Kentta.author);
+            kentat.remove(Kentta.editor);
         }
-        
-        Arrays.sort(viitteenKentat.toArray());
 
-        for (Kentta kentta : viitteenKentat) {
-            JPanel kenttaAlue = new JPanel();
-            kenttaAlue.add(new JLabel(kentta.toString()));
+        for (Kentta kentta : kentat) {
+            gbc.gridx = x;
+            gbc.gridy = y;
+
+            //kenttien nimet tulevat tekstialueiden viereen
+            gbc.anchor = GridBagConstraints.NORTHEAST;
+
+            String nimi = kentta.toString();
+            lomake.add(new JLabel(nimi), gbc);
+
+            x++;
+
             JTextArea tekstikentta = new JTextArea(1, 20);
-
+            tekstikentta.setLineWrap(true);
+            tekstikentta.setWrapStyleWord(true);
+            tekstikentta.setMargin(new Insets(2, 2, 2, 2));
+            tekstikentta.setName(nimi);
 
             if (kentta == Kentta.pages) {
                 tekstikentta.setToolTipText("Anna sivut muodossa: 21, 21-40 tai 21+");
@@ -308,18 +334,21 @@ public class MainWindow extends javax.swing.JFrame {
             if (kentta == Kentta.author || kentta == Kentta.editor) {
                 tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
             }
-
-            kenttaAlue.add(tekstikentta);
-
+            gbc.gridx = x;
+            lomake.add(tekstikentta, gbc);
 
             if (pakollinen) {
-                JLabel tahti = new JLabel("*");
-                tahti.setForeground(Color.RED);
-                kenttaAlue.add(tahti);
+                x++;
+                gbc.gridx = x;
+
+                lomake.add(new JLabel("*"), gbc);
             }
-            lomake.add(kenttaAlue);
+
+            y++;
+            x = 0;
         }
-        
+
+        //tooltip-viesti näytetään heti, kun osoitin tekstikentän päällä
         ToolTipManager.sharedInstance().setInitialDelay(0);
     }
 
@@ -359,65 +388,49 @@ public class MainWindow extends javax.swing.JFrame {
     public HashMap<Kentta, String> haeLomakkeenTiedot() {
         HashMap<Kentta, String> lomakkeenSisalto = new HashMap();
 
-        //lomake sisältää joukon paneeleita, yksi per viitteen kenttä
-        Component[] paneelitKomponentteina = lomake.getComponents();
+        Component[] komponentit = lomake.getComponents();
 
-        for (Component komponentti : paneelitKomponentteina) {
-            JPanel sisaltaaKentanJaSyotteen;
-            Kentta kentta = null;
-            String syote = "";
+        //näihin tallenetaan kirjalomakkeen comoboxissa valittu kenttä ja comboboxin nimi, jotta
+        //voidaan yhdistää ne oikeaan tekstikenttään
+        Kentta valittuKentta = null;
+        String kirjaCombonNimi = "";
 
-            //tarkistetaan vielä kuitenkin, että onhan komponentti paneeli ja muutetaan se
-            if (komponentti instanceof JPanel) {
-                sisaltaaKentanJaSyotteen = (JPanel) komponentti;
-            } else {
-                continue;
+        for (Component komponentti : komponentit) {
+            if (komponentti instanceof JComboBox) {
+                //kirjan lomakkeessa on combobox, jossa valittuna editor tai author
+                JComboBox authorEditor = (JComboBox) komponentti;
+                valittuKentta = (Kentta) authorEditor.getSelectedItem();
+                kirjaCombonNimi = authorEditor.getName();
             }
 
-            Component[] tiedot = sisaltaaKentanJaSyotteen.getComponents();
+            if (komponentti instanceof JTextComponent) {
+                Kentta kentta = null;
+                String syote = "";
 
-            //tiedetään, että ensimmäinenä komponenttina voi olla jlabel tai combobox
-            if (tiedot[0] instanceof JLabel) {
-                JLabel lomakkeenKentta = (JLabel) tiedot[0];
-                kentta = Kentta.valueOf(lomakkeenKentta.getText());
+                JTextComponent tekstikentta = (JTextComponent) komponentti;
 
-            } else if (tiedot[0] instanceof JComboBox) {
-                JComboBox box = (JComboBox) tiedot[0];
-                kentta = Kentta.valueOf(box.getSelectedItem().toString());
-            }
+                if (tekstikentta.getName().equals(kirjaCombonNimi)) {
+                    kentta = valittuKentta;
+                } else {
+                    kentta = Kentta.valueOf(tekstikentta.getName());
+                }
 
-            //toisena komponenttina jokaisen paneelin pitäisi sisältää tekstikenttä, johon
-            //käyttäjä on mahdollisesti kirjoittanut jotain
-            if (tiedot[1] instanceof JTextComponent) {
-                JTextComponent tekstikentta = (JTextComponent) tiedot[1];
                 syote = tekstikentta.getText();
-            }
 
-            lomakkeenSisalto.put(kentta, syote);
+                lomakkeenSisalto.put(kentta, syote);
+            }
         }
-        System.out.println(lomakkeenSisalto);
+        System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
         return lomakkeenSisalto;
     }
 
     private void tyhjennaKentat() {
         Component[] komponentit = lomake.getComponents();
-        JPanel paneeli = null;
 
-        //lomake sisältää paljon jpaneeleita
         for (Component komponentti : komponentit) {
-            if (komponentti instanceof JPanel) {
-                paneeli = (JPanel) komponentti;
-            } else {
-                continue;
-            }
-            Component[] tiedot = paneeli.getComponents();
-
-            //jokainen jpaaneli sisältää tekstikentän
-            for (Component paneelinSisalto : tiedot) {
-                if (paneelinSisalto instanceof JTextComponent) {
-                    JTextComponent tekstikentta = (JTextComponent) paneelinSisalto;
-                    tekstikentta.setText("");
-                }
+            if (komponentti instanceof JTextComponent) {
+                JTextComponent tekstikentta = (JTextComponent) komponentti;
+                tekstikentta.setText("");
             }
         }
     }
@@ -454,7 +467,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton muokkaa;
     private javax.swing.JLabel onPakollinen;
     private javax.swing.JButton poista;
-    private javax.swing.JLabel tahti;
     private javax.swing.JLabel valitse;
     private javax.swing.JList viitelista;
     private javax.swing.JComboBox viitetyypit;

@@ -11,7 +11,7 @@ public class InProceedings extends Viite {
 
     public static Set pakollisetKentat = EnumSet.of(Kentta.author, Kentta.title, Kentta.booktitle, Kentta.year);
     public static final Set eiPakollisetKentat = EnumSet.of(Kentta.editor, Kentta.publisher, Kentta.volume, Kentta.number, Kentta.pages, Kentta.month,
-            Kentta.note, Kentta.key, Kentta.series, Kentta.address, Kentta.edition, Kentta.booktitle,
+            Kentta.note, Kentta.key, Kentta.series, Kentta.address, Kentta.edition, Kentta.journal,
             Kentta.organization);
 
     public InProceedings(Syotetarkastaja tarkastaja) {

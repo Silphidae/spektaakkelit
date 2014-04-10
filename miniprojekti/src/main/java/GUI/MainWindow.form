@@ -151,11 +151,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="tahti" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       <Component id="onPakollinen" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="156" max="32767" attributes="0"/>
+                      <EmptySpace pref="201" max="32767" attributes="0"/>
                       <Component id="lisaa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   </Group>
@@ -170,11 +168,10 @@
                           <Component id="viitetyypit" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lomakeScroll" max="32767" attributes="0"/>
+                      <Component id="lomakeScroll" pref="384" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lisaa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tahti" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="onPakollinen" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -221,23 +218,15 @@
                     </Property>
                   </Properties>
 
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-                    <Property name="axis" type="int" value="1"/>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
                   </Layout>
                 </Container>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="tahti">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" id="red" palette="1" red="ff" type="palette"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="*"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="onPakollinen">
               <Properties>
-                <Property name="text" type="java.lang.String" value="= pakollinen kentt&#xe4;"/>
+                <Property name="text" type="java.lang.String" value="*= pakollinen kentt&#xe4;"/>
               </Properties>
             </Component>
           </SubComponents>
