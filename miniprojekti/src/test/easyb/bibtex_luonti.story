@@ -8,7 +8,6 @@ scenario "kayttajan lisaamat viitteet muuttuvat bibtex-muotoon", {
     given 'viitteita on lisatty', {
         db = new MockDatabase()
         engine = new EngineStub(db)
-        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"Joku Nimi", (Kentta.journal):"Lehti",(Kentta.year):"1999", (Kentta.title):"Artikkelinimi"])
     }
 
     when 'bibtex-tedosto halutaan luoda', {
@@ -16,7 +15,7 @@ scenario "kayttajan lisaamat viitteet muuttuvat bibtex-muotoon", {
     }
 
     then 'viitteet muuttuvat bibtex-muotoisiksi', {
-        
+        bt.muunnaAakkoset("ÄÖäö").shouldEqual("\\\"{A}\\\"{O}\\\"{a}\\\"{o}")
     }
 }
 
@@ -33,10 +32,9 @@ scenario "kayttaja saa generoitua bibtex-tiedoston", {
 
     then 'palautuu bibtex-tiedosto', {
         ensure(bt.generoiTiedosto("tiedosto.bib")){
-            isNotNull
-            and
-            is(File)
+            isAFile
         }
+        bt.generoiTiedosto("tiedosto.bib").shouldNotBe null
     }
 }
 
