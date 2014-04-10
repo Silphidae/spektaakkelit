@@ -33,10 +33,11 @@ public class Avaingeneraattori {
         return avain;
     }
     
-    public String lyhennaNimi(String nimi){        
+    public String lyhennaNimi(String nimi){
         int i = 0;
         while (i<nimi.length()){
-            if (nimi.charAt(i)!=' ') i++;
+            if (nimi.charAt(i)==' ') break;
+            else i++;
         }
         String lyhenne = nimi.substring(Math.min(i+1, nimi.length()), Math.min(i+3, nimi.length()));
         
