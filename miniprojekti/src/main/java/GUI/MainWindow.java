@@ -2,11 +2,13 @@ package GUI;
 
 import Database.MockDatabase;
 import Engine.IEngine;
+import domain.Bibtex;
 import domain.Kentta;
 import domain.Viitetyyppi;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -285,7 +287,7 @@ public class MainWindow extends javax.swing.JFrame {
             kenttaAlue.add(tahti);
 
             lomake.add(kenttaAlue);
-            
+
             //lisätään seuraavaksi muut kentät silmukassa joten poistetaan ensin nämä, etteivät tule kahdesti
             viitteenKentat.remove(Kentta.author);
             viitteenKentat.remove(Kentta.editor);
@@ -294,27 +296,27 @@ public class MainWindow extends javax.swing.JFrame {
         Arrays.sort(viitteenKentat.toArray());
 
         for (Kentta kentta : viitteenKentat) {
-            JPanel kenttaAlue = new JPanel();           
+            JPanel kenttaAlue = new JPanel();
             kenttaAlue.add(new JLabel(kentta.toString()));
             JTextArea tekstikentta = new JTextArea(1, 20);
-            
-            
+
+
             if (kentta == Kentta.pages) {
                 tekstikentta.setToolTipText("Anna sivut muodossa: 21, 21-40 tai 21+");
-            } 
-            
+            }
+
             if (kentta == Kentta.author || kentta == Kentta.editor) {
                 tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
             }
-            
+
             kenttaAlue.add(tekstikentta);
-            
+
 
             if (pakollinen) {
                 JLabel tahti = new JLabel("*");
                 tahti.setForeground(Color.RED);
                 kenttaAlue.add(tahti);
-            }       
+            }
             lomake.add(kenttaAlue);
         }
         
@@ -343,6 +345,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void bibtexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibtexActionPerformed
         // TODO add your handling code here:
+        Bibtex bibtex = new Bibtex(engine);
+        String tiedosto = (String) JOptionPane.showInputDialog(this,
+                "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
+        try {
+            bibtex.generoiTiedosto(tiedosto + ".bib");
+            JOptionPane.showMessageDialog(this, "Projektin juureen on nyt lisätty " + tiedosto + ".bib niminen tiedosto.");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_bibtexActionPerformed
 
     public HashMap<Kentta, String> haeLomakkeenTiedot() {
@@ -374,7 +385,7 @@ public class MainWindow extends javax.swing.JFrame {
                 JComboBox box = (JComboBox) tiedot[0];
                 kentta = Kentta.valueOf(box.getSelectedItem().toString());
             }
-            
+
             //toisena komponenttina jokaisen paneelin pitäisi sisältää tekstikenttä, johon
             //käyttäjä on mahdollisesti kirjoittanut jotain
             if (tiedot[1] instanceof JTextComponent) {
@@ -400,7 +411,7 @@ public class MainWindow extends javax.swing.JFrame {
                 continue;
             }
             Component[] tiedot = paneeli.getComponents();
-            
+
             //jokainen jpaaneli sisältää tekstikentän
             for (Component paneelinSisalto : tiedot) {
                 if (paneelinSisalto instanceof JTextComponent) {
@@ -430,7 +441,6 @@ public class MainWindow extends javax.swing.JFrame {
         // Arrays.sort(sisalto);
         viitelista.setListData(sisalto);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bibtex;
     private javax.swing.JScrollPane jScrollPane1;
@@ -449,5 +459,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JList viitelista;
     private javax.swing.JComboBox viitetyypit;
     // End of variables declaration//GEN-END:variables
-
 }
