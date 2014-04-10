@@ -36,10 +36,9 @@ public class Book extends Viite {
     @Override
     public List<String> kenttaMaarittelyVirheet() {
         List<String> virheet = new ArrayList<>();
-        if ((!kentat.containsKey(Kentta.author) && !kentat.containsKey(Kentta.editor))
-                || (kentat.containsKey(Kentta.author) && kentat.containsKey(Kentta.editor))) {
+        if (kentat.containsKey(Kentta.author) == kentat.containsKey(Kentta.editor)) {
             virheet.add("Kirjalle tulee olla määriteltynä joko kenttä author tai"
-                    + "kenttä editor.");
+                    + " kenttä editor.");
         }
         if (!kentat.containsKey(Kentta.title)) {
             virheet.add("Kirjalle tulee olla määriteltynä kenttä title.");
