@@ -214,8 +214,8 @@ public class Syotetarkastaja {
     public boolean tarkastaNumber(String syote) {
         try {
             int number = Integer.parseInt(syote);
-            if (number < 0) {
-                virheet.add("Lehden numero ei saa olla negatiivinen");
+            if (number <= 0) {
+                virheet.add("Lehden numeron tulee olla positiivinen.");
                 return false;
             }
             return true;
@@ -238,7 +238,7 @@ public class Syotetarkastaja {
             String[] sivut = syote.split("-");
             int eka = Integer.parseInt(sivut[0]);
             int toka = Integer.parseInt(sivut[1]);
-            if (toka < eka) {
+            if (toka <= eka) {
                 virheet.add("Jälkimmäisen sivunumeron tulee olla ensimmäistä suurempi.");
                 return false;
             }
@@ -304,8 +304,8 @@ public class Syotetarkastaja {
     public boolean tarkastaVolume(String syote) {
         try {
             int volume = Integer.parseInt(syote);
-            if (volume < 0) {
-                virheet.add("Volume ei saa olla negatiivinen");
+            if (volume <= 0) {
+                virheet.add("Volumen tulee olla positiivinen");
                 return false;
             }
             return true;
