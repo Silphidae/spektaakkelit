@@ -104,6 +104,20 @@ public class AvaingeneraattoriTest extends TestCase{
         assertEquals("ToJo1567", v2.getViiteavain());
     }
     
+    public void testEiSopimattomiaMerkkeja() {
+        Viite v = luoTestiArticle("J~oku Nimi", "2000");
+        assertEquals("NiJ2000", v.getViiteavain());
+        
+        Viite v2 = luoTestiInProceedings("Joku T\\inen", "1567");
+        assertEquals("TJo1567", v2.getViiteavain());
+        
+        Viite v3 = luoTestiBook("Joku N mi", null, "2000");
+        assertEquals("NJo2000", v3.getViiteavain());
+        
+        Viite v4 = luoTestiArticle("#oku Toinen", "1567");
+        assertEquals("Too1567", v4.getViiteavain());
+    }    
+    
     public Viite luoTestiArticle(String nimi, String vuosi) {
         Viite v = new Article(tarkastaja);
         v.lisaaKentta(Kentta.author, nimi);

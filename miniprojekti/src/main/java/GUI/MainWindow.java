@@ -433,8 +433,6 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void paivitaViitelista() {
         String[] sisalto = engine.listaaKaikkiViitteet();
-        // halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
-        // Arrays.sort(sisalto);
         viitelista.setListData(sisalto);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
