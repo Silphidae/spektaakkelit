@@ -1,6 +1,6 @@
 package Engine;
 
-import AvaimenGenerointi.Avaingeneraattori;
+import Avaingenerointi.Avaingeneraattori;
 import Database.Database;
 import Syotetarkistus.Syotetarkastaja;
 import domain.Article;

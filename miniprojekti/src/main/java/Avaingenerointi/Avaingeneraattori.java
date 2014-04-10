@@ -1,5 +1,5 @@
 
-package AvaimenGenerointi;
+package Avaingenerointi;
 
 import Database.Database;
 import domain.Kentta;

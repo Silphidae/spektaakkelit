@@ -35,7 +35,7 @@ scenario "kayttaja saa generoitua bibtex-tiedoston", {
         ensure(bt.generoiTiedosto("tiedosto.bib")){
             isNotNull
             and
-            isA<File>
+            is(File)
         }
     }
 }

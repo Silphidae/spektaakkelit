@@ -80,12 +80,14 @@
                 <version>0.30</version>
                 <configuration>
                     <targetClasses>
+                        <param>Avaingenerointi*</param>
                         <param>Database*</param>
                         <param>Engine*</param>
                         <param>Syotetarkistus*</param>
                         <param>domain*</param>
                     </targetClasses>
                     <targetTests>
+                        <param>Avaingenerointi*</param>
                         <param>Database*</param>
                         <param>Engine*</param>
                         <param>Syotetarkistus*</param>

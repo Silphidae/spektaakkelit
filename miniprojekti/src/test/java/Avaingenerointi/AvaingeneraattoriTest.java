@@ -1,7 +1,6 @@
 
 package Avaingenerointi;
 
-import AvaimenGenerointi.Avaingeneraattori;
 import Database.Database;
 import Database.MockDatabase;
 import Syotetarkistus.Syotetarkastaja;
