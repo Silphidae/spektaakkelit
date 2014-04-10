@@ -41,11 +41,12 @@ public class EngineStub implements IEngine {
         } else {
             return null;
         }
-
+        
         lisattava.lisaaKentat(arvot);
+        if (arvot.get("key")==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
+            
 
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
-            lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
             db.insertEntry(lisattava);
             return null;
         }

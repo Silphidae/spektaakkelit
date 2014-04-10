@@ -49,8 +49,8 @@ public class Syotetarkastaja {
                 return tarkastaInstitution(syote);
             case journal:
                 return tarkastaJournal(syote);
-            case key:
-                return tarkastaKey(syote);
+            /*case key:
+                return tarkastaKey(syote);*/
             case month:
                 return tarkastaMonth(syote);
             case note:
@@ -177,7 +177,7 @@ public class Syotetarkastaja {
         }
         return true;
     }
-
+    
     public boolean tarkastaKey(String syote) {
         if (syote.isEmpty()) {
             virheet.add("Avain ei saa olla tyhjä");
@@ -185,7 +185,7 @@ public class Syotetarkastaja {
         }
         return true;
     }
-
+    
     public boolean tarkastaMonth(String syote) {
         if (syote.isEmpty()) {
             virheet.add("Kuukausi ei saa olla tyhjä");

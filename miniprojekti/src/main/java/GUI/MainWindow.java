@@ -14,7 +14,9 @@ import java.awt.Insets;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -334,6 +336,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (kentta == Kentta.author || kentta == Kentta.editor) {
                 tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
             }
+
             gbc.gridx = x;
             lomake.add(tekstikentta, gbc);
 
@@ -353,7 +356,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
-        HashMap<Kentta, String> lomakkeenSisalto = haeLomakkeenTiedot();
+        Map<Kentta, String> lomakkeenSisalto = haeLomakkeenTiedot();
         Viitetyyppi lisattavanViitteenTyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
 
         ArrayList<String> virheet = engine.lisaaViite(lisattavanViitteenTyyppi, lomakkeenSisalto);
@@ -385,8 +388,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bibtexActionPerformed
 
-    public HashMap<Kentta, String> haeLomakkeenTiedot() {
-        HashMap<Kentta, String> lomakkeenSisalto = new HashMap();
+    public EnumMap<Kentta, String> haeLomakkeenTiedot() {
+        EnumMap<Kentta, String> lomakkeenSisalto = new EnumMap(Kentta.class);
 
         Component[] komponentit = lomake.getComponents();
 
@@ -417,6 +420,7 @@ public class MainWindow extends javax.swing.JFrame {
 
                 syote = tekstikentta.getText();
 
+            if (!syote.isEmpty()) {
                 lomakkeenSisalto.put(kentta, syote);
             }
         }
@@ -450,8 +454,6 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void paivitaViitelista() {
         String[] sisalto = engine.listaaKaikkiViitteet();
-        // halutaanko viitteet aakkos- vai lisäysjärjestyksessä?
-        // Arrays.sort(sisalto);
         viitelista.setListData(sisalto);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

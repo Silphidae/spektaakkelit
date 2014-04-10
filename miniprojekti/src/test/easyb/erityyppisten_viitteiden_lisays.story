@@ -11,7 +11,7 @@ scenario "kayttajan lisaama kirjaviite tallentuu ohjelmaan", {
     }
 
     when 'viitteen tiedot kirjattu lomakkeeseen', {
-        engine.lisaaBook("key", "author", "title", "published", 1999)
+        engine.lisaaViite(Viitetyyppi.book, [(Kentta.author):"fafadsdfsa", (Kentta.publisher):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite tallennettu ohjelmaan', {
@@ -26,7 +26,7 @@ scenario "kayttaja syottama kirjaviite ei tallennu, jos siina virheita", {
     }
 
     when 'syotetaan virheellisia arvoja', {
-        engine.lisaaBook("key", "author", "title", "", 1200)
+        engine.lisaaViite(Viitetyyppi.book, [(Kentta.author):"fafadsdfsa", (Kentta.publisher):"fasdfdsa",(Kentta.year):"vuosi", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite ei tallennu ohjelmaan', {
@@ -34,14 +34,14 @@ scenario "kayttaja syottama kirjaviite ei tallennu, jos siina virheita", {
     }
 }
 
-scenario "kayttajan lisaama proceedings-viite tallentuu ohjelmaan", {
+scenario "kayttajan lisaama inproceedings-viite tallentuu ohjelmaan", {
     given 'viitteen lisays valittu', {
         db = new MockDatabase()
         engine = new EngineStub(db)
     }
 
     when 'viitteen tiedot kirjattu lomakkeeseen', {
-        engine.lisaaInProceedings("key", "author", "title", "booktitle", 1999)
+        engine.lisaaViite(Viitetyyppi.inproceedings, [(Kentta.author):"fafadsdfsa", (Kentta.booktitle):"fasdfdsa",(Kentta.year):"1876", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite tallennettu ohjelmaan', {
@@ -56,7 +56,7 @@ scenario "kayttaja syottama proceedings-viite ei tallennu, jos siina virheita", 
     }
 
     when 'syotetaan virheellisia arvoja', {
-        engine.lisaaInProceedings("key", "", "title", "booktitle", 1111)
+        engine.lisaaViite(Viitetyyppi.inproceedings, [(Kentta.author):"fafadsdfsa", (Kentta.booktitle):"fasdfdsa",(Kentta.year):"vuosi", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite ei tallennu ohjelmaan', {

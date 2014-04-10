@@ -6,12 +6,12 @@ description 'kayttaja pystyy tallentamaan viitteen tietokantaan'
 
 scenario "kayttajan lisaama viite tallentuu tietokantaan", {
     given 'viitteen lisays valittu', {
-        db = new Database()
+        db = new MockDatabase()
         engine = new EngineStub(db)
     }
 
     when 'viitteen tiedot annettu lomakkeella', {
-        engine.lisaaViite("key", "author", "title", "published", 1999)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite tallentuu tietokantaan', {
@@ -21,25 +21,25 @@ scenario "kayttajan lisaama viite tallentuu tietokantaan", {
 
 scenario "virheellinen viite ei tallennu tietokantaan", {
     given 'viitteen lisays valittu', {
-        db = new Database()
+        db = new MockDatabase()
         engine = new EngineStub(db)
     }
 
     when 'viitteen virheeliset tiedot annettu lomakkeella', {
-        engine.lisaaViite("key", "author", "", "published", 1999)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"vuosi", (Kentta.title):"fdafdsa"])
     }
 
     then 'viite ei tallennu tietokantaan', {
-        db.getSize().shouldBeEqual 1
+        db.getSize().shouldBeEqual 0
     }
 }
 
 scenario "viitteen haku tietokannasta onnistuu", {
     given 'viitteiden listaus valittu', {
-        db = new Database()
+        db = new MockDatabase()
         engine = new EngineStub(db)
-        engine.lisaaArticle("key", "kirjoittaja", "paperin nimi", "lehti", 12, 212, 1972, 68, 99)
-        engine.lisaaArticle("key2", "kirjoitaja2", "paras artikkeli", "lehti", 10, 188, 1670, 12, 18)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"2000", (Kentta.title):"fdafdsa"])
     }
 
     when 'viitteet haetaan tietokannasta', {

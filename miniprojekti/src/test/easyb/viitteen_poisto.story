@@ -8,7 +8,7 @@ scenario "kayttaja voi poistaa haluamansa viitteen", {
     given 'viitteet listattu', {
         db = new MockDatabase()
         engine = new EngineStub(db)
-        engine.lisaaArticle("key", "author", "title", "journal", 1, 2, 1993, 4, 5)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
         engine.listaaKaikkiViitteet()
     } 
 

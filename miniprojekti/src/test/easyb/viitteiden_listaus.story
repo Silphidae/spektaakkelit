@@ -8,9 +8,8 @@ scenario "kayttaja voi listata viitteet", {
     given 'ohjelmassa viitteita', {
         db = new MockDatabase()
         engine = new EngineStub(db)
-        engine.lisaaArticle("key", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99)
-        engine.lisaaArticle("key2", "testihenkilö", "testaustieto", "valitut palat", 12, 212, 1672, 68, 99)
-        
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"2000", (Kentta.title):"fdafdsa"])
     } 
 
     when 'kayttaja valitsee viitteiden listauksen', {
