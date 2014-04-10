@@ -47,7 +47,11 @@ public class EngineStub implements IEngine {
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
             if (lisattava.getViiteavain()==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
             
-            db.insertEntry(lisattava);
+            //db.insertEntry(lisattava);
+            try {
+                 lisattava.lisaaViiteKantaan();
+            } catch (Exception e) { }
+                
             return null;
         }
         ArrayList<String> virheet = tarkastaja.getVirheet();
