@@ -18,29 +18,40 @@ public class Avaingeneraattori {
         
         if (viite.getKentanSisalto(Kentta.author)==null){
             nimi = viite.getKentanSisalto(Kentta.editor);
-            avain += lyhennaNimi(nimi);
         } else {
             nimi = viite.getKentanSisalto(Kentta.author);
-            avain += lyhennaNimi(nimi);
         }
+        
+        avain += lyhennaNimi(nimi);
         avain += viite.getKentanSisalto(Kentta.year);
         
         int samat = tarkistaSamat(nimi, viite.getKentanSisalto(Kentta.year));
         if (samat>0) avain += "-" + samat;
+                
+        avain = poistaSopimattomatMerkit(avain);
         
         return avain;
     }
     
-    public String lyhennaNimi(String nimi){
+    public String lyhennaNimi(String nimi){        
         int i = 0;
-        while (i<nimi.length() && nimi.charAt(i)!=' '){
-            i++;
+        while (i<nimi.length()){
+            if (nimi.charAt(i)!=' ') i++;
         }
         String lyhenne = nimi.substring(Math.min(i+1, nimi.length()), Math.min(i+3, nimi.length()));
         
         lyhenne += nimi.substring(0, Math.min(2, nimi.length()));
         
         return lyhenne;
+    }
+    
+    private String poistaSopimattomatMerkit(String nimi){
+        String[] eiSallitutMerkit = {"@", "\'", ",", "#", "}", " ", "~", "%", "\\\\", "\\{"};
+        for (String a : eiSallitutMerkit){
+            nimi = nimi.replaceAll(a, "");
+        }
+        
+        return nimi;
     }
     
     private int tarkistaSamat(String nimi, String vuosi){
