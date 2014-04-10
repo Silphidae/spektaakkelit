@@ -49,7 +49,8 @@ public class EngineStub implements IEngine {
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
             
             try {
-                lisattava.lisaaViiteKantaan();
+                db.insertEntry(lisattava);
+                // lisattava.lisaaViiteKantaan();
             } catch (Exception e) {
                 System.out.println("Virhe: " + e.getMessage());
             }
