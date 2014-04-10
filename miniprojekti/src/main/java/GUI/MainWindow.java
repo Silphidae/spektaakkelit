@@ -420,14 +420,15 @@ public class MainWindow extends javax.swing.JFrame {
 
                 syote = tekstikentta.getText();
 
-            if (!syote.isEmpty()) {
-                lomakkeenSisalto.put(kentta, syote);
+                if (!syote.isEmpty()) {
+                    lomakkeenSisalto.put(kentta, syote);
+                }
             }
         }
-        System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
-        return lomakkeenSisalto;
+            System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
+            return lomakkeenSisalto;
     }
-
+    
     private void tyhjennaKentat() {
         Component[] komponentit = lomake.getComponents();
 
