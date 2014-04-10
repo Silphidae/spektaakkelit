@@ -91,6 +91,10 @@ public class Syotetarkastaja {
 
     public boolean tarkastaAnnote(String syote) {
         //TODO
+        if (syote.isEmpty()) {
+            virheet.add("Annote ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
@@ -127,6 +131,10 @@ public class Syotetarkastaja {
 
     public boolean tarkastaCrossref(String syote) {
         //TODO tarkastus, että crossref on ref-generaattorin antamassa muodossa.
+        if (syote.isEmpty()) {
+            virheet.add("Viittaus ei saa olla tyhjä");
+            return false;
+        }
         return true;
     }
 
@@ -177,16 +185,16 @@ public class Syotetarkastaja {
         }
         return true;
     }
-    
+
+    //Tämä on eri asia kuin citationKey
     public boolean tarkastaKey(String syote) {
         if (syote.isEmpty()) {
-            //generoidaan automaattinen key
-            //virheet.add("Avain ei saa olla tyhjä");
-            return true;
+            virheet.add("Avain ei saa olla tyhjä");
+            return false;
         }
-        return tarkastaCitationKey(syote);
+        return true;
     }
-    
+
     public boolean tarkastaMonth(String syote) {
         if (syote.isEmpty()) {
             virheet.add("Kuukausi ei saa olla tyhjä");
