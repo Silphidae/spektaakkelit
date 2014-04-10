@@ -73,31 +73,27 @@ public abstract class Viite {
     public abstract List<String> kenttaMaarittelyVirheet();
     
     public void lisaaViiteKantaan() throws NamingException, SQLException {
-        String sql = "INSERT INTO viitteet(pkey, key, author, title, journal, year, "
-                + "volume, number, pages, month, note, editor, publisher, series, "
-                + "address, edition, booktitle, organization) VALUES (?, ?, ?, "
-                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO viitteet(key, author, title, journal, year, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         Connection yhteys = TietokantaYhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         
         kysely.setString(1, viiteavain);
-        kysely.setString(2, getKentanSisalto(key));
-        kysely.setString(3, getKentanSisalto(author));
-        kysely.setString(4, getKentanSisalto(title));
-        kysely.setString(5, getKentanSisalto(journal));
-        kysely.setString(6, getKentanSisalto(year));
-        kysely.setString(7, getKentanSisalto(volume));
-        kysely.setString(8, getKentanSisalto(number));
-        kysely.setString(9, getKentanSisalto(pages));
-        kysely.setString(10, getKentanSisalto(month));
-        kysely.setString(11, getKentanSisalto(note));
-        kysely.setString(12, getKentanSisalto(editor));
-        kysely.setString(13, getKentanSisalto(publisher));
-        kysely.setString(14, getKentanSisalto(series));
-        kysely.setString(15, getKentanSisalto(address));
-        kysely.setString(16, getKentanSisalto(edition));
-        kysely.setString(17, getKentanSisalto(booktitle));
-        kysely.setString(18, getKentanSisalto(organization));
+        kysely.setString(2, getKentanSisalto(author));
+        kysely.setString(3, getKentanSisalto(title));
+        kysely.setString(4, getKentanSisalto(journal));
+        kysely.setString(5, getKentanSisalto(year));
+        kysely.setString(6, getKentanSisalto(volume));
+        kysely.setString(7, getKentanSisalto(number));
+        kysely.setString(8, getKentanSisalto(pages));
+        kysely.setString(9, getKentanSisalto(month));
+        kysely.setString(10, getKentanSisalto(note));
+        kysely.setString(11, getKentanSisalto(editor));
+        kysely.setString(12, getKentanSisalto(publisher));
+        kysely.setString(13, getKentanSisalto(series));
+        kysely.setString(14, getKentanSisalto(address));
+        kysely.setString(15, getKentanSisalto(edition));
+        kysely.setString(16, getKentanSisalto(booktitle));
+        kysely.setString(17, getKentanSisalto(organization));
 
         ResultSet syotto = kysely.executeQuery(); 
         syotto.next();
@@ -107,6 +103,31 @@ public abstract class Viite {
         try { yhteys.close(); } catch (Exception e) {}
     }
     
+    public void listaaViitteet() throws NamingException, SQLException  {
+        Connection yhteys = TietokantaYhteys.getYhteys();
+        PreparedStatement kysely;
+        ResultSet tulokset;
+
+        try {
+            String sqlkysely = "SELECT * FROM viitteet;";
+
+            kysely = yhteys.prepareStatement(sqlkysely);
+            tulokset = kysely.executeQuery();
+            if (tulokset.next()) {
+                String tulos = tulokset.toString();
+                System.out.println(tulos);
+            } else {
+                System.out.println("Virhe!");
+            }
+
+            tulokset.close();
+            kysely.close();
+            yhteys.close();
+        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+        }
+    }
     
+    // poistaViiteKannasta
     
 }
