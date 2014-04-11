@@ -59,4 +59,9 @@ public class Book extends Viite {
     public static Set<Kentta> getEiPakollisetKentat() {
         return eiPakollisetKentat;
     }
+
+    @Override
+    public String getTyyppi() {
+        return "book";
+    }
 }

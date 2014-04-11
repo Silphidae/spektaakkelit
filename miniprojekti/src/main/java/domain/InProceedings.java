@@ -54,4 +54,9 @@ public class InProceedings extends Viite {
     public static Set<Kentta> getEiPakollisetKentat() {
         return eiPakollisetKentat;
     }
+
+    @Override
+    public String getTyyppi() {
+        return "inproceedings";
+    }
 }

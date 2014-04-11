@@ -54,6 +54,11 @@ public class Article extends Viite {
     public static Set<Kentta> getEiPakollisetKentat() {
         return eiPakollisetKentat;
     }
+
+    @Override
+    public String getTyyppi() {
+        return "article";
+    }
     
     
 }

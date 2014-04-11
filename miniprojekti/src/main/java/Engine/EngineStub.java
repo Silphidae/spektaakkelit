@@ -63,13 +63,7 @@ public class EngineStub implements IEngine {
 
     @Override
     public String[] listaaKaikkiViitteet() {
-        String[] sisalto = new String[db.getSize()];
-
-        int i = 0;
-        while (i < db.getSize()) {
-            sisalto[i] = db.getEntry(i).toString();
-            i++;
-        }
+        String[] sisalto = Viite.haeKaikkiViitteetKannasta();
 
         return sisalto;
     }
