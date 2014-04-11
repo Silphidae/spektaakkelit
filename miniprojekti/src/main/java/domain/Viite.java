@@ -73,7 +73,7 @@ public abstract class Viite {
     public abstract List<String> kenttaMaarittelyVirheet();
     
     public void lisaaViiteKantaan() throws NamingException, SQLException {
-        String sql = "INSERT INTO viitteet(key, author, title, journal, year, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO viitteet(key, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         Connection yhteys = TietokantaYhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         
