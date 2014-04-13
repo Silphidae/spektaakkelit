@@ -15,6 +15,7 @@ public class Avaingeneraattori {
     public String luoAvain(Viite viite){
         String avain = "";
         String nimi = "";
+        String vuosi = viite.getKentanSisalto(Kentta.year);
         
         if (viite.getKentanSisalto(Kentta.author)==null){
             nimi = viite.getKentanSisalto(Kentta.editor);
@@ -22,32 +23,35 @@ public class Avaingeneraattori {
             nimi = viite.getKentanSisalto(Kentta.author);
         }
         
-        avain += lyhennaNimi(nimi);
-        avain += viite.getKentanSisalto(Kentta.year);
+        avain += lyhennaNimet(nimi);
+        avain += vuosi.substring(vuosi.length()-2);
         
-        int samat = tarkistaSamat(nimi, viite.getKentanSisalto(Kentta.year));
+        int samat = tarkistaSamat(lyhennaNimet(nimi), viite.getKentanSisalto(Kentta.year));
         if (samat>0) avain += "-" + samat;
                 
-        avain = poistaSopimattomatMerkit(avain);
-        
+        avain = avain.replaceAll("[, ]", "");
         return avain;
     }
     
-    public String lyhennaNimi(String nimi){
-        int i = 0;
-        while (i<nimi.length()){
-            if (nimi.charAt(i)==' ') break;
-            else i++;
-        }
-        String lyhenne = nimi.substring(Math.min(i+1, nimi.length()), Math.min(i+3, nimi.length()));
+    public String lyhennaNimet(String nimi){
+        String lyhenne = "";
+        String[] nimet = nimi.split(" and ");
         
-        lyhenne += nimi.substring(0, Math.min(2, nimi.length()));
+        for (String s : nimet){
+            s = poistaSopimattomatMerkit(s);
+            if (s.contains(", ")){
+                lyhenne += s.substring(0,1);
+            } else {
+                s = s.replaceAll("[a-z ]", "");
+                lyhenne += s.substring(s.length()-1);
+            }
+        }
         
         return lyhenne;
     }
     
     private String poistaSopimattomatMerkit(String nimi){
-        String[] eiSallitutMerkit = {"@", "\'", ",", "#", "}", " ", "~", "%", "\\\\", "\\{"};
+        String[] eiSallitutMerkit = {"@", "\'","\"", "#", "}", "~", "%", "\\\\", "\\{"};
         for (String a : eiSallitutMerkit){
             nimi = nimi.replaceAll(a, "");
         }
@@ -60,7 +64,7 @@ public class Avaingeneraattori {
         for (int i=0; i<db.getSize(); i++){
             String author = db.getEntry(i).getKentanSisalto(Kentta.author);
             String year = db.getEntry(i).getKentanSisalto(Kentta.year);
-            if (nimi.equals(author) && vuosi.equals(year)){
+            if (nimi.equals(lyhennaNimet(author)) && vuosi.equals(year)){
                 samat++;
             }
         }
