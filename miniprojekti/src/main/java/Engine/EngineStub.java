@@ -3,12 +3,7 @@ package Engine;
 import Avaingenerointi.Avaingeneraattori;
 import Database.Database;
 import Syotetarkistus.Syotetarkastaja;
-import domain.Article;
-import domain.Book;
-import domain.InProceedings;
-import domain.Kentta;
-import domain.Viite;
-import domain.Viitetyyppi;
+import domain.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -47,9 +42,8 @@ public class EngineStub implements IEngine {
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
             if (lisattava.getViiteavain()==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
             
-            //db.insertEntry(lisattava);
             try {
-                 lisattava.lisaaViiteKantaan();
+                db.insertEntry(lisattava);
             } catch (Exception e) { }
                 
             return null;
@@ -63,15 +57,20 @@ public class EngineStub implements IEngine {
 
     @Override
     public String[] listaaKaikkiViitteet() {
-        String[] sisalto = Viite.haeKaikkiViitteetKannasta();
+        ArrayList<Viite> sisalto = db.getAllEntries();
 
-        return sisalto;
+        String[] viitetaulukko = new String[sisalto.size()];
+            for (int i = 0; i < sisalto.size(); i++) {
+                viitetaulukko[i] = sisalto.get(i).toString();
+            }
+        
+        return viitetaulukko;
     }
 
     @Override
     public void poistaViite(int i) {
         if (i >= 0 && i < db.getSize()) {
-            db.removeEntry(i);
+            db.removeEntry("");
         }
     }
 
@@ -110,12 +109,6 @@ public class EngineStub implements IEngine {
 
     @Override
     public ArrayList<Viite> getViitteet() {
-        ArrayList<Viite> viitteet = new ArrayList<>();
-        int i = 0;
-        while (i < db.getSize()) {
-            viitteet.add(db.getEntry(i));
-            i++;
-        }
-        return viitteet;
+        return db.getAllEntries();
     }
 }
