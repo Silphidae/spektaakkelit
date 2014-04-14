@@ -1,6 +1,6 @@
 package GUI;
 
-import Database.MockDatabase;
+import Database.TheRealDBImplementation;
 import Engine.IEngine;
 import domain.Bibtex;
 import domain.Kentta;
@@ -38,7 +38,7 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     public MainWindow() {
-        engine = new Engine.EngineStub(new MockDatabase());
+        engine = new Engine.EngineStub(new TheRealDBImplementation());
         initComponents();
         paivitaViitetyypit();
 
@@ -230,15 +230,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         if (valinta == JOptionPane.YES_OPTION) {
-            int[] indeksit = new int[viitelista.getSelectedIndices().length];
-
-            int i = viitelista.getSelectedIndices().length - 1;
-            for (int luku : viitelista.getSelectedIndices()) {
-                indeksit[i--] = luku;
-            }
-
-            for (Integer indeksi : indeksit) {
-                engine.poistaViite(indeksi);
+            for (Object viite : viitelista.getSelectedValuesList()) {
+                //Splitataan citation key taulukon ekaksi alkioksi
+                String[] viiteSplit = viite.toString().split(":");
+                engine.poistaViite(viiteSplit[0]);
             }
         }
 

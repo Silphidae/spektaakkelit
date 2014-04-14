@@ -4,6 +4,7 @@ package Avaingenerointi;
 import Database.Database;
 import domain.Kentta;
 import domain.Viite;
+import java.util.ArrayList;
 
 public class Avaingeneraattori {
     Database db;
@@ -61,9 +62,10 @@ public class Avaingeneraattori {
     
     private int tarkistaSamat(String nimi, String vuosi){
         int samat = 0;
-        for (int i=0; i<db.getSize(); i++){
-            String author = db.getEntry(i).getKentanSisalto(Kentta.author);
-            String year = db.getEntry(i).getKentanSisalto(Kentta.year);
+        ArrayList<Viite> kaikki = db.getAllEntries();
+        for (int i=0; i<kaikki.size(); i++){
+            String author = kaikki.get(i).getKentanSisalto(Kentta.author);
+            String year = kaikki.get(i).getKentanSisalto(Kentta.year);
             if (nimi.equals(lyhennaNimet(author)) && vuosi.equals(year)){
                 samat++;
             }

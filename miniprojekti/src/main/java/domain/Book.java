@@ -24,10 +24,10 @@ public class Book extends Viite {
     @Override
     public String toString() {
         if (kentat.containsKey(Kentta.author)) {
-            return kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title)
+            return citationKey + ": " + kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title)
                     + ", " + kentat.get(Kentta.publisher) + ", " + kentat.get(Kentta.year);
         } else {
-            return kentat.get(Kentta.editor) + ", " + kentat.get(Kentta.title)
+            return citationKey + ": " + kentat.get(Kentta.editor) + ", " + kentat.get(Kentta.title)
                     + ", " + kentat.get(Kentta.publisher) + ", " + kentat.get(Kentta.year);
         }
 

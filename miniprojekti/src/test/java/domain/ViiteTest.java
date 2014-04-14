@@ -33,12 +33,12 @@ public class ViiteTest extends TestCase {
     
     public void testViiteavaimenLisaysOnnistuu() {
         viite.lisaaViiteavain("pekka01");
-        assertEquals(viite.getViiteavain(), "pekka01");
+        assertEquals(viite.getCitationKey(), "pekka01");
     }
     
     public void testEpavalidinViiteavaimenLisaysEiOnnistu() {
         viite.lisaaViiteavain("@%");
-        assertNull(viite.getViiteavain());
+        assertNull(viite.getCitationKey());
     }
 
     public void testKenttienLisaaminenOnnistuu() {

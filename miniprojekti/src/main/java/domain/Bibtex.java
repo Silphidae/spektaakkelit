@@ -37,7 +37,7 @@ public class Bibtex {
         File bibtexTiedosto = new File(tiedostonNimi);
         try (PrintWriter tiedosto = new PrintWriter(bibtexTiedosto)) {
             for (Viite viite : moottori.getViitteet()) {
-                tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getViiteavain() + ",");
+                tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getCitationKey() + ",");
                 for (Kentta kentta : viite.kaytossaOlevatKentat()) {
                     tiedosto.println(kentta.name() + " = {" + muunnaAakkoset(viite.getKentanSisalto(kentta)) + "},");
                 }

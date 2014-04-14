@@ -24,7 +24,7 @@ public class Article extends Viite {
 
     @Override
     public String toString() {
-        return kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title) + ", " + 
+        return citationKey + ": " + kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title) + ", " + 
                 kentat.get(Kentta.journal) + ", " + kentat.get(Kentta.year);
     }
 

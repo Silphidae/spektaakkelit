@@ -16,7 +16,7 @@ public interface IEngine {
 
     public ArrayList<Viite> getViitteet();
     
-    public void poistaViite(int i);
+    public void poistaViite(String ckey);
 
     public Viitetyyppi[] getViitetyypit();
 

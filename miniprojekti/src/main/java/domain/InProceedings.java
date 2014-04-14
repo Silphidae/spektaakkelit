@@ -25,7 +25,7 @@ public class InProceedings extends Viite {
 
     @Override
     public String toString() {
-        return kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title) + ", "
+        return citationKey + ": " + kentat.get(Kentta.author) + ", " + kentat.get(Kentta.title) + ", "
                 + kentat.get(Kentta.booktitle) + ", " + kentat.get(Kentta.year);
     }
 

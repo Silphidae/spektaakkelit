@@ -55,8 +55,8 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v3 = luoTestiArticle("Etunimi Sukunimi", "1999");
         db.insertEntry(v3);
         
-        assertEquals("S99-1", v2.getViiteavain());
-        assertEquals("S99-2", v3.getViiteavain());
+        assertEquals("S99-1", v2.getCitationKey());
+        assertEquals("S99-2", v3.getCitationKey());
     }
     
     public void testUseitaSamojaBook() {
@@ -67,8 +67,8 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v3 = luoTestiBook(null, "Etunimi Sukunimi", "1999");
         db.insertEntry(v3);
         
-        assertEquals("S99-1", v2.getViiteavain());
-        assertEquals("S99-2", v3.getViiteavain());
+        assertEquals("S99-1", v2.getCitationKey());
+        assertEquals("S99-2", v3.getCitationKey());
     }
     
     public void testUseitaSamojaInProceedings() {
@@ -79,56 +79,56 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v3 = luoTestiInProceedings("Etunimi Sukunimi", "1999");
         db.insertEntry(v3);
         
-        assertEquals("S99", v.getViiteavain());
-        assertEquals("S99-1", v2.getViiteavain());
-        assertEquals("S99-2", v3.getViiteavain());
+        assertEquals("S99", v.getCitationKey());
+        assertEquals("S99-1", v2.getCitationKey());
+        assertEquals("S99-2", v3.getCitationKey());
     }
     
     public void testPalautuuOdotettuAvainArticle() {
         Viite v = luoTestiArticle("Joku Nimi", "2000");
-        assertEquals("N00", v.getViiteavain());
+        assertEquals("N00", v.getCitationKey());
         
         Viite v2 = luoTestiArticle("Joku Toinen", "1567");
-        assertEquals("T67", v2.getViiteavain());
+        assertEquals("T67", v2.getCitationKey());
     }
     
     public void testPalautuuOdotettuAvainBook() {
         Viite v = luoTestiBook("Joku Nimi", "Toinen Nimi", "2000");
-        assertEquals("N00", v.getViiteavain());
+        assertEquals("N00", v.getCitationKey());
         
         Viite v2 = luoTestiBook(null, "Joku Toinen and Kolmas, Joku", "1567");
-        assertEquals("TK67", v2.getViiteavain());
+        assertEquals("TK67", v2.getCitationKey());
     }
     
     public void testPalautuuOdotettuAvainInProceedings() {
         Viite v = luoTestiInProceedings("Joku Nimi and Toinen Nimi and Kolmas Nimi", "2000");
-        assertEquals("NNN00", v.getViiteavain());
+        assertEquals("NNN00", v.getCitationKey());
         
         Viite v2 = luoTestiInProceedings("Eka, Joku and Toinen, Joku", "1567");
-        assertEquals("ET67", v2.getViiteavain());
+        assertEquals("ET67", v2.getCitationKey());
     }
     
     public void testEiSopimattomiaMerkkeja() {
         Viite v = luoTestiArticle("J~oku Nimi", "2000");
-        assertEquals("N00", v.getViiteavain());
+        assertEquals("N00", v.getCitationKey());
         
         Viite v2 = luoTestiInProceedings("Joku T\\inen", "1567");
-        assertEquals("T67", v2.getViiteavain());
+        assertEquals("T67", v2.getCitationKey());
         
         Viite v3 = luoTestiBook("Joku N@mi", null, "2000");
-        assertEquals("N00", v3.getViiteavain());
+        assertEquals("N00", v3.getCitationKey());
         
         Viite v4 = luoTestiArticle("Joku T\"{o}inen", "1567");
-        assertEquals("T67", v4.getViiteavain());
+        assertEquals("T67", v4.getCitationKey());
         
         Viite v5 = luoTestiArticle("J,ku Nimi", "1567");
-        assertEquals("N67", v5.getViiteavain());
+        assertEquals("N67", v5.getCitationKey());
         
         Viite v6 = luoTestiArticle("J\\ku Nim i", "1567");
-        assertEquals("N67", v6.getViiteavain());
+        assertEquals("N67", v6.getCitationKey());
         
         Viite v7 = luoTestiArticle("Joku N#mi", "1567");
-        assertEquals("N67", v7.getViiteavain());
+        assertEquals("N67", v7.getCitationKey());
     }    
     
     public Viite luoTestiArticle(String nimi, String vuosi) {

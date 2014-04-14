@@ -19,18 +19,18 @@ public abstract class Viite {
     protected Map<Kentta, String> kentat;
     // protected static Set<Kentta> pakollisetKentat;
     protected Set<Kentta> sallitutKentat;
-    protected String viiteavain;
+    protected String citationKey;
     protected Syotetarkastaja tarkastaja;
     int pkey;
 
     public void lisaaViiteavain(String viiteavain) {
         if (tarkastaja.tarkastaCitationKey(viiteavain)) {
-            this.viiteavain = viiteavain;
+            this.citationKey = viiteavain;
         }
     }
 
-    public String getViiteavain() {
-        return viiteavain;
+    public String getCitationKey() {
+        return citationKey;
     }
 
     public void lisaaKentat(Map<Kentta, String> arvot) {

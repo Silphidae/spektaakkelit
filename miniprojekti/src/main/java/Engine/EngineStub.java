@@ -40,7 +40,7 @@ public class EngineStub implements IEngine {
         lisattava.lisaaKentat(arvot);
             
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
-            if (lisattava.getViiteavain()==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
+            if (lisattava.getCitationKey()==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
             
             try {
                 db.insertEntry(lisattava);
@@ -68,10 +68,8 @@ public class EngineStub implements IEngine {
     }
 
     @Override
-    public void poistaViite(int i) {
-        if (i >= 0 && i < db.getSize()) {
-            db.removeEntry("");
-        }
+    public void poistaViite(String ckey) {
+        db.removeEntry(ckey);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TheRealDBImplementation implements Database {
         Connection yhteys = TietokantaYhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
 
-        kysely.setString(1, viite.getViiteavain());
+        kysely.setString(1, viite.getCitationKey());
         kysely.setString(2, viite.getKentanSisalto(author));
         kysely.setString(3, viite.getKentanSisalto(title));
         kysely.setString(4, viite.getKentanSisalto(journal));
@@ -98,6 +98,7 @@ public class TheRealDBImplementation implements Database {
                 }
 
                 lisattava.lisaaKentat(arvot);
+                lisattava.lisaaViiteavain(tulokset.getString("ckey"));
 
                 viitteet.add(lisattava);
             }
@@ -114,11 +115,13 @@ public class TheRealDBImplementation implements Database {
     
     public void removeEntry(String ckey) {
         
+        
     }
     
-    public int getSize() {
-        return 0;
-    }
+    
+    // edit
+    
+    // tägijutut
     
     
 }
