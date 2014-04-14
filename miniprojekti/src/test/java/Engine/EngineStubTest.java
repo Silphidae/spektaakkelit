@@ -45,7 +45,7 @@ public class EngineStubTest extends TestCase {
 
     public void testViitteenLisaysOnnistuu() {
         HashMap<Kentta, String> article = new HashMap();
-        article.put(Kentta.author, "etunimi sukunimi");
+        article.put(Kentta.author, "Etunimi Sukunimi");
         article.put(Kentta.year, "1999");
         article.put(Kentta.title, "Otsikko");
         article.put(Kentta.journal, "Paras Lehti");
@@ -69,7 +69,7 @@ public class EngineStubTest extends TestCase {
     public void testViitteidenListausOnnistuu() {
         HashMap<Kentta, String> tiedot = new HashMap();
 
-        tiedot.put(Kentta.author, "etunimi sukunimi");
+        tiedot.put(Kentta.author, "Etunimi Sukunimi");
         tiedot.put(Kentta.year, "1999");
         tiedot.put(Kentta.title, "Otsikko");
         tiedot.put(Kentta.journal, "Paras Lehti");
@@ -87,7 +87,7 @@ public class EngineStubTest extends TestCase {
 
     public void testLisaaViitePalauttaaNullKunViiteVirheeton() {
         HashMap<Kentta, String> tiedot = new HashMap();
-        tiedot.put(Kentta.author, "etunimi sukunimi");
+        tiedot.put(Kentta.author, "Etunimi Sukunimi");
         tiedot.put(Kentta.year, "1999");
         tiedot.put(Kentta.title, "Otsikko");
         tiedot.put(Kentta.journal, "Paras Lehti");
@@ -111,7 +111,7 @@ public class EngineStubTest extends TestCase {
     public void testPoistaViiteToimii() {
         HashMap<Kentta, String> tiedot = new HashMap();
 
-        tiedot.put(Kentta.author, "etunimi sukunimi");
+        tiedot.put(Kentta.author, "Etunimi Sukunimi");
         tiedot.put(Kentta.year, "1999");
         tiedot.put(Kentta.title, "Otsikko");
         tiedot.put(Kentta.journal, "Paras Lehti");
@@ -128,7 +128,7 @@ public class EngineStubTest extends TestCase {
     public void testPoistaViiteEiPoistaMitaanKunIndeksiaEiOle() {
         HashMap<Kentta, String> tiedot = new HashMap();
 
-        tiedot.put(Kentta.author, "etunimi sukunimi");
+        tiedot.put(Kentta.author, "Etunimi Sukunimi");
         tiedot.put(Kentta.year, "1999");
         tiedot.put(Kentta.title, "Otsikko");
         tiedot.put(Kentta.journal, "Paras Lehti");

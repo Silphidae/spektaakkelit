@@ -36,6 +36,24 @@ scenario "kayttaja saa generoitua bibtex-tiedoston", {
         }
         bt.generoiTiedosto("tiedosto.bib").shouldNotBe null
     }
+
+scenario "tiedosto ei muodostu ilman nimea", {
+    given 'viitteet on lisatty', {
+        db = new MockDatabase()
+        engine = new EngineStub(db)
+        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"Joku Nimi", (Kentta.journal):"Lehti",(Kentta.year):"1999", (Kentta.title):"Artikkelinimi"])
+    }
+
+    when 'bibtex-tiedosto halutaan luoda', {
+        bt = new Bibtex(engine)
+    }
+
+    then 'palautuu virheilmoitus', {
+        ensureThrows(FileNotFoundException) {
+	bt.generoiTiedosto("")
+        }
+        bt.generoiTiedosto("").shouldBe null
+    }
 }
 
 

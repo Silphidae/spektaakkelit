@@ -19,7 +19,7 @@ public class Syotetarkastaja {
                 virheet.add("Citation key sisältää merkin jota ei sallita.");
                 return false;
             }
-        }
+        }        
         return true;
     }
 
@@ -100,6 +100,11 @@ public class Syotetarkastaja {
 
     public boolean tarkastaAuthor(String syote) {
         //TODO Kirjoittaja annettu Bibtex-muodossa.
+        if (syote.equals(syote.toLowerCase())){
+            virheet.add("Kirjoittajan nimessä tulee olla isoja kirjaimia");
+            return false;
+        }
+        
         if (syote.isEmpty()) {
             virheet.add("Kirjoittajan nimi ei saa olla tyhjä");
             return false;

@@ -115,7 +115,7 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v2 = luoTestiInProceedings("Joku T\\inen", "1567");
         assertEquals("T67", v2.getViiteavain());
         
-        Viite v3 = luoTestiBook("Joku N mi", null, "2000");
+        Viite v3 = luoTestiBook("Joku N@mi", null, "2000");
         assertEquals("N00", v3.getViiteavain());
         
         Viite v4 = luoTestiArticle("Joku T\"{o}inen", "1567");
@@ -124,10 +124,10 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v5 = luoTestiArticle("J,ku Nimi", "1567");
         assertEquals("N67", v5.getViiteavain());
         
-        Viite v6 = luoTestiArticle("J\\ku Nimi", "1567");
+        Viite v6 = luoTestiArticle("J\\ku Nim i", "1567");
         assertEquals("N67", v6.getViiteavain());
         
-        Viite v7 = luoTestiArticle("Joku N# mi", "1567");
+        Viite v7 = luoTestiArticle("Joku N#mi", "1567");
         assertEquals("N67", v7.getViiteavain());
     }    
     
