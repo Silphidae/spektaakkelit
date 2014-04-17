@@ -39,7 +39,7 @@ public class ArticleTest extends TestCase {
         artikkeli.lisaaKentta(Kentta.author, "Antti Akateeminen");
         artikkeli.lisaaKentta(Kentta.journal, "Advances in the theory of Banjos");
         artikkeli.lisaaKentta(Kentta.year, "2013");
-        assertEquals(artikkeli.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
+        assertEquals(artikkeli.toString(), null + ": Antti Akateeminen, Viimeiset banjonsoittajat,"
                 + " Advances in the theory of Banjos, 2013");
     }
     

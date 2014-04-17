@@ -23,7 +23,7 @@ public abstract class Viite {
     protected Syotetarkastaja tarkastaja;
     int pkey;
 
-    public void lisaaViiteavain(String viiteavain) {
+    public void lisaaCitationKey(String viiteavain) {
         if (tarkastaja.tarkastaCitationKey(viiteavain)) {
             this.citationKey = viiteavain;
         }

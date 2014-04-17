@@ -1,22 +1,21 @@
 import Database.*
 import domain.*
 import Engine.*
+import static org.mockito.Mockito.*;
 
 description 'kayttaja voi poistaa viitteen ohjelmasta' 
 
 scenario "kayttaja voi poistaa haluamansa viitteen", {
     given 'viitteet listattu', {
-        db = new MockDatabase()
+        db = mock(Database.class)
         engine = new EngineStub(db)
-        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"fafadsdfsa", (Kentta.journal):"fasdfdsa",(Kentta.year):"1999", (Kentta.title):"fdafdsa"])
-        engine.listaaKaikkiViitteet()
     } 
 
     when 'poistettava viite valittu', {
-        db.removeEntry(0)
+        db.removeEntry(anyString())
     }
 
     then 'viite on poistettu ohjelmasta', {
-        engine.listaaKaikkiViitteet().length.shouldBeEqual 0
+        verify(db).removeEntry(anyString())
     }
 }

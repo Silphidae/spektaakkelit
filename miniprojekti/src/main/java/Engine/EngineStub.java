@@ -40,7 +40,7 @@ public class EngineStub implements IEngine {
         lisattava.lisaaKentat(arvot);
             
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
-            if (lisattava.getCitationKey()==null) lisattava.lisaaViiteavain(ag.luoAvain(lisattava));
+            if (lisattava.getCitationKey()==null) lisattava.lisaaCitationKey(ag.luoAvain(lisattava));
             
             try {
                 db.insertEntry(lisattava);

@@ -14,10 +14,10 @@ public class Bibtex {
     }
 
     private String muunnaAakkoset(String sana) {
-        sana = sana.replace("ä", "\\\"{a}");
-        sana = sana.replace("ö", "\\\"{o}");
-        sana = sana.replace("Ä", "\\\"{A}");
-        sana = sana.replace("Ö", "\\\"{O}");
+        sana = sana.replace("ä", "{\"a}");
+        sana = sana.replace("ö", "{\"o}");
+        sana = sana.replace("Ä", "{\"A}");
+        sana = sana.replace("Ö", "{\"O}");
         return sana;
     }
 
@@ -34,17 +34,20 @@ public class Bibtex {
     }
 
     public File generoiTiedosto(String tiedostonNimi) throws FileNotFoundException {
-        File bibtexTiedosto = new File(tiedostonNimi);
-        try (PrintWriter tiedosto = new PrintWriter(bibtexTiedosto)) {
-            for (Viite viite : moottori.getViitteet()) {
-                tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getCitationKey() + ",");
-                for (Kentta kentta : viite.kaytossaOlevatKentat()) {
-                    tiedosto.println(kentta.name() + " = {" + muunnaAakkoset(viite.getKentanSisalto(kentta)) + "},");
+        if (!tiedostonNimi.isEmpty()) {
+            File bibtexTiedosto = new File(tiedostonNimi);
+            try (PrintWriter tiedosto = new PrintWriter(bibtexTiedosto)) {
+                for (Viite viite : moottori.getViitteet()) {
+                    tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getCitationKey() + ",");
+                    for (Kentta kentta : viite.kaytossaOlevatKentat()) {
+                        tiedosto.println(kentta.name() + " = {" + muunnaAakkoset(viite.getKentanSisalto(kentta)) + "},");
+                    }
+                    tiedosto.println("}\n");
                 }
-                tiedosto.println("}\n");
+                tiedosto.close();
             }
-            tiedosto.close();
+            return bibtexTiedosto;
         }
-        return bibtexTiedosto;
+        return null;
     }
 }

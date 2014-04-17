@@ -5,17 +5,18 @@
 package Engine;
 
 import Database.Database;
-import Database.MockDatabase;
-import Engine.EngineStub;
-import Engine.IEngine;
 import domain.Kentta;
+import domain.Viite;
 import domain.Viitetyyppi;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Set;
+import javax.naming.NamingException;
 import junit.framework.TestCase;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -24,7 +25,7 @@ import junit.framework.TestCase;
 public class EngineStubTest extends TestCase {
 
     private IEngine engine;
-    private Database db = new MockDatabase();
+    private Database db;
 
     public EngineStubTest(String testName) {
         super(testName);
@@ -33,6 +34,7 @@ public class EngineStubTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        db = mock(Database.class);
         engine = new EngineStub(db);
     }
 
@@ -43,46 +45,34 @@ public class EngineStubTest extends TestCase {
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
 
-    public void testViitteenLisaysOnnistuu() {
+    public void testViitteenLisaysOnnistuu() throws NamingException, SQLException {
         HashMap<Kentta, String> article = new HashMap();
         article.put(Kentta.author, "Etunimi Sukunimi");
         article.put(Kentta.year, "1999");
         article.put(Kentta.title, "Otsikko");
         article.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, article);
+        verify(db, times(1)).insertEntry(any(Viite.class));
 
         HashMap<Kentta, String> book = article;
         book.put(Kentta.publisher, "Quiui");
         book.remove(Kentta.journal);
         engine.lisaaViite(Viitetyyppi.book, book);
+        verify(db, times(2)).insertEntry(any(Viite.class));
 
         HashMap<Kentta, String> inproceedings = article;
         inproceedings.put(Kentta.booktitle, "Top Secret");
         engine.lisaaViite(Viitetyyppi.inproceedings, inproceedings);
+        verify(db, times(3)).insertEntry(any(Viite.class));
         
-        engine.lisaaViite(null, null);
+        assertNull(engine.lisaaViite(null, null));
         
-        assertEquals(3, db.getSize());
 
     }
 
     public void testViitteidenListausOnnistuu() {
-        HashMap<Kentta, String> tiedot = new HashMap();
-
-        tiedot.put(Kentta.author, "Etunimi Sukunimi");
-        tiedot.put(Kentta.year, "1999");
-        tiedot.put(Kentta.title, "Otsikko");
-        tiedot.put(Kentta.journal, "Paras Lehti");
-        engine.lisaaViite(Viitetyyppi.article, tiedot);
-
-        //booktitle on pakollinen kenttä inproceedingissä
-        tiedot.put(Kentta.booktitle, "Parasta ikinä");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        tiedot.put(Kentta.organization, "Laitos");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        assertEquals(3, engine.listaaKaikkiViitteet().length);
+        engine.listaaKaikkiViitteet();
+        verify(db).getAllEntries();
     }
 
     public void testLisaaViitePalauttaaNullKunViiteVirheeton() {
@@ -109,38 +99,8 @@ public class EngineStubTest extends TestCase {
     }
 
     public void testPoistaViiteToimii() {
-        HashMap<Kentta, String> tiedot = new HashMap();
-
-        tiedot.put(Kentta.author, "Etunimi Sukunimi");
-        tiedot.put(Kentta.year, "1999");
-        tiedot.put(Kentta.title, "Otsikko");
-        tiedot.put(Kentta.journal, "Paras Lehti");
-        engine.lisaaViite(Viitetyyppi.article, tiedot);
-
-        tiedot.put(Kentta.booktitle, "Mahtavaa");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        engine.poistaViite(1);
-
-        assertEquals(1, db.getSize());
-    }
-
-    public void testPoistaViiteEiPoistaMitaanKunIndeksiaEiOle() {
-        HashMap<Kentta, String> tiedot = new HashMap();
-
-        tiedot.put(Kentta.author, "Etunimi Sukunimi");
-        tiedot.put(Kentta.year, "1999");
-        tiedot.put(Kentta.title, "Otsikko");
-        tiedot.put(Kentta.journal, "Paras Lehti");
-        engine.lisaaViite(Viitetyyppi.article, tiedot);
-
-        tiedot.put(Kentta.booktitle, "Muhahaha");
-        engine.lisaaViite(Viitetyyppi.inproceedings, tiedot);
-
-        engine.poistaViite(-1);
-        engine.poistaViite(2);
-
-        assertEquals(2, engine.listaaKaikkiViitteet().length);
+        engine.poistaViite("HaTu2013");
+        verify(db).removeEntry("HaTu2013");
     }
 
     public void testPalautetaanViitetyypit() {

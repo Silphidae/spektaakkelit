@@ -1,29 +1,15 @@
 import Database.*
 import domain.*
 import Engine.*
+import static org.mockito.Mockito.*;
 
 description 'kayttaja pystyy luomaan bibtex-tiedoston'
 
-scenario "kayttajan lisaamat viitteet muuttuvat bibtex-muotoon", {
-    given 'viitteita on lisatty', {
-        db = new MockDatabase()
-        engine = new EngineStub(db)
-    }
-
-    when 'bibtex-tedosto halutaan luoda', {
-        bt = new Bibtex(engine)
-    }
-
-    then 'viitteet muuttuvat bibtex-muotoisiksi', {
-        bt.muunnaAakkoset("ÄÖäö").shouldEqual("\\\"{A}\\\"{O}\\\"{a}\\\"{o}")
-    }
-}
-
 scenario "kayttaja saa generoitua bibtex-tiedoston", {
     given 'viitteet on lisatty', {
-        db = new MockDatabase()
+        db = mock(Database.class)
         engine = new EngineStub(db)
-        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"Joku Nimi", (Kentta.journal):"Lehti",(Kentta.year):"1999", (Kentta.title):"Artikkelinimi"])
+        when(engine.getViitteet()).thenReturn(new ArrayList<Viite>());
     }
 
     when 'bibtex-tiedosto halutaan luoda', {
@@ -36,12 +22,13 @@ scenario "kayttaja saa generoitua bibtex-tiedoston", {
         }
         bt.generoiTiedosto("tiedosto.bib").shouldNotBe null
     }
+}
 
 scenario "tiedosto ei muodostu ilman nimea", {
     given 'viitteet on lisatty', {
-        db = new MockDatabase()
+        db = mock(Database.class)
         engine = new EngineStub(db)
-        engine.lisaaViite(Viitetyyppi.article, [(Kentta.author):"Joku Nimi", (Kentta.journal):"Lehti",(Kentta.year):"1999", (Kentta.title):"Artikkelinimi"])
+        when(engine.getViitteet()).thenReturn(new ArrayList<Viite>());
     }
 
     when 'bibtex-tiedosto halutaan luoda', {
@@ -49,11 +36,6 @@ scenario "tiedosto ei muodostu ilman nimea", {
     }
 
     then 'palautuu virheilmoitus', {
-        ensureThrows(FileNotFoundException) {
-	bt.generoiTiedosto("")
-        }
         bt.generoiTiedosto("").shouldBe null
     }
 }
-
-

@@ -29,7 +29,7 @@ public class BookTest extends TestCase {
         kirja.lisaaKentta(Kentta.author, "Antti Akateeminen");
         kirja.lisaaKentta(Kentta.publisher, "Pieni kirjakustantamo");
         kirja.lisaaKentta(Kentta.year, "2013");
-        assertEquals(kirja.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
+        assertEquals(kirja.toString(), null + ": Antti Akateeminen, Viimeiset banjonsoittajat,"
                 + " Pieni kirjakustantamo, 2013");
     }
     
@@ -38,7 +38,7 @@ public class BookTest extends TestCase {
         kirja.lisaaKentta(Kentta.editor, "Antti Akateeminen");
         kirja.lisaaKentta(Kentta.publisher, "Pieni kirjakustantamo");
         kirja.lisaaKentta(Kentta.year, "2013");
-        assertEquals(kirja.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
+        assertEquals(kirja.toString(), null + ": Antti Akateeminen, Viimeiset banjonsoittajat,"
                 + " Pieni kirjakustantamo, 2013");
     }
     

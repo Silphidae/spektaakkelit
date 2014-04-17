@@ -27,7 +27,7 @@ public class InProceedingsTest extends TestCase {
         konf.lisaaKentta(Kentta.author, "Antti Akateeminen");
         konf.lisaaKentta(Kentta.booktitle, "17th annual banjo conference");
         konf.lisaaKentta(Kentta.year, "2013");
-        assertEquals(konf.toString(), "Antti Akateeminen, Viimeiset banjonsoittajat,"
+        assertEquals(konf.toString(), null + ": Antti Akateeminen, Viimeiset banjonsoittajat,"
                 + " 17th annual banjo conference, 2013");
     }
     

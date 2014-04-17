@@ -98,7 +98,7 @@ public class TheRealDBImplementation implements Database {
                 }
 
                 lisattava.lisaaKentat(arvot);
-                lisattava.lisaaViiteavain(tulokset.getString("ckey"));
+                lisattava.lisaaCitationKey(tulokset.getString("ckey"));
 
                 viitteet.add(lisattava);
             }

@@ -2,14 +2,17 @@
 package Avaingenerointi;
 
 import Database.Database;
-import Database.MockDatabase;
 import Syotetarkistus.Syotetarkastaja;
 import domain.Article;
 import domain.Book;
 import domain.InProceedings;
 import domain.Kentta;
 import domain.Viite;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.naming.NamingException;
 import junit.framework.TestCase;
+import static org.mockito.Mockito.*;
 
 public class AvaingeneraattoriTest extends TestCase{
     
@@ -20,7 +23,7 @@ public class AvaingeneraattoriTest extends TestCase{
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        db = new MockDatabase();
+        db = mock(Database.class);
         tarkastaja = new Syotetarkastaja();
         generaattori = new Avaingeneraattori(db);
     }
@@ -47,41 +50,36 @@ public class AvaingeneraattoriTest extends TestCase{
         assertEquals("NNN", lyhenne);
     }
     
-    public void testUseitaSamojaArticle() {
+    public void testUseitaSamojaArticle() throws NamingException, SQLException {
         Viite v = luoTestiArticle("Etunimi Sukunimi", "1999");
-        db.insertEntry(v);
+        ArrayList<Viite> viitteet = new ArrayList<>();
+        viitteet.add(v);
+        when(db.getAllEntries()).thenReturn(viitteet);
+        
         Viite v2 = luoTestiArticle("Etunimi Sukunimi", "1999");
-        db.insertEntry(v2);
-        Viite v3 = luoTestiArticle("Etunimi Sukunimi", "1999");
-        db.insertEntry(v3);
         
         assertEquals("S99-1", v2.getCitationKey());
-        assertEquals("S99-2", v3.getCitationKey());
     }
     
-    public void testUseitaSamojaBook() {
+    public void testUseitaSamojaBook() throws NamingException, SQLException {
         Viite v = luoTestiBook("Etunimi Sukunimi", null, "1999");
-        db.insertEntry(v);
-        Viite v2 = luoTestiBook("Etunimi Sukunimi", "Toinen Nimi", "1999");
-        db.insertEntry(v2);
-        Viite v3 = luoTestiBook(null, "Etunimi Sukunimi", "1999");
-        db.insertEntry(v3);
+        ArrayList<Viite> viitteet = new ArrayList<>();
+        viitteet.add(v);
+        when(db.getAllEntries()).thenReturn(viitteet);
         
+        Viite v2 = luoTestiBook("Etunimi Sukunimi", "Toinen Nimi", "1999");
         assertEquals("S99-1", v2.getCitationKey());
-        assertEquals("S99-2", v3.getCitationKey());
     }
     
-    public void testUseitaSamojaInProceedings() {
+    public void testUseitaSamojaInProceedings() throws NamingException, SQLException {
         Viite v = luoTestiInProceedings("Etunimi Sukunimi", "1999");
-        db.insertEntry(v);
+        ArrayList<Viite> viitteet = new ArrayList<>();
+        viitteet.add(v);
+        when(db.getAllEntries()).thenReturn(viitteet);
         Viite v2 = luoTestiInProceedings("Sukunimi, Etunimi", "1999");
-        db.insertEntry(v2);
-        Viite v3 = luoTestiInProceedings("Etunimi Sukunimi", "1999");
-        db.insertEntry(v3);
         
         assertEquals("S99", v.getCitationKey());
         assertEquals("S99-1", v2.getCitationKey());
-        assertEquals("S99-2", v3.getCitationKey());
     }
     
     public void testPalautuuOdotettuAvainArticle() {
@@ -135,7 +133,7 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v = new Article(tarkastaja);
         v.lisaaKentta(Kentta.author, nimi);
         v.lisaaKentta(Kentta.year, vuosi);
-        v.lisaaViiteavain(generaattori.luoAvain(v));
+        v.lisaaCitationKey(generaattori.luoAvain(v));
         return v;
     }    
     
@@ -144,7 +142,7 @@ public class AvaingeneraattoriTest extends TestCase{
         if (editor!=null) v.lisaaKentta(Kentta.editor, editor);
         if (author!=null) v.lisaaKentta(Kentta.author, author);
         v.lisaaKentta(Kentta.year, vuosi);
-        v.lisaaViiteavain(generaattori.luoAvain(v));
+        v.lisaaCitationKey(generaattori.luoAvain(v));
         return v;
     } 
     
@@ -152,7 +150,7 @@ public class AvaingeneraattoriTest extends TestCase{
         Viite v = new InProceedings(tarkastaja);
         v.lisaaKentta(Kentta.author, nimi);
         v.lisaaKentta(Kentta.year, vuosi);
-        v.lisaaViiteavain(generaattori.luoAvain(v));
+        v.lisaaCitationKey(generaattori.luoAvain(v));
         return v;
     }
 }
