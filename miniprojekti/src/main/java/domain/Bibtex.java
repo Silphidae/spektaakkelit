@@ -14,10 +14,10 @@ public class Bibtex {
     }
 
     private String muunnaAakkoset(String sana) {
-        sana = sana.replace("ä", "{\"a}");
-        sana = sana.replace("ö", "{\"o}");
-        sana = sana.replace("Ä", "{\"A}");
-        sana = sana.replace("Ö", "{\"O}");
+        sana = sana.replace("ä", "\\\"{a}");
+        sana = sana.replace("ö", "\\\"{o}");
+        sana = sana.replace("Ä", "\\\"{A}");
+        sana = sana.replace("Ö", "\\\"{O}");
         return sana;
     }
 
