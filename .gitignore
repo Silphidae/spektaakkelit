@@ -4,3 +4,4 @@
 /miniprojekti_maven/target/
 /miniprojekti/target/
 /miniprojekti/tietokanta.txt
+*.bib
