@@ -5,6 +5,7 @@ import Database.Database;
 import Syotetarkistus.Syotetarkastaja;
 import domain.*;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,7 +45,11 @@ public class EngineStub implements IEngine {
             
             try {
                 db.insertEntry(lisattava);
-            } catch (Exception e) { }
+            } catch (Exception e) { 
+                if (true) {
+                    String asd = "asd";
+                }
+            }
                 
             return null;
         }
@@ -108,5 +113,20 @@ public class EngineStub implements IEngine {
     @Override
     public ArrayList<Viite> getViitteet() {
         return db.getAllEntries();
+    }
+
+    @Override
+    public EnumMap<Kentta, String> getKentat(String ckey) {
+        Viite viite = db.getEntry(ckey);
+        if (viite == null) return null;
+        
+        Set<Kentta> kentat = viite.kaytossaOlevatKentat();
+        EnumMap<Kentta, String> viitteenKentat = new EnumMap<Kentta, String>(Kentta.class);
+        
+        for (Kentta kentta : kentat) {
+            viitteenKentat.put(kentta, viite.getKentanSisalto(kentta));
+        }
+        
+        return viitteenKentat;
     }
 }

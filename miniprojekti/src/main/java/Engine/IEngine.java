@@ -4,6 +4,7 @@ import domain.Kentta;
 import domain.Viite;
 import domain.Viitetyyppi;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,4 +24,6 @@ public interface IEngine {
     public Set<Kentta> getPakollisetKentat(Viitetyyppi tyyppi);
 
     public Set<Kentta> getEiPakollisetKentat(Viitetyyppi tyyppi);
+    
+    public EnumMap<Kentta, String> getKentat(String ckey);
 }

@@ -13,5 +13,6 @@ public interface Database {
     public void insertEntry(Viite viite) throws NamingException, SQLException;
     public void removeEntry(String ckey);
     public ArrayList<Viite> getAllEntries();
+    public Viite getEntry(String ckey);
     
 }

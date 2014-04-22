@@ -99,6 +99,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         muokkaa.setText("Muokkaa");
+        muokkaa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                muokkaaActionPerformed(evt);
+            }
+        });
 
         bibtex.setText("Luo BibTeX-tiedosto");
         bibtex.addActionListener(new java.awt.event.ActionListener() {
@@ -232,8 +237,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (valinta == JOptionPane.YES_OPTION) {
             for (Object viite : viitelista.getSelectedValuesList()) {
                 //Splitataan citation key taulukon ekaksi alkioksi
-                String[] viiteSplit = viite.toString().split(":");
-                engine.poistaViite(viiteSplit[0]);
+                engine.poistaViite(parseCitationKey(viite));
             }
         }
 
@@ -247,108 +251,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void viitetyypitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viitetyypitActionPerformed
 
-        lomake.removeAll();
-        lomake.setLayout(new GridBagLayout());
-
         Viitetyyppi viitetyyppi = (Viitetyyppi) viitetyypit.getSelectedItem();
 
         Set<Kentta> pakollisetKentat = engine.getPakollisetKentat(viitetyyppi);
         Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
-
-        //luodaan alkuun pakolliset kentät tähden kera
-        lisaaLomakkeeseen(pakollisetKentat, true);
-
-        lisaaLomakkeeseen(muutKentat, false);
-        //paivitetaan lomake-paneeli ja skrollaus
-        lomake.validate();
-        lomake.repaint();
-
-        lomakeScroll.validate();
+        
+        NakymaBuilder.teeNakymaLomakkeelle(lomake, pakollisetKentat, muutKentat, Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString()), x, y, lomakeScroll);
 
     }//GEN-LAST:event_viitetyypitActionPerformed
 
-    private void lisaaLomakkeeseen(Set<Kentta> kentat, boolean pakollinen) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(4, 4, 4, 4);
-
-        //Kirjalla täytyy olla joko kirjoittaja tai editori, joten  käydään tämä erikoistapaus
-        //läpi ensiksi
-        Viitetyyppi tyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
-
-        if (tyyppi == Viitetyyppi.book && pakollinen) {
-            JComboBox valinta = new JComboBox(new Kentta[]{Kentta.author, Kentta.editor});
-            valinta.setName("kirja");
-            gbc.anchor = GridBagConstraints.SOUTHEAST;
-            lomake.add(valinta, gbc);
-
-            x++;
-            gbc.gridx = x;
-
-            JTextArea tekstikentta = new JTextArea(1, 20);
-            tekstikentta.setLineWrap(true);
-            tekstikentta.setWrapStyleWord(true);
-            tekstikentta.setMargin(new Insets(2, 2, 2, 2));
-            //asetetaan tekstikentälle sama nimi kuin comboboxilla jotta ne voidaan tunnistaa myöhemmin
-            tekstikentta.setName(valinta.getName());
-            tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
-            lomake.add(tekstikentta, gbc);
-
-            x++;
-            gbc.gridx = x;
-
-            lomake.add(new JLabel("*"), gbc);
-
-            y++;
-            x = 0;
-
-            //lisätään seuraavaksi muut kentät silmukassa joten poistetaan ensin nämä, etteivät tule kahdesti
-            kentat.remove(Kentta.author);
-            kentat.remove(Kentta.editor);
-        }
-
-        for (Kentta kentta : kentat) {
-            gbc.gridx = x;
-            gbc.gridy = y;
-
-            //kenttien nimet tulevat tekstialueiden viereen
-            gbc.anchor = GridBagConstraints.NORTHEAST;
-
-            String nimi = kentta.toString();
-            lomake.add(new JLabel(nimi), gbc);
-
-            x++;
-
-            JTextArea tekstikentta = new JTextArea(1, 20);
-            tekstikentta.setLineWrap(true);
-            tekstikentta.setWrapStyleWord(true);
-            tekstikentta.setMargin(new Insets(2, 2, 2, 2));
-            tekstikentta.setName(nimi);
-
-            if (kentta == Kentta.pages) {
-                tekstikentta.setToolTipText("Anna sivut muodossa: 21, 21-40 tai 21+");
-            }
-
-            if (kentta == Kentta.author || kentta == Kentta.editor) {
-                tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
-            }
-
-            gbc.gridx = x;
-            lomake.add(tekstikentta, gbc);
-
-            if (pakollinen) {
-                x++;
-                gbc.gridx = x;
-
-                lomake.add(new JLabel("*"), gbc);
-            }
-
-            y++;
-            x = 0;
-        }
-
-        //tooltip-viesti näytetään heti, kun osoitin tekstikentän päällä
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-    }
 
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
         Map<Kentta, String> lomakkeenSisalto = haeLomakkeenTiedot();
@@ -382,6 +293,24 @@ public class MainWindow extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_bibtexActionPerformed
+
+    private void muokkaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_muokkaaActionPerformed
+        int valitutViitteet = viitelista.getSelectedValuesList().size();
+
+        if (valitutViitteet == 0) {
+            JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
+        } else if (valitutViitteet > 1) {
+            JOptionPane.showMessageDialog(this, "Valitse vain yksi muokattava viite.");
+        } else {
+            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
+        }
+    }//GEN-LAST:event_muokkaaActionPerformed
+
+    private String parseCitationKey(Object viite) {
+        //Splitataan citation key taulukon ekaksi alkioksi
+        String[] viiteSplit = viite.toString().split(":");
+        return viiteSplit[0];
+    }
 
     public EnumMap<Kentta, String> haeLomakkeenTiedot() {
         EnumMap<Kentta, String> lomakkeenSisalto = new EnumMap(Kentta.class);
@@ -420,10 +349,10 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         }
-            System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
-            return lomakkeenSisalto;
+        System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
+        return lomakkeenSisalto;
     }
-    
+
     private void tyhjennaKentat() {
         Component[] komponentit = lomake.getComponents();
 

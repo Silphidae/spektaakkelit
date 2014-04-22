@@ -16,13 +16,13 @@ import java.util.EnumMap;
 import javax.naming.NamingException;
 
 public class TheRealDBImplementation implements Database {
-    
+
     @Override
     public void insertEntry(Viite viite) throws NamingException, SQLException {
-        String sql = "INSERT INTO viitteet(key, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO viitteet(ckey, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         Connection yhteys = TietokantaYhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
-
+        
         kysely.setString(1, viite.getCitationKey());
         kysely.setString(2, viite.getKentanSisalto(author));
         kysely.setString(3, viite.getKentanSisalto(title));
@@ -58,17 +58,28 @@ public class TheRealDBImplementation implements Database {
         } catch (Exception e) {
         }
     }
-    
-    
+
     @Override
     public ArrayList<Viite> getAllEntries() {
+        return getViitteet("SELECT * FROM viitteet;");
+    }
+
+    @Override
+    public Viite getEntry(String ckey) {
+        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = ckey;");
+        
+        if (viitteet == null || viitteet.size() < 1) {
+            return null;
+        }
+        
+        return viitteet.get(0);
+    }
+
+    private ArrayList<Viite> getViitteet(String sqlkysely) {
         try {
             Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
             PreparedStatement kysely;
             ResultSet tulokset;
-
-            //Alustetaan muuttuja jossa on Select-kysely, joka palauttaa lukuarvon:
-            String sqlkysely = "SELECT * FROM viitteet;";
 
             kysely = yhteys.prepareStatement(sqlkysely);
             tulokset = kysely.executeQuery();
@@ -105,23 +116,18 @@ public class TheRealDBImplementation implements Database {
 
             tulokset.close();
             kysely.close();
-            
+
             return viitteet;
         } catch (Exception e) {
             System.out.println("Virhe: " + e.getMessage());
         }
         return null;
     }
-    
+
     public void removeEntry(String ckey) {
-        
-        
+
     }
-    
-    
+
     // edit
-    
     // tägijutut
-    
-    
 }
