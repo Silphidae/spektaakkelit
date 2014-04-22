@@ -262,7 +262,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
-        Map<Kentta, String> lomakkeenSisalto = haeLomakkeenTiedot();
+        Map<Kentta, String> lomakkeenSisalto = NakymaBuilder.haeLomakkeenTiedot(lomake);
         Viitetyyppi lisattavanViitteenTyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
 
         ArrayList<String> virheet = engine.lisaaViite(lisattavanViitteenTyyppi, lomakkeenSisalto);
@@ -302,7 +302,7 @@ public class MainWindow extends javax.swing.JFrame {
         } else if (valitutViitteet > 1) {
             JOptionPane.showMessageDialog(this, "Valitse vain yksi muokattava viite.");
         } else {
-            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine, (Viitetyyppi) viitetyypit.getSelectedItem()).setVisible(rootPaneCheckingEnabled);
+            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
         }
     }//GEN-LAST:event_muokkaaActionPerformed
 
@@ -310,47 +310,6 @@ public class MainWindow extends javax.swing.JFrame {
         //Splitataan citation key taulukon ekaksi alkioksi
         String[] viiteSplit = viite.toString().split(":");
         return viiteSplit[0];
-    }
-
-    public EnumMap<Kentta, String> haeLomakkeenTiedot() {
-        EnumMap<Kentta, String> lomakkeenSisalto = new EnumMap(Kentta.class);
-
-        Component[] komponentit = lomake.getComponents();
-
-        //näihin tallenetaan kirjalomakkeen comoboxissa valittu kenttä ja comboboxin nimi, jotta
-        //voidaan yhdistää ne oikeaan tekstikenttään
-        Kentta valittuKentta = null;
-        String kirjaCombonNimi = "";
-
-        for (Component komponentti : komponentit) {
-            if (komponentti instanceof JComboBox) {
-                //kirjan lomakkeessa on combobox, jossa valittuna editor tai author
-                JComboBox authorEditor = (JComboBox) komponentti;
-                valittuKentta = (Kentta) authorEditor.getSelectedItem();
-                kirjaCombonNimi = authorEditor.getName();
-            }
-
-            if (komponentti instanceof JTextComponent) {
-                Kentta kentta = null;
-                String syote = "";
-
-                JTextComponent tekstikentta = (JTextComponent) komponentti;
-
-                if (tekstikentta.getName().equals(kirjaCombonNimi)) {
-                    kentta = valittuKentta;
-                } else {
-                    kentta = Kentta.valueOf(tekstikentta.getName());
-                }
-
-                syote = tekstikentta.getText();
-
-                if (!syote.isEmpty()) {
-                    lomakkeenSisalto.put(kentta, syote);
-                }
-            }
-        }
-        System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
-        return lomakkeenSisalto;
     }
 
     private void tyhjennaKentat() {

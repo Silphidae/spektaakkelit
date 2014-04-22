@@ -26,4 +26,6 @@ public interface IEngine {
     public Set<Kentta> getEiPakollisetKentat(Viitetyyppi tyyppi);
     
     public EnumMap<Kentta, String> getKentat(String ckey);
+    
+    public Viitetyyppi getViitetyyppi(String ckey);
 }

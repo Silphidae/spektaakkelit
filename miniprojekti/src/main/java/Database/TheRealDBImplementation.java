@@ -66,7 +66,7 @@ public class TheRealDBImplementation implements Database {
 
     @Override
     public Viite getEntry(String ckey) {
-        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = ckey;");
+        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = '" + ckey + "';");
         
         if (viitteet == null || viitteet.size() < 1) {
             return null;

@@ -2,9 +2,11 @@ package GUI;
 
 import domain.Kentta;
 import domain.Viitetyyppi;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.EnumMap;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,17 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ToolTipManager;
+import javax.swing.text.JTextComponent;
 
 public class NakymaBuilder {
-    
+
     private static int x = 0;
     private static int y = 0;
-    
+
     public static void teeNakymaLomakkeelle(JPanel lomake, Set<Kentta> pakollisetKentat, Set<Kentta> muutKentat, Viitetyyppi tyyppi, int xArvo, int yArvo, JScrollPane lomakeScroll) {
-        
+
         x = xArvo;
         y = yArvo;
-        
+
         lomake.removeAll();
         lomake.setLayout(new GridBagLayout());
 
@@ -33,8 +36,10 @@ public class NakymaBuilder {
         //paivitetaan lomake-paneeli ja skrollaus
         lomake.validate();
         lomake.repaint();
-        
-        if (lomakeScroll != null) lomakeScroll.validate();
+
+        if (lomakeScroll != null) {
+            lomakeScroll.validate();
+        }
     }
 
     private static void lisaaLomakkeeseen(Set<Kentta> kentat, boolean pakollinen, Viitetyyppi tyyppi, JPanel lomake) {
@@ -43,7 +48,6 @@ public class NakymaBuilder {
 
         //Kirjalla täytyy olla joko kirjoittaja tai editori, joten  käydään tämä erikoistapaus
         //läpi ensiksi
-
         if (tyyppi == Viitetyyppi.book && pakollinen) {
             JComboBox valinta = new JComboBox(new Kentta[]{Kentta.author, Kentta.editor});
             valinta.setName("kirja");
@@ -117,6 +121,92 @@ public class NakymaBuilder {
 
         //tooltip-viesti näytetään heti, kun osoitin tekstikentän päällä
         ToolTipManager.sharedInstance().setInitialDelay(0);
+    }
+
+    public static EnumMap<Kentta, String> haeLomakkeenTiedot(JPanel lomake) {
+        EnumMap<Kentta, String> lomakkeenSisalto = new EnumMap(Kentta.class);
+
+        Component[] komponentit = lomake.getComponents();
+
+        //näihin tallenetaan kirjalomakkeen comoboxissa valittu kenttä ja comboboxin nimi, jotta
+        //voidaan yhdistää ne oikeaan tekstikenttään
+        Kentta valittuKentta = null;
+        String kirjaCombonNimi = "";
+
+        for (Component komponentti : komponentit) {
+            if (komponentti instanceof JComboBox) {
+                //kirjan lomakkeessa on combobox, jossa valittuna editor tai author
+                JComboBox authorEditor = (JComboBox) komponentti;
+                valittuKentta = (Kentta) authorEditor.getSelectedItem();
+                kirjaCombonNimi = authorEditor.getName();
+            }
+
+            if (komponentti instanceof JTextComponent) {
+                Kentta kentta = null;
+                String syote = "";
+
+                JTextComponent tekstikentta = (JTextComponent) komponentti;
+
+                if (tekstikentta.getName().equals(kirjaCombonNimi)) {
+                    kentta = valittuKentta;
+                } else {
+                    kentta = Kentta.valueOf(tekstikentta.getName());
+                }
+
+                syote = tekstikentta.getText();
+
+                if (!syote.isEmpty()) {
+                    lomakkeenSisalto.put(kentta, syote);
+                }
+            }
+        }
+        System.out.println("haettiin lomakkeesta: " + lomakkeenSisalto);
+        return lomakkeenSisalto;
+    }
+
+    public static void taytaLomakkeenTiedot(JPanel lomake, EnumMap<Kentta, String> kentat) {
+        EnumMap<Kentta, String> lomakkeenSisalto = new EnumMap(Kentta.class);
+
+        Component[] komponentit = lomake.getComponents();
+
+        //näihin tallenetaan kirjalomakkeen comoboxissa valittu kenttä ja comboboxin nimi, jotta
+        //voidaan yhdistää ne oikeaan tekstikenttään
+        Kentta valittuKentta = null;
+        String kirjaCombonNimi = "";
+
+        for (Component komponentti : komponentit) {
+            if (komponentti instanceof JComboBox) {
+                //kirjan lomakkeessa on combobox, jossa valittuna editor tai author
+                JComboBox authorEditor = (JComboBox) komponentti;
+                if (kentat.containsKey(Kentta.editor)) {
+                    authorEditor.setSelectedItem(Kentta.editor);
+                    authorEditor.setName(kentat.get(Kentta.editor));
+                }
+                else {
+                    authorEditor.setSelectedItem(Kentta.author);
+                    authorEditor.setName(kentat.get(Kentta.author));
+                }
+            }
+
+            if (komponentti instanceof JTextComponent) {
+                Kentta kentta = null;
+                String syote = "";
+
+                JTextComponent tekstikentta = (JTextComponent) komponentti;
+
+                if (tekstikentta.getName().equals(kirjaCombonNimi)) {
+                    kentta = valittuKentta;
+                } else {
+                    kentta = Kentta.valueOf(tekstikentta.getName());
+                }
+
+                syote = tekstikentta.getText();
+
+                if (!syote.isEmpty()) {
+                    lomakkeenSisalto.put(kentta, syote);
+                }
+            }
+        }
     }
 
 }

@@ -17,12 +17,14 @@ public class MuokkausWindow extends javax.swing.JFrame {
     /**
      * Creates new form MuokkausWindow
      */
-    public MuokkausWindow(String ckey, IEngine engine, Viitetyyppi viitetyyppi) {
+    public MuokkausWindow(String ckey, IEngine engine) {
         this.engine = engine;
         EnumMap<Kentta, String> kentat = engine.getKentat(ckey);
         initComponents();
         
+        Viitetyyppi viitetyyppi = engine.getViitetyyppi(ckey);
         NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null);
+        //NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
     }
 
     @SuppressWarnings("unchecked")
