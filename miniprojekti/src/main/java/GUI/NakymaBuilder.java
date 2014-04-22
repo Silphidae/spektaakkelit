@@ -180,30 +180,28 @@ public class NakymaBuilder {
                 JComboBox authorEditor = (JComboBox) komponentti;
                 if (kentat.containsKey(Kentta.editor)) {
                     authorEditor.setSelectedItem(Kentta.editor);
-                    authorEditor.setName(kentat.get(Kentta.editor));
-                }
-                else {
+                } else {
                     authorEditor.setSelectedItem(Kentta.author);
-                    authorEditor.setName(kentat.get(Kentta.author));
                 }
             }
 
-            if (komponentti instanceof JTextComponent) {
-                Kentta kentta = null;
-                String syote = "";
-
-                JTextComponent tekstikentta = (JTextComponent) komponentti;
-
-                if (tekstikentta.getName().equals(kirjaCombonNimi)) {
-                    kentta = valittuKentta;
-                } else {
-                    kentta = Kentta.valueOf(tekstikentta.getName());
+            if (komponentti instanceof JTextArea) {
+                String nimi = komponentti.getName();
+                JTextArea tekstikentta = (JTextArea) komponentti;
+                
+                //Kirjan erikoistapaus authorille ja editorille
+                if (nimi.equals("kirja")) {
+                    String authorOrEditor = kentat.get(Kentta.author);
+                    if (authorOrEditor == null) authorOrEditor = kentat.get(Kentta.editor);
+                    
+                    tekstikentta.setText(authorOrEditor);
                 }
-
-                syote = tekstikentta.getText();
-
-                if (!syote.isEmpty()) {
-                    lomakkeenSisalto.put(kentta, syote);
+                else {
+                    //Etsitään tekstikenttää vastaava kenttä
+                    for (Kentta kentta : Kentta.values()) {
+                        if (kentta.toString().equals(nimi) && kentat.containsKey(kentta))
+                            tekstikentta.setText(kentat.get(kentta));
+                    }
                 }
             }
         }

@@ -24,7 +24,7 @@ public class MuokkausWindow extends javax.swing.JFrame {
         
         Viitetyyppi viitetyyppi = engine.getViitetyyppi(ckey);
         NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null);
-        //NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
+        NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
     }
 
     @SuppressWarnings("unchecked")
