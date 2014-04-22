@@ -302,7 +302,7 @@ public class MainWindow extends javax.swing.JFrame {
         } else if (valitutViitteet > 1) {
             JOptionPane.showMessageDialog(this, "Valitse vain yksi muokattava viite.");
         } else {
-            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
+            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine, (Viitetyyppi) viitetyypit.getSelectedItem()).setVisible(rootPaneCheckingEnabled);
         }
     }//GEN-LAST:event_muokkaaActionPerformed
 

@@ -64,9 +64,11 @@ public class Avaingeneraattori {
         int samat = 0;
         ArrayList<Viite> kaikki = db.getAllEntries();
         for (int i=0; i<kaikki.size(); i++){
-            String author = kaikki.get(i).getKentanSisalto(Kentta.author);
+            String authorOrEditor = kaikki.get(i).getKentanSisalto(Kentta.author);
+            if (authorOrEditor == null) authorOrEditor = kaikki.get(i).getKentanSisalto(Kentta.editor);
+            
             String year = kaikki.get(i).getKentanSisalto(Kentta.year);
-            if (nimi.equals(lyhennaNimet(author)) && vuosi.equals(year)){
+            if (nimi.equals(lyhennaNimet(authorOrEditor)) && vuosi.equals(year)){
                 samat++;
             }
         }

@@ -33,8 +33,8 @@ public class NakymaBuilder {
         //paivitetaan lomake-paneeli ja skrollaus
         lomake.validate();
         lomake.repaint();
-
-        lomakeScroll.validate();
+        
+        if (lomakeScroll != null) lomakeScroll.validate();
     }
 
     private static void lisaaLomakkeeseen(Set<Kentta> kentat, boolean pakollinen, Viitetyyppi tyyppi, JPanel lomake) {
