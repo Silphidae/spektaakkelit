@@ -22,7 +22,7 @@ public class TheRealDBImplementation implements Database {
         String sql = "INSERT INTO viitteet(ckey, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         Connection yhteys = TietokantaYhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
-        
+
         kysely.setString(1, viite.getCitationKey());
         kysely.setString(2, viite.getKentanSisalto(author));
         kysely.setString(3, viite.getKentanSisalto(title));
@@ -67,11 +67,11 @@ public class TheRealDBImplementation implements Database {
     @Override
     public Viite getEntry(String ckey) {
         ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = '" + ckey + "';");
-        
+
         if (viitteet == null || viitteet.size() < 1) {
             return null;
         }
-        
+
         return viitteet.get(0);
     }
 
@@ -125,6 +125,16 @@ public class TheRealDBImplementation implements Database {
     }
 
     public void removeEntry(String ckey) {
+        try {
+            Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
+            PreparedStatement kysely;
+            ResultSet tulokset;
+
+            kysely = yhteys.prepareStatement("DELETE FROM viitteet WHERE ckey = '" + ckey + "';");
+            tulokset = kysely.executeQuery();
+        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+        }
 
     }
 
