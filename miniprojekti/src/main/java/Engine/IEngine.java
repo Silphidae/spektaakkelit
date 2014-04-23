@@ -34,4 +34,6 @@ public interface IEngine {
     public void addTagi(String ckey, String tagi);
     
     public ArrayList<String> getTagsByViite(String ckey);
+    
+    public void removeTagi(String ckey, String tagi);
 }

@@ -168,7 +168,7 @@ public class MuokkausWindow extends javax.swing.JFrame {
         
         if (valinta == JOptionPane.YES_OPTION) {
             for (String tagi : tagit) {
-                // engine.poistaTagi(ckey, tagi);
+                engine.removeTagi(ckey, tagi);
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed

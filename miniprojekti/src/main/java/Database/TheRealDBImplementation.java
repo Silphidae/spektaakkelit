@@ -169,6 +169,10 @@ public class TheRealDBImplementation implements Database {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Override
+    public void removeTagFromViite(String ckey, String tag){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     
 }

@@ -23,4 +23,6 @@ public interface Database {
     public ArrayList<Viite> listByTag(String tag);
     
     public ArrayList<String> getTagsByViite(String ckey);
+    
+    public void removeTagFromViite(String ckey, String tag);
 }

@@ -163,4 +163,9 @@ public class EngineStub implements IEngine {
     public ArrayList<String> getTagsByViite(String ckey) {
         return db.getTagsByViite(ckey);
     }
+    
+    @Override
+    public void removeTagi(String ckey, String tagi) {
+        db.removeTagFromViite(ckey, tagi);        
+    }
 }
