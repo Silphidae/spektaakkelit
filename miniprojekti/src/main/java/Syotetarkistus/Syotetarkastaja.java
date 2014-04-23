@@ -4,7 +4,6 @@ import domain.Kentta;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Syotetarkastaja {
 
