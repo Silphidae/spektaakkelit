@@ -164,22 +164,23 @@ public class TheRealDBImplementation implements Database {
 
     @Override
     public ArrayList<String> getTagsByViite(String ckey) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getTagit(" WHERE tagit.viite = '" + ckey + "'");
     }
 
     @Override
     public void removeTagFromViite(String ckey, String tag) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "DELETE FROM tagit WHERE viite = '" + ckey + "' AND tag = '" + tag + "';";
+        dbConnection(sql);
     }
 
     @Override
-    public ArrayList<String> getTagit() {
+    public ArrayList<String> getTagit(String rajaus) {
         try {
             Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
             PreparedStatement kysely;
             ResultSet tulokset;
 
-            kysely = yhteys.prepareStatement("SELECT DISTINCT tag FROM tagit");
+            kysely = yhteys.prepareStatement("SELECT DISTINCT tag FROM tagit" + rajaus);
             tulokset = kysely.executeQuery();
 
             ArrayList<String> tagit = new ArrayList();
@@ -198,5 +199,4 @@ public class TheRealDBImplementation implements Database {
             return null;
         }
     }
-
 }

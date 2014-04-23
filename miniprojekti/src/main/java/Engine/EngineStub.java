@@ -177,6 +177,6 @@ public class EngineStub implements IEngine {
 
     @Override
     public ArrayList<String> getTagit() {
-        return db.getTagit();
+        return db.getTagit("");
     }
 }
