@@ -114,6 +114,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         lisaaTagi.setText("Lisää tagi");
+        lisaaTagi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lisaaTagiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
@@ -311,6 +316,10 @@ public class MainWindow extends javax.swing.JFrame {
             new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
         }
     }//GEN-LAST:event_muokkaaActionPerformed
+
+    private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
         //Splitataan citation key taulukon ekaksi alkioksi
