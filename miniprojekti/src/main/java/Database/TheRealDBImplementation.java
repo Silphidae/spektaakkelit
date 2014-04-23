@@ -163,6 +163,11 @@ public class TheRealDBImplementation implements Database {
 
         return viitteet;
     }
+
+    @Override
+    public ArrayList<String> getTagsByViite(String ckey) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 
     
