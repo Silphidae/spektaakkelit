@@ -303,7 +303,18 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_muokkaaActionPerformed
 
     private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
-        
+        int valitutViitteet = viitelista.getSelectedValuesList().size();
+
+        if (valitutViitteet == 0) {
+            JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
+        } else {
+            String syote = JOptionPane.showInputDialog(this, "Syötä lisättävä tagi");
+            if (!syote.equals("")){
+                for (Object viite : viitelista.getSelectedValuesList()){
+                    engine.addTagi(parseCitationKey(viite), syote);
+                }
+            }
+        }
     }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
