@@ -114,6 +114,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         lisaaTagi.setText("Lisää tagi");
+        lisaaTagi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lisaaTagiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
@@ -288,7 +293,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_lisaaActionPerformed
 
     private void bibtexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibtexActionPerformed
-        // TODO add your handling code here:
         Bibtex bibtex = new Bibtex(engine);
         String tiedosto = (String) JOptionPane.showInputDialog(this,
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
@@ -311,6 +315,11 @@ public class MainWindow extends javax.swing.JFrame {
             new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
         }
     }//GEN-LAST:event_muokkaaActionPerformed
+
+    private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
+        engine.getTagit();
+        
+    }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
         //Splitataan citation key taulukon ekaksi alkioksi
