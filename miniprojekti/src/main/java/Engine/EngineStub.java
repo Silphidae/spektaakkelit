@@ -145,16 +145,22 @@ public class EngineStub implements IEngine {
 
     @Override
     public ArrayList<Viite> listByTag(String tag) {
-        return db.listByTag();
+        return db.listByTag(tag);
     }
 
     @Override
-    public void addTagi(Viite viite, String tagi) {
-        db.addTag(viite.getCitationKey(), tagi);
+    public void addTagi(String ckey, String tagi) {
+        try {
+            db.addTag(ckey, tagi);
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
-    public ArrayList<String> getTagsByViite(Viite viite) {
-        return db.getViitteenTagit(viite.getCitationKey());
+    public ArrayList<String> getTagsByViite(String ckey) {
+        return db.getTagsByViite(ckey);
     }
 }
