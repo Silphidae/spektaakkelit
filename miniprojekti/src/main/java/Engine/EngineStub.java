@@ -138,14 +138,14 @@ public class EngineStub implements IEngine {
     @Override
     public Viitetyyppi getViitetyyppi(String ckey) {
         Viite viite = db.getEntry(ckey);
-        String tyyppi = viite.getTyyppi();
-
-        for (Viitetyyppi viitetyyppi : Viitetyyppi.values()) {
-            if (viitetyyppi.toString().equals(tyyppi)) {
-                return viitetyyppi;
+        if (viite != null) {
+            String tyyppi = viite.getTyyppi();
+            for (Viitetyyppi viitetyyppi : Viitetyyppi.values()) {
+                if (viitetyyppi.toString().equals(tyyppi)) {
+                    return viitetyyppi;
+                }
             }
         }
-
         return null;
     }
 
