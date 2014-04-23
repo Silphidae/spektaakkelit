@@ -141,4 +141,14 @@ public class EngineStub implements IEngine {
         
         return null;
     }
+
+    @Override
+    public ArrayList<String> getTagit() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void lisaaTagi(String tagi) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
