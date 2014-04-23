@@ -279,7 +279,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_lisaaActionPerformed
 
     private void bibtexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibtexActionPerformed
-        // TODO add your handling code here:
         Bibtex bibtex = new Bibtex(engine);
         String tiedosto = (String) JOptionPane.showInputDialog(this,
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
@@ -304,7 +303,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_muokkaaActionPerformed
 
     private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
-        // TODO add your handling code here:
+        engine.getTagit();
+        
     }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
