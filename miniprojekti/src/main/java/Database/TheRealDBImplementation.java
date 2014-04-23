@@ -124,20 +124,48 @@ public class TheRealDBImplementation implements Database {
         return null;
     }
 
+    
+    @Override
     public void removeEntry(String ckey) {
-        try {
-            Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
-            PreparedStatement kysely;
-            ResultSet tulokset;
-
-            kysely = yhteys.prepareStatement("DELETE FROM viitteet WHERE ckey = '" + ckey + "';");
-            tulokset = kysely.executeQuery();
-        } catch (Exception e) {
-            System.out.println("Virhe: " + e.getMessage());
-        }
+        String sql = "DELETE FROM viitteet WHERE ckey = '" + ckey + "';";
+        dbConnection(sql);
 
     }
 
-    // edit
-    // tägijutut
+    private void dbConnection(String sql) {
+        try {
+            Connection yhteys = TietokantaYhteys.getYhteys();
+            PreparedStatement kysely;
+            ResultSet tulokset;
+
+            kysely = yhteys.prepareStatement(sql);
+            tulokset = kysely.executeQuery();
+            
+            kysely.close();
+            yhteys.close();
+        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void addTag(String ckey, String tag) throws NamingException, SQLException {
+        String sql = "INSERT INTO tagit(tag, viite) VALUES(?, ?);";
+        dbConnection(sql);
+    }
+    
+    
+    @Override
+    public ArrayList<Viite> listByTag(String tag) {
+        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet JOIN tagit ON viitteet.ckey = tagit.viite WHERE tagit.tag = '" + tag + "';");
+
+        if (viitteet == null || viitteet.size() < 1) {
+            return null;
+        }
+
+        return viitteet;
+    }
+    
+
+    
 }
