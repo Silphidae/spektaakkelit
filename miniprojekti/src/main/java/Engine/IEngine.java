@@ -16,7 +16,7 @@ public interface IEngine {
     public String[] listaaKaikkiViitteet();
 
     public ArrayList<Viite> getViitteet();
-    
+
     public void poistaViite(String ckey);
 
     public Viitetyyppi[] getViitetyypit();
@@ -24,16 +24,18 @@ public interface IEngine {
     public Set<Kentta> getPakollisetKentat(Viitetyyppi tyyppi);
 
     public Set<Kentta> getEiPakollisetKentat(Viitetyyppi tyyppi);
-    
+
     public EnumMap<Kentta, String> getKentat(String ckey);
-    
+
     public Viitetyyppi getViitetyyppi(String ckey);
-    
+
     public ArrayList<Viite> listByTag(String tag);
-    
+
     public void addTagi(String ckey, String tagi);
-    
+
     public ArrayList<String> getTagsByViite(String ckey);
-    
+
     public void removeTagi(String ckey, String tagi);
+
+    public ArrayList<String> getTagit();
 }

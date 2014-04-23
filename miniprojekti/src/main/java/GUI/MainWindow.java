@@ -27,6 +27,7 @@ public class MainWindow extends javax.swing.JFrame {
         engine = new Engine.EngineStub(new TheRealDBImplementation());
         initComponents();
         paivitaViitetyypit();
+        paivitaTagit();
 
         x = 0;
         y = 0;
@@ -37,6 +38,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.engine = engine;
         initComponents();
         paivitaViitetyypit();
+        paivitaTagit();
 
         x = 0;
         y = 0;
@@ -60,6 +62,8 @@ public class MainWindow extends javax.swing.JFrame {
         muokkaa = new javax.swing.JButton();
         bibtex = new javax.swing.JButton();
         lisaaTagi = new javax.swing.JButton();
+        haeTagilla = new javax.swing.JLabel();
+        tagit = new javax.swing.JComboBox();
         lisays = new javax.swing.JPanel();
         valitse = new javax.swing.JLabel();
         viitetyypit = new javax.swing.JComboBox();
@@ -106,14 +110,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        haeTagilla.setText("Hae tagilla:");
+
+        tagit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
         listausLayout.setHorizontalGroup(
             listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listausLayout.createSequentialGroup()
-                .addContainerGap(82, Short.MAX_VALUE)
-                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGap(86, 86, 86)
+                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(listausLayout.createSequentialGroup()
                         .addComponent(lisaaTagi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -121,15 +128,29 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(muokkaa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(poista)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addComponent(poista))
+                    .addGroup(listausLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(haeTagilla)
+                            .addComponent(tagit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         listausLayout.setVerticalGroup(
             listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listausLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(listausLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(listausLayout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(haeTagilla)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tagit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(poista)
                     .addComponent(muokkaa)
@@ -177,7 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lisaysLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(onPakollinen)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
                 .addComponent(lisaa)
                 .addGap(59, 59, 59))
         );
@@ -252,7 +273,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         Set<Kentta> pakollisetKentat = engine.getPakollisetKentat(viitetyyppi);
         Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
-        
+
         NakymaBuilder.teeNakymaLomakkeelle(lomake, pakollisetKentat, muutKentat, Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString()), x, y, lomakeScroll, false, null);
 
     }//GEN-LAST:event_viitetyypitActionPerformed
@@ -303,7 +324,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_muokkaaActionPerformed
 
     private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
-        
+
     }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
@@ -340,8 +361,20 @@ public class MainWindow extends javax.swing.JFrame {
         String[] sisalto = engine.listaaKaikkiViitteet();
         viitelista.setListData(sisalto);
     }
+
+    private void paivitaTagit() {
+        tagit.removeAllItems();
+
+        ArrayList<String> haetutTagit = engine.getTagit();
+
+        tagit.setModel(new DefaultComboBoxModel(haetutTagit.toArray()));
+
+        tagit.setSelectedIndex(-1);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bibtex;
+    private javax.swing.JLabel haeTagilla;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
@@ -354,6 +387,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton muokkaa;
     private javax.swing.JLabel onPakollinen;
     private javax.swing.JButton poista;
+    private javax.swing.JComboBox tagit;
     private javax.swing.JLabel valitse;
     private javax.swing.JList viitelista;
     private javax.swing.JComboBox viitetyypit;

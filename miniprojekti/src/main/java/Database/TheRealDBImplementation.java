@@ -124,7 +124,6 @@ public class TheRealDBImplementation implements Database {
         return null;
     }
 
-    
     @Override
     public void removeEntry(String ckey) {
         String sql = "DELETE FROM viitteet WHERE ckey = '" + ckey + "';";
@@ -140,7 +139,7 @@ public class TheRealDBImplementation implements Database {
 
             kysely = yhteys.prepareStatement(sql);
             tulokset = kysely.executeQuery();
-            
+
             kysely.close();
             yhteys.close();
         } catch (Exception e) {
@@ -152,8 +151,7 @@ public class TheRealDBImplementation implements Database {
         String sql = "INSERT INTO tagit(tag, viite) VALUES(?, ?);";
         dbConnection(sql);
     }
-    
-    
+
     public ArrayList<Viite> listByTag(String tag) {
         ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet JOIN tagit ON viitteet.ckey = tagit.viite WHERE tagit.tag = '" + tag + "';");
 
@@ -168,11 +166,37 @@ public class TheRealDBImplementation implements Database {
     public ArrayList<String> getTagsByViite(String ckey) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
-    public void removeTagFromViite(String ckey, String tag){
+    public void removeTagFromViite(String ckey, String tag) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
+    @Override
+    public ArrayList<String> getTagit() {
+        try {
+            Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
+            PreparedStatement kysely;
+            ResultSet tulokset;
+
+            kysely = yhteys.prepareStatement("SELECT DISTINCT tag FROM tagit");
+            tulokset = kysely.executeQuery();
+
+            ArrayList<String> tagit = new ArrayList();
+
+            while (tulokset.next()) {
+                tagit.add(tulokset.getString("tag"));
+            }
+
+            tulokset.close();
+            kysely.close();
+
+            return tagit;
+
+        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+            return null;
+        }
+    }
+
 }

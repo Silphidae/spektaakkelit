@@ -21,8 +21,10 @@ public interface Database {
     public void addTag(String ckey, String tag) throws NamingException, SQLException;
 
     public ArrayList<Viite> listByTag(String tag);
-    
+
     public ArrayList<String> getTagsByViite(String ckey);
-    
+
     public void removeTagFromViite(String ckey, String tag);
+
+    public ArrayList<String> getTagit();
 }
