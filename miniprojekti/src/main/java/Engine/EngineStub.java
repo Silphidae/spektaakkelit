@@ -39,20 +39,22 @@ public class EngineStub implements IEngine {
         } else {
             return null;
         }
-        
+
         lisattava.lisaaKentat(arvot);
-            
+
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
-            if (lisattava.getCitationKey()==null) lisattava.lisaaCitationKey(ag.luoAvain(lisattava));
-            
+            if (lisattava.getCitationKey() == null) {
+                lisattava.lisaaCitationKey(ag.luoAvain(lisattava));
+            }
+
             try {
                 db.insertEntry(lisattava);
-            } catch (SQLException | NamingException e) { 
+            } catch (SQLException | NamingException e) {
                 if (true) {
                     String asd = "asd";
                 }
             }
-                
+
             return null;
         }
         ArrayList<String> virheet = tarkastaja.getVirheet();
@@ -67,10 +69,10 @@ public class EngineStub implements IEngine {
         ArrayList<Viite> sisalto = db.getAllEntries();
 
         String[] viitetaulukko = new String[sisalto.size()];
-            for (int i = 0; i < sisalto.size(); i++) {
-                viitetaulukko[i] = sisalto.get(i).toString();
-            }
-        
+        for (int i = 0; i < sisalto.size(); i++) {
+            viitetaulukko[i] = sisalto.get(i).toString();
+        }
+
         return viitetaulukko;
     }
 
@@ -120,27 +122,31 @@ public class EngineStub implements IEngine {
     @Override
     public EnumMap<Kentta, String> getKentat(String ckey) {
         Viite viite = db.getEntry(ckey);
-        if (viite == null) return null;
-        
+        if (viite == null) {
+            return null;
+        }
+
         Set<Kentta> kentat = viite.kaytossaOlevatKentat();
         EnumMap<Kentta, String> viitteenKentat = new EnumMap<Kentta, String>(Kentta.class);
-        
+
         for (Kentta kentta : kentat) {
             viitteenKentat.put(kentta, viite.getKentanSisalto(kentta));
         }
-        
+
         return viitteenKentat;
     }
 
     @Override
     public Viitetyyppi getViitetyyppi(String ckey) {
         Viite viite = db.getEntry(ckey);
-        String tyyppi = viite.getTyyppi();
-        
-        for (Viitetyyppi viitetyyppi : Viitetyyppi.values()) {
-            if (viitetyyppi.toString().equals(tyyppi)) return viitetyyppi;
+        if (viite != null) {
+            String tyyppi = viite.getTyyppi();
+            for (Viitetyyppi viitetyyppi : Viitetyyppi.values()) {
+                if (viitetyyppi.toString().equals(tyyppi)) {
+                    return viitetyyppi;
+                }
+            }
         }
-        
         return null;
     }
 

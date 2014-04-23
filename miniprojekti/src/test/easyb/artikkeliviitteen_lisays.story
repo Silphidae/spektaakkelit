@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 description 'kayttaja pystyy lisaamaan artikkelityyppisen viitteen'
 
-scenario "kayttajan lisaama viite tallentuu ohjelmaan", {
+scenario "kayttajan lisaama virheeton viite tallentuu ohjelmaan", {
     given 'viitteen lisays valittu', {
         db = mock(Database.class)
         engine = new EngineStub(db)

@@ -4,10 +4,10 @@
  */
 package Engine;
 
+import Avaingenerointi.Avaingeneraattori;
 import Database.Database;
-import domain.Kentta;
-import domain.Viite;
-import domain.Viitetyyppi;
+import Syotetarkistus.Syotetarkastaja;
+import domain.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
  */
 public class EngineStubTest extends TestCase {
 
-    private IEngine engine;
+    private EngineStub engine;
     private Database db;
 
     public EngineStubTest(String testName) {
@@ -52,22 +52,20 @@ public class EngineStubTest extends TestCase {
         article.put(Kentta.title, "Otsikko");
         article.put(Kentta.journal, "Paras Lehti");
         engine.lisaaViite(Viitetyyppi.article, article);
-        verify(db, times(1)).insertEntry(any(Viite.class));
+        verify(db, times(1)).insertEntry(any(Article.class));
 
         HashMap<Kentta, String> book = article;
         book.put(Kentta.publisher, "Quiui");
         book.remove(Kentta.journal);
         engine.lisaaViite(Viitetyyppi.book, book);
-        verify(db, times(2)).insertEntry(any(Viite.class));
+        verify(db, times(2)).insertEntry(any(Book.class));
 
         HashMap<Kentta, String> inproceedings = article;
         inproceedings.put(Kentta.booktitle, "Top Secret");
         engine.lisaaViite(Viitetyyppi.inproceedings, inproceedings);
-        verify(db, times(3)).insertEntry(any(Viite.class));
-        
-        assertNull(engine.lisaaViite(null, null));
-        
+        verify(db, times(3)).insertEntry(any(InProceedings.class));
 
+        assertNull(engine.lisaaViite(null, null));
     }
 
     public void testViitteidenListausOnnistuu() {
@@ -128,7 +126,7 @@ public class EngineStubTest extends TestCase {
 
         assertTrue(haetut.containsAll(pitaisOlla));
         assertTrue(pitaisOlla.containsAll(haetut));
-        
+
         assertNull(engine.getPakollisetKentat(null));
     }
 
@@ -153,7 +151,79 @@ public class EngineStubTest extends TestCase {
 
         assertTrue(haetut.containsAll(pitaisOlla));
         assertTrue(pitaisOlla.containsAll(haetut));
-        
+
         assertNull(engine.getEiPakollisetKentat(null));
     }
+
+    public void testHakeeViitteetTietokannasta() {
+        engine.getViitteet();
+        verify(db).getAllEntries();
+    }
+    
+    public void testHakuPalauttaaListanViitteista() {
+        ArrayList<Viite> viitteet = new ArrayList();
+        when(db.getAllEntries()).thenReturn(viitteet);
+        assertEquals(viitteet, engine.getViitteet());
+    }
+    
+    public void testLuoTietokannastaHaetuistaViitteistaTaulukonOikein() {
+        Viite v = new Article(new Syotetarkastaja());
+        v.lisaaKentta(Kentta.author, "Pekka Pekkarinen");
+        v.lisaaKentta(Kentta.year, "1987");
+        v.lisaaKentta(Kentta.journal, "Lehti");
+        v.lisaaKentta(Kentta.title, "Nimi");
+        v.lisaaCitationKey("ckey");
+        
+        Viite v2 = new Book(new Syotetarkastaja());
+        v2.lisaaKentta(Kentta.author, "Pekka Maurinen");
+        v2.lisaaKentta(Kentta.year, "1956");
+        v2.lisaaKentta(Kentta.publisher, "Julkaisija");
+        v2.lisaaKentta(Kentta.title, "KirjanNimi");
+        v2.lisaaCitationKey("ckey2");
+        
+        ArrayList<Viite> viitteet = new ArrayList();
+        viitteet.add(v);
+        viitteet.add(v2);
+        
+        when(db.getAllEntries()).thenReturn(viitteet);
+        
+        String[] lista = engine.listaaKaikkiViitteet();
+        assertEquals(2, lista.length);
+        assertEquals(lista[0], v.toString());
+        assertEquals(lista[1], v2.toString());
+    }
+
+    public void testHakeeKentatOikein() {
+        Viite v = new Article(new Syotetarkastaja());
+        v.lisaaKentta(Kentta.author, "Pekka Pekkarinen");
+        v.lisaaKentta(Kentta.year, "1987");
+        v.lisaaKentta(Kentta.journal, "Lehti");
+        v.lisaaKentta(Kentta.title, "Nimi");
+        
+        when(db.getEntry("ckey")).thenReturn(v);
+        
+        assertEquals("Pekka Pekkarinen", engine.getKentat("ckey").get(Kentta.author));
+        assertEquals("1987", engine.getKentat("ckey").get(Kentta.year));
+        assertEquals("Lehti", engine.getKentat("ckey").get(Kentta.journal));
+        assertEquals("Nimi", engine.getKentat("ckey").get(Kentta.title));
+        assertEquals(null, engine.getKentat("ckey").get(Kentta.annote));
+    }
+    
+    public void testPalauttaaNullJosViitettaEiLoydy() {
+        when(db.getEntry("ckey")).thenReturn(null);
+        assertNull(engine.getKentat("ckey"));
+    }
+    
+    public void testHakeeViitetyypinOikein() {
+        when(db.getEntry("ckey")).thenReturn(new Article(new Syotetarkastaja()));
+        when(db.getEntry("ckey2")).thenReturn(new Book(new Syotetarkastaja()));
+        when(db.getEntry("ckey3")).thenReturn(new InProceedings(new Syotetarkastaja()));
+        when(db.getEntry("ckey4")).thenReturn(null);
+        assertEquals(Viitetyyppi.article, engine.getViitetyyppi("ckey"));
+        assertEquals(Viitetyyppi.book, engine.getViitetyyppi("ckey2"));
+        assertEquals(Viitetyyppi.inproceedings, engine.getViitetyyppi("ckey3"));
+        assertNull(engine.getViitetyyppi("ckey4"));
+    }
+    
+    
 }
