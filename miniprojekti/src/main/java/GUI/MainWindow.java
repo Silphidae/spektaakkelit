@@ -73,6 +73,7 @@ public class MainWindow extends javax.swing.JFrame {
         poista = new javax.swing.JButton();
         muokkaa = new javax.swing.JButton();
         bibtex = new javax.swing.JButton();
+        lisaaTagi = new javax.swing.JButton();
         lisays = new javax.swing.JPanel();
         valitse = new javax.swing.JLabel();
         viitetyypit = new javax.swing.JComboBox();
@@ -112,32 +113,37 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        lisaaTagi.setText("Lisää tagi");
+
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
         listausLayout.setHorizontalGroup(
             listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listausLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
-                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listausLayout.createSequentialGroup()
+                .addContainerGap(82, Short.MAX_VALUE)
+                .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addGroup(listausLayout.createSequentialGroup()
+                        .addComponent(lisaaTagi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bibtex)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(muokkaa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(poista))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                        .addComponent(poista)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         listausLayout.setVerticalGroup(
             listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listausLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(listausLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(poista)
                     .addComponent(muokkaa)
-                    .addComponent(bibtex))
+                    .addComponent(bibtex)
+                    .addComponent(lisaaTagi))
                 .addContainerGap())
         );
 
@@ -192,7 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(valitse)
                     .addComponent(viitetyypit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lomakeScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addComponent(lomakeScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lisaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lisaa)
@@ -346,6 +352,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JButton lisaa;
+    private javax.swing.JButton lisaaTagi;
     private javax.swing.JPanel lisays;
     private javax.swing.JPanel listaus;
     private javax.swing.JPanel lomake;
