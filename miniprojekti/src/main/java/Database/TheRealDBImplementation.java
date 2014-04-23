@@ -148,7 +148,7 @@ public class TheRealDBImplementation implements Database {
     }
 
     public void addTag(String ckey, String tag) throws NamingException, SQLException {
-        String sql = "INSERT INTO tagit(tag, viite) VALUES(?, ?);";
+        String sql = "INSERT INTO tagit(tag, viite) VALUES('" + tag + "', '" + ckey + "');";
         dbConnection(sql);
     }
 
