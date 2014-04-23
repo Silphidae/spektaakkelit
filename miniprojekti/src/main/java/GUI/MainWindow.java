@@ -253,7 +253,7 @@ public class MainWindow extends javax.swing.JFrame {
         Set<Kentta> pakollisetKentat = engine.getPakollisetKentat(viitetyyppi);
         Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
         
-        NakymaBuilder.teeNakymaLomakkeelle(lomake, pakollisetKentat, muutKentat, Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString()), x, y, lomakeScroll);
+        NakymaBuilder.teeNakymaLomakkeelle(lomake, pakollisetKentat, muutKentat, Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString()), x, y, lomakeScroll, false, null);
 
     }//GEN-LAST:event_viitetyypitActionPerformed
 

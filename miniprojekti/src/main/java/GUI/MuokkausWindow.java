@@ -3,8 +3,11 @@ package GUI;
 import Engine.IEngine;
 import domain.Kentta;
 import domain.Viitetyyppi;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,7 +32,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
         initComponents();
 
         viitetyyppi = engine.getViitetyyppi(ckey);
-        NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null);
+        ArrayList tagit = engine.getTagsByViite(ckey);//kesken!!!
+        NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null, true, tagit);
         NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
     }
 
@@ -40,6 +44,7 @@ public class MuokkausWindow extends javax.swing.JFrame {
         lomake = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +73,13 @@ public class MuokkausWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Poista tagi");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,7 +89,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lomake, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
@@ -91,7 +104,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -132,10 +146,38 @@ public class MuokkausWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //poistaa valitut tagit
+        Component[] komponentit = this.getComponents();
+        ArrayList<String> tagit = new ArrayList<>(); 
+        for (Component komponentti : komponentit){
+            if (komponentti instanceof JList){
+                JList lista = (JList) komponentti;
+                for (Object o : lista.getSelectedValuesList()) {
+                    tagit.add(o.toString());
+                }
+            }
+        }
+        
+        int valinta = 0;
+        if (tagit.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ei valittuja tageja");
+        } else {
+            valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko tagit?");
+        }
+        
+        if (valinta == JOptionPane.YES_OPTION) {
+            for (String tagi : tagit) {
+                // engine.poistaTagi(ckey, tagi);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel lomake;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,10 +6,12 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,7 +23,7 @@ public class NakymaBuilder {
     private static int x = 0;
     private static int y = 0;
 
-    public static void teeNakymaLomakkeelle(JPanel lomake, Set<Kentta> pakollisetKentat, Set<Kentta> muutKentat, Viitetyyppi tyyppi, int xArvo, int yArvo, JScrollPane lomakeScroll) {
+    public static void teeNakymaLomakkeelle(JPanel lomake, Set<Kentta> pakollisetKentat, Set<Kentta> muutKentat, Viitetyyppi tyyppi, int xArvo, int yArvo, JScrollPane lomakeScroll, boolean muokkaus, ArrayList<String> tagit) {
 
         x = xArvo;
         y = yArvo;
@@ -33,6 +35,8 @@ public class NakymaBuilder {
         lisaaLomakkeeseen(pakollisetKentat, true, tyyppi, lomake);
 
         lisaaLomakkeeseen(muutKentat, false, tyyppi, lomake);
+        
+        if (muokkaus) lisaaTagilista(lomake, tagit);
         //paivitetaan lomake-paneeli ja skrollaus
         lomake.validate();
         lomake.repaint();
@@ -205,6 +209,23 @@ public class NakymaBuilder {
                 }
             }
         }
+    }
+    
+    public static void lisaaTagilista(JPanel lomake, ArrayList<String> tagit){
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(4, 4, 4, 4);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        
+        JList tagilista = new JList();
+        String[] sisalto = tagit.toArray(new String[tagit.size()]);
+        tagilista.setListData(sisalto);
+        
+        //lisää lista lomakkeeseen
+        lomake.add(new JLabel("tagit"), gbc);
+        x++;
+        gbc.gridx = x;
+        lomake.add(tagilista, gbc);
     }
 
 }

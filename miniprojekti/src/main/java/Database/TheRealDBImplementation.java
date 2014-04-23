@@ -148,14 +148,12 @@ public class TheRealDBImplementation implements Database {
         }
     }
 
-    @Override
     public void addTag(String ckey, String tag) throws NamingException, SQLException {
         String sql = "INSERT INTO tagit(tag, viite) VALUES(?, ?);";
         dbConnection(sql);
     }
     
     
-    @Override
     public ArrayList<Viite> listByTag(String tag) {
         ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet JOIN tagit ON viitteet.ckey = tagit.viite WHERE tagit.tag = '" + tag + "';");
 
