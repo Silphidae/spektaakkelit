@@ -29,7 +29,9 @@ public interface IEngine {
     
     public Viitetyyppi getViitetyyppi(String ckey);
     
-    public ArrayList<String> getTagit();
+    public ArrayList<Viite> listByTag(String tag);
     
-    public void lisaaTagi(String tagi);
+    public void addTagi(Viite viite, String tagi);
+    
+    public ArrayList<String> getTagsByViite(Viite viite);
 }

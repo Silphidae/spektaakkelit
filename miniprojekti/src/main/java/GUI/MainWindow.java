@@ -298,7 +298,7 @@ public class MainWindow extends javax.swing.JFrame {
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
         try {
             bibtex.generoiTiedosto(tiedosto + ".bib");
-            JOptionPane.showMessageDialog(this, "Projektin juureen on nyt lisätty " + tiedosto + ".bib niminen tiedosto.");
+            JOptionPane.showMessageDialog(this, "Nykyisen hakemiston juureen on nyt lisätty " + tiedosto + ".bib niminen tiedosto.");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -317,7 +317,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_muokkaaActionPerformed
 
     private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
-        engine.getTagit();
         
     }//GEN-LAST:event_lisaaTagiActionPerformed
 

@@ -67,8 +67,7 @@ public class EngineStub implements IEngine {
         String[] viitetaulukko = new String[sisalto.size()];
             for (int i = 0; i < sisalto.size(); i++) {
                 viitetaulukko[i] = sisalto.get(i).toString();
-            }
-        
+            }        
         return viitetaulukko;
     }
 
@@ -143,12 +142,17 @@ public class EngineStub implements IEngine {
     }
 
     @Override
-    public ArrayList<String> getTagit() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ArrayList<Viite> listByTag(String tag) {
+        return db.listByTag();
     }
 
     @Override
-    public void lisaaTagi(String tagi) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void addTagi(Viite viite, String tagi) {
+        db.addTag(viite.getCitationKey(), tagi);
+    }
+
+    @Override
+    public ArrayList<String> getTagsByViite(Viite viite) {
+        return db.getViitteenTagit(viite.getCitationKey());
     }
 }
