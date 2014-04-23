@@ -4,10 +4,12 @@ import Avaingenerointi.Avaingeneraattori;
 import Database.Database;
 import Syotetarkistus.Syotetarkastaja;
 import domain.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import javax.naming.NamingException;
 
 public class EngineStub implements IEngine {
 
@@ -45,7 +47,7 @@ public class EngineStub implements IEngine {
             
             try {
                 db.insertEntry(lisattava);
-            } catch (Exception e) { 
+            } catch (SQLException | NamingException e) { 
                 if (true) {
                     String asd = "asd";
                 }
