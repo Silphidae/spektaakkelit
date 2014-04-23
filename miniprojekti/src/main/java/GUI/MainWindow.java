@@ -5,27 +5,13 @@ import Engine.IEngine;
 import domain.Bibtex;
 import domain.Kentta;
 import domain.Viitetyyppi;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ToolTipManager;
 import javax.swing.text.JTextComponent;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -114,6 +100,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         lisaaTagi.setText("Lisää tagi");
+        lisaaTagi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lisaaTagiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
@@ -288,7 +279,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_lisaaActionPerformed
 
     private void bibtexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibtexActionPerformed
-        // TODO add your handling code here:
         Bibtex bibtex = new Bibtex(engine);
         String tiedosto = (String) JOptionPane.showInputDialog(this,
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
@@ -308,9 +298,14 @@ public class MainWindow extends javax.swing.JFrame {
         } else if (valitutViitteet > 1) {
             JOptionPane.showMessageDialog(this, "Valitse vain yksi muokattava viite.");
         } else {
-            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine).setVisible(rootPaneCheckingEnabled);
+            new MuokkausWindow(parseCitationKey(viitelista.getSelectedValuesList().get(0)), engine, this).setVisible(rootPaneCheckingEnabled);
         }
     }//GEN-LAST:event_muokkaaActionPerformed
+
+    private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
+        engine.getTagit();
+        
+    }//GEN-LAST:event_lisaaTagiActionPerformed
 
     private String parseCitationKey(Object viite) {
         //Splitataan citation key taulukon ekaksi alkioksi
@@ -342,7 +337,7 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Päivittää viitteiden listausnäkymän
      */
-    private void paivitaViitelista() {
+    public void paivitaViitelista() {
         String[] sisalto = engine.listaaKaikkiViitteet();
         viitelista.setListData(sisalto);
     }

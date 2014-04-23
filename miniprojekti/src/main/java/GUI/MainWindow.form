@@ -138,6 +138,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Lis&#xe4;&#xe4; tagi"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lisaaTagiActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -28,4 +28,8 @@ public interface IEngine {
     public EnumMap<Kentta, String> getKentat(String ckey);
     
     public Viitetyyppi getViitetyyppi(String ckey);
+    
+    public ArrayList<String> getTagit();
+    
+    public void lisaaTagi(String tagi);
 }
