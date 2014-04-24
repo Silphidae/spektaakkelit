@@ -120,11 +120,16 @@ public class MuokkausWindow extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         EnumMap<Kentta, String> kentat = NakymaBuilder.haeLomakkeenTiedot(lomake);
         
+        //Otetaan tagit talteen ennen poistoa
+        ArrayList<String> tagit = engine.getTagsByViite(ckey);
+        
         //Otetaan viite talteen ennen muokkausta
         EnumMap<Kentta, String> vanhaViite = engine.getKentat(ckey);
         engine.poistaViite(ckey);
-
+        
         ArrayList<String> virheet = engine.lisaaViite(viitetyyppi, kentat);
+        
+        String uusiCkey = ckey;
 
         if (virheet != null) {
             String virheviesti = "";
@@ -136,6 +141,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, virheviesti);
             
             engine.lisaaViite(viitetyyppi, vanhaViite);
+            
+            uusiCkey = engine.getViimeksiLisatynCkey();
         } else {
             JOptionPane.showMessageDialog(this, "Viitettä muokattiin onnistuneesti");
             //Sulkee muokkausikkunan
@@ -144,6 +151,11 @@ public class MuokkausWindow extends javax.swing.JFrame {
             mainWindow.paivitaViitelista();
         }
 
+        //Lisätään tagit takaisin
+        for (String tag : tagit) {
+            engine.addTagi(ckey, tag);
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

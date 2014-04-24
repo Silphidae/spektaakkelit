@@ -26,5 +26,5 @@ public interface Database {
 
     public void removeTagFromViite(String ckey, String tag);
 
-    public ArrayList<String> getTagit(String rajaus);
+    public ArrayList<String> getTagit(String rajaus) throws SQLException;
 }

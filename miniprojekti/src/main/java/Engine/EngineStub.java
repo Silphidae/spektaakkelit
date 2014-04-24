@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 public class EngineStub implements IEngine {
 
     private Database db;
     private Avaingeneraattori ag;
+    private String viimeksiLisatynCkey;
 
     public EngineStub(Database database) {
         db = database;
@@ -50,11 +53,10 @@ public class EngineStub implements IEngine {
             try {
                 db.insertEntry(lisattava);
             } catch (SQLException | NamingException e) {
-                if (true) {
-                    String asd = "asd";
-                }
             }
-
+            
+            viimeksiLisatynCkey = lisattava.getCitationKey();
+            
             return null;
         }
         ArrayList<String> virheet = tarkastaja.getVirheet();
@@ -79,6 +81,12 @@ public class EngineStub implements IEngine {
 
     @Override
     public void poistaViite(String ckey) {
+        //Poistetaan tagit ennen viitteen poistoa
+        ArrayList<String> tagit = db.getTagsByViite(ckey);
+        for (String tag : tagit) {
+            db.removeTagFromViite(ckey, tag);
+        }
+       
         db.removeEntry(ckey);
     }
 
@@ -179,11 +187,21 @@ public class EngineStub implements IEngine {
 
     @Override
     public ArrayList<String> getTagit() {
-        return db.getTagit("");
+        try {
+            return db.getTagit("");
+        } catch (SQLException ex) {
+            Logger.getLogger(EngineStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
     public String[] listaaByTag(String tag) {
         return muunnaViitelistaStringTaulukoksi(listByTag(tag));
+    }
+
+    @Override
+    public String getViimeksiLisatynCkey() {
+        return viimeksiLisatynCkey;
     }
 }

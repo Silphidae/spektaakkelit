@@ -13,60 +13,77 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 public class TheRealDBImplementation implements Database {
 
     @Override
     public void insertEntry(Viite viite) throws NamingException, SQLException {
-        String sql = "INSERT INTO viitteet(ckey, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        Connection yhteys = TietokantaYhteys.getYhteys();
-        PreparedStatement kysely = yhteys.prepareStatement(sql);
-
-        kysely.setString(1, viite.getCitationKey());
-        kysely.setString(2, viite.getKentanSisalto(author));
-        kysely.setString(3, viite.getKentanSisalto(title));
-        kysely.setString(4, viite.getKentanSisalto(journal));
-        kysely.setString(5, viite.getKentanSisalto(year));
-        kysely.setString(6, viite.getKentanSisalto(volume));
-        kysely.setString(7, viite.getKentanSisalto(number));
-        kysely.setString(8, viite.getKentanSisalto(pages));
-        kysely.setString(9, viite.getKentanSisalto(month));
-        kysely.setString(10, viite.getKentanSisalto(note));
-        kysely.setString(11, viite.getKentanSisalto(editor));
-        kysely.setString(12, viite.getKentanSisalto(publisher));
-        kysely.setString(13, viite.getKentanSisalto(series));
-        kysely.setString(14, viite.getKentanSisalto(address));
-        kysely.setString(15, viite.getKentanSisalto(edition));
-        kysely.setString(16, viite.getKentanSisalto(booktitle));
-        kysely.setString(17, viite.getKentanSisalto(organization));
-        kysely.setString(18, viite.getTyyppi());
-
-        ResultSet syotto = kysely.executeQuery();
-        syotto.next();
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet syotto = null;
 
         try {
-            syotto.close();
+            String sql = "INSERT INTO viitteet(ckey, author, title, journal, year, volume, number, pages, month, note, editor, publisher, series, address, edition, booktitle, organization, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            yhteys = TietokantaYhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+
+            kysely.setString(1, viite.getCitationKey());
+            kysely.setString(2, viite.getKentanSisalto(author));
+            kysely.setString(3, viite.getKentanSisalto(title));
+            kysely.setString(4, viite.getKentanSisalto(journal));
+            kysely.setString(5, viite.getKentanSisalto(year));
+            kysely.setString(6, viite.getKentanSisalto(volume));
+            kysely.setString(7, viite.getKentanSisalto(number));
+            kysely.setString(8, viite.getKentanSisalto(pages));
+            kysely.setString(9, viite.getKentanSisalto(month));
+            kysely.setString(10, viite.getKentanSisalto(note));
+            kysely.setString(11, viite.getKentanSisalto(editor));
+            kysely.setString(12, viite.getKentanSisalto(publisher));
+            kysely.setString(13, viite.getKentanSisalto(series));
+            kysely.setString(14, viite.getKentanSisalto(address));
+            kysely.setString(15, viite.getKentanSisalto(edition));
+            kysely.setString(16, viite.getKentanSisalto(booktitle));
+            kysely.setString(17, viite.getKentanSisalto(organization));
+            kysely.setString(18, viite.getTyyppi());
+
+            syotto = kysely.executeQuery();
+            syotto.next();
         } catch (Exception e) {
-        }
-        try {
-            kysely.close();
-        } catch (Exception e) {
-        }
-        try {
-            yhteys.close();
-        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+        } finally {
+            if (kysely != null) {
+                kysely.close();
+            }
+            if (syotto != null) {
+                syotto.close();
+            }
+            if (yhteys != null) {
+                yhteys.close();
+            }
         }
     }
 
     @Override
     public ArrayList<Viite> getAllEntries() {
-        return getViitteet("SELECT * FROM viitteet;");
+        try {
+            return getViitteet("SELECT * FROM viitteet;");
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
     public Viite getEntry(String ckey) {
-        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = '" + ckey + "';");
+        ArrayList<Viite> viitteet = null;
+        try {
+            viitteet = getViitteet("SELECT * FROM viitteet WHERE ckey = '" + ckey + "';");
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (viitteet == null || viitteet.size() < 1) {
             return null;
@@ -75,11 +92,13 @@ public class TheRealDBImplementation implements Database {
         return viitteet.get(0);
     }
 
-    private ArrayList<Viite> getViitteet(String sqlkysely) {
+    private ArrayList<Viite> getViitteet(String sqlkysely) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
         try {
-            Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
-            PreparedStatement kysely;
-            ResultSet tulokset;
+            yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
 
             kysely = yhteys.prepareStatement(sqlkysely);
             tulokset = kysely.executeQuery();
@@ -113,13 +132,19 @@ public class TheRealDBImplementation implements Database {
 
                 viitteet.add(lisattava);
             }
-
-            tulokset.close();
-            kysely.close();
-
             return viitteet;
         } catch (Exception e) {
             System.out.println("Virhe: " + e.getMessage());
+        } finally {
+            if (kysely != null) {
+                kysely.close();
+            }
+            if (tulokset != null) {
+                tulokset.close();
+            }
+            if (yhteys != null) {
+                yhteys.close();
+            }
         }
         return null;
     }
@@ -127,23 +152,35 @@ public class TheRealDBImplementation implements Database {
     @Override
     public void removeEntry(String ckey) {
         String sql = "DELETE FROM viitteet WHERE ckey = '" + ckey + "';";
-        dbConnection(sql);
+        try {
+            dbConnection(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    private void dbConnection(String sql) {
+    private void dbConnection(String sql) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
         try {
-            Connection yhteys = TietokantaYhteys.getYhteys();
-            PreparedStatement kysely;
-            ResultSet tulokset;
+            yhteys = TietokantaYhteys.getYhteys();
 
             kysely = yhteys.prepareStatement(sql);
             tulokset = kysely.executeQuery();
-
-            kysely.close();
-            yhteys.close();
         } catch (Exception e) {
             System.out.println("Virhe: " + e.getMessage());
+        } finally {
+            if (yhteys != null) {
+                yhteys.close();
+            }
+            if (kysely != null) {
+                kysely.close();
+            }
+            if (tulokset != null) {
+                tulokset.close();
+            }
         }
     }
 
@@ -153,7 +190,12 @@ public class TheRealDBImplementation implements Database {
     }
 
     public ArrayList<Viite> listByTag(String tag) {
-        ArrayList<Viite> viitteet = getViitteet("SELECT * FROM viitteet JOIN tagit ON viitteet.ckey = tagit.viite WHERE tagit.tag = '" + tag + "';");
+        ArrayList<Viite> viitteet = null;
+        try {
+            viitteet = getViitteet("SELECT * FROM viitteet JOIN tagit ON viitteet.ckey = tagit.viite WHERE tagit.tag = '" + tag + "';");
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (viitteet == null || viitteet.size() < 1) {
             return null;
@@ -164,21 +206,32 @@ public class TheRealDBImplementation implements Database {
 
     @Override
     public ArrayList<String> getTagsByViite(String ckey) {
-        return getTagit(" WHERE tagit.viite = '" + ckey + "'");
+        try {
+            return getTagit(" WHERE tagit.viite = '" + ckey + "'");
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
     public void removeTagFromViite(String ckey, String tag) {
         String sql = "DELETE FROM tagit WHERE viite = '" + ckey + "' AND tag = '" + tag + "';";
-        dbConnection(sql);
+        try {
+            dbConnection(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public ArrayList<String> getTagit(String rajaus) {
+    public ArrayList<String> getTagit(String rajaus) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
         try {
-            Connection yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
-            PreparedStatement kysely;
-            ResultSet tulokset;
+            yhteys = TietokantaYhteys.getYhteys(); //Haetaan yhteysolio
 
             kysely = yhteys.prepareStatement("SELECT DISTINCT tag FROM tagit" + rajaus);
             tulokset = kysely.executeQuery();
@@ -189,14 +242,21 @@ public class TheRealDBImplementation implements Database {
                 tagit.add(tulokset.getString("tag"));
             }
 
-            tulokset.close();
-            kysely.close();
-
             return tagit;
 
         } catch (Exception e) {
             System.out.println("Virhe: " + e.getMessage());
             return null;
+        } finally {
+            if (yhteys != null) {
+                yhteys.close();
+            }
+            if (kysely != null) {
+                kysely.close();
+            }
+            if (tulokset != null) {
+                tulokset.close();
+            }
         }
     }
 }

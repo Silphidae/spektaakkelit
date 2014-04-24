@@ -33,7 +33,7 @@ public class TietokantaYhteys {
         ds.setRemoveAbandoned(true);
         ds.setRemoveAbandonedTimeout(30);
         ds.setMaxActive(100);
-        ds.setMaxIdle(30);
+        ds.setMaxIdle(0);
         ds.setMaxWait(1000);
 
         DataSource yhteysVarasto = ds;

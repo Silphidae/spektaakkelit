@@ -12,6 +12,8 @@ public interface IEngine {
 
     //Halutaan palauttavan listan virheistä
     public ArrayList<String> lisaaViite(Viitetyyppi tyyppi, Map arvot);
+    
+    public String getViimeksiLisatynCkey();
 
     public String[] listaaKaikkiViitteet();
 
