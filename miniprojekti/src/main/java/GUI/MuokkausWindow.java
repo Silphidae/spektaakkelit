@@ -39,6 +39,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
         ArrayList tagit = engine.getTagsByViite(ckey);//kesken!!!
         NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null, true, tagit);
         NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
+        
+        pack();
     }
 
     @SuppressWarnings("unchecked")
