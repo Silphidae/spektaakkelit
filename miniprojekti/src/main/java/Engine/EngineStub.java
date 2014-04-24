@@ -46,17 +46,15 @@ public class EngineStub implements IEngine {
         lisattava.lisaaKentat(arvot);
 
         if (tarkastaja.getVirheet().isEmpty() && lisattava.kenttaMaarittelyVirheet().isEmpty()) {
-            if (lisattava.getCitationKey() == null) {
-                lisattava.lisaaCitationKey(ag.luoAvain(lisattava));
-            }
+            lisattava.lisaaCitationKey(ag.luoAvain(lisattava));
 
             try {
                 db.insertEntry(lisattava);
             } catch (SQLException | NamingException e) {
             }
-            
+
             viimeksiLisatynCkey = lisattava.getCitationKey();
-            
+
             return null;
         }
         ArrayList<String> virheet = tarkastaja.getVirheet();
@@ -86,7 +84,7 @@ public class EngineStub implements IEngine {
         for (String tag : tagit) {
             db.removeTagFromViite(ckey, tag);
         }
-       
+
         db.removeEntry(ckey);
     }
 

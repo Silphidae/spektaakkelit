@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
