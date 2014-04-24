@@ -31,6 +31,8 @@ public interface IEngine {
 
     public ArrayList<Viite> listByTag(String tag);
 
+    public String[] listaaByTag(String tag);
+
     public void addTagi(String ckey, String tagi);
 
     public ArrayList<String> getTagsByViite(String ckey);

@@ -64,15 +64,17 @@ public class EngineStub implements IEngine {
         return virheet;
     }
 
-    @Override
-    public String[] listaaKaikkiViitteet() {
-        ArrayList<Viite> sisalto = db.getAllEntries();
-
-        String[] viitetaulukko = new String[sisalto.size()];
-        for (int i = 0; i < sisalto.size(); i++) {
-            viitetaulukko[i] = sisalto.get(i).toString();
+    private String[] muunnaViitelistaStringTaulukoksi(ArrayList<Viite> lista) {
+        String[] viitetaulukko = new String[lista.size()];
+        for (int i = 0; i < lista.size(); i++) {
+            viitetaulukko[i] = lista.get(i).toString();
         }
         return viitetaulukko;
+    }
+
+    @Override
+    public String[] listaaKaikkiViitteet() {
+        return muunnaViitelistaStringTaulukoksi(db.getAllEntries());
     }
 
     @Override
@@ -178,5 +180,10 @@ public class EngineStub implements IEngine {
     @Override
     public ArrayList<String> getTagit() {
         return db.getTagit("");
+    }
+
+    @Override
+    public String[] listaaByTag(String tag) {
+        return muunnaViitelistaStringTaulukoksi(listByTag(tag));
     }
 }
