@@ -17,6 +17,7 @@ import javax.swing.text.JTextComponent;
 public class MainWindow extends javax.swing.JFrame {
 
     private IEngine engine;
+    private String valittuTagi = "";
     private int x; //käytetään lomakkeen GridBagLayoutissa määrittämään gridx
     private int y; //käytetään lomakkeen GridBagLayoutissa määrittämään gridy
 
@@ -284,7 +285,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_viitetyypitActionPerformed
 
-
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
         Map<Kentta, String> lomakkeenSisalto = NakymaBuilder.haeLomakkeenTiedot(lomake);
         Viitetyyppi lisattavanViitteenTyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
@@ -310,8 +310,13 @@ public class MainWindow extends javax.swing.JFrame {
         String tiedosto = (String) JOptionPane.showInputDialog(this,
                 "Anna tiedoston nimi, johon tallennetaan (ilman tiedostopäätettä)", JOptionPane.PLAIN_MESSAGE);
         try {
-            bibtex.generoiTiedosto(tiedosto + ".bib");
-            JOptionPane.showMessageDialog(this, "Nykyisen hakemiston juureen on nyt lisätty " + tiedosto + ".bib niminen tiedosto.");
+            if (valittuTagi.isEmpty()) {
+                bibtex.generoiTiedosto(tiedosto + ".bib");
+            } else {
+                bibtex.generoiTiedostoByTag(tiedosto + ".bib", valittuTagi);
+            }
+            JOptionPane.showMessageDialog(this, "Nykyisen hakemiston juureen on nyt lisätty " + tiedosto
+                    + ".bib niminen tiedosto, jossa listatut viitteet.");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -356,8 +361,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         if (tag.isEmpty()) {
             paivitaViitelista();
+            valittuTagi = "";
         } else {
             viitelista.setListData(engine.listaaByTag(tag));
+            valittuTagi = tag;
         }
     }//GEN-LAST:event_tagitActionPerformed
 
@@ -405,11 +412,10 @@ public class MainWindow extends javax.swing.JFrame {
 
             tagit.setModel(new DefaultComboBoxModel(haetutTagit.toArray()));
         }
-        
+
         tagit.insertItemAt("", 0);
         tagit.setSelectedIndex(0);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bibtex;
     private javax.swing.JLabel haeTagilla;
