@@ -4,6 +4,7 @@ import Engine.IEngine;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class Bibtex {
 
@@ -26,18 +27,16 @@ public class Bibtex {
             return "book";
         } else if (viite instanceof InProceedings) {
             return "inProceedings";
-        } else if (viite instanceof Article) {
-            return "article";
         } else {
-            return "What???";
+            return "article";
         }
     }
 
-    public File generoiTiedosto(String tiedostonNimi) throws FileNotFoundException {
+    private File tiedostonKasittely(String tiedostonNimi, ArrayList<Viite> viitteet) throws FileNotFoundException {
         if (!tiedostonNimi.isEmpty()) {
             File bibtexTiedosto = new File(tiedostonNimi);
             try (PrintWriter tiedosto = new PrintWriter(bibtexTiedosto)) {
-                for (Viite viite : moottori.getViitteet()) {
+                for (Viite viite : viitteet) {
                     tiedosto.println("@" + haeViitteenTyyppi(viite) + "{" + viite.getCitationKey() + ",");
                     for (Kentta kentta : viite.kaytossaOlevatKentat()) {
                         tiedosto.println(kentta.name() + " = {" + muunnaAakkoset(viite.getKentanSisalto(kentta)) + "},");
@@ -49,5 +48,13 @@ public class Bibtex {
             return bibtexTiedosto;
         }
         return null;
+    }
+
+    public File generoiTiedosto(String tiedostonNimi) throws FileNotFoundException {
+        return tiedostonKasittely(tiedostonNimi, moottori.getViitteet());
+    }
+
+    public File generoiTiedostoByTag(String tiedostonNimi, String tag) throws FileNotFoundException {
+        return tiedostonKasittely(tiedostonNimi, moottori.listByTag(tag));
     }
 }
