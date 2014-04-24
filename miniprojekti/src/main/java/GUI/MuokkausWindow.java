@@ -39,6 +39,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
         ArrayList tagit = engine.getTagsByViite(ckey);//kesken!!!
         NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null, true, tagit);
         NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
+        
+        pack();
     }
 
     @SuppressWarnings("unchecked")
@@ -167,11 +169,12 @@ public class MuokkausWindow extends javax.swing.JFrame {
         ArrayList<String> tagit = new ArrayList<>();
 
         Component[] lomakkeenSisalto = lomake.getComponents();
+        JList tagilista = null;
 
         for (Component kentta : lomakkeenSisalto) {
             if (kentta instanceof JList) {
-                JList lista = (JList) kentta;
-                for (Object o : lista.getSelectedValuesList()) {
+                tagilista = (JList) kentta;
+                for (Object o : tagilista.getSelectedValuesList()) {
                     tagit.add(o.toString());
 
                 }
@@ -189,10 +192,15 @@ public class MuokkausWindow extends javax.swing.JFrame {
             for (String tagi : tagit) {
                 engine.removeTagi(ckey, tagi);
             }
+            paivitaTagit(tagilista);
             mainWindow.paivitaTagit();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    public void paivitaTagit(JList lista) {
+        ArrayList<String> tagit = engine.getTagsByViite(ckey);
+        String[] sisalto = tagit.toArray(new String[tagit.size()]);
+        lista.setListData(sisalto);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

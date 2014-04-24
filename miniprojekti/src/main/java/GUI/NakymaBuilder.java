@@ -222,8 +222,11 @@ public class NakymaBuilder {
         tagilista.setListData(sisalto);
         
         //lisää lista lomakkeeseen
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         lomake.add(new JLabel("tagit"), gbc);
         x++;
+        
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridx = x;
         lomake.add(tagilista, gbc);
     }
