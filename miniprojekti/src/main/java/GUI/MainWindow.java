@@ -396,7 +396,7 @@ public class MainWindow extends javax.swing.JFrame {
         viitelista.setListData(sisalto);
     }
 
-    private void paivitaTagit() {
+    public void paivitaTagit() {
         tagit.removeAllItems();
 
         ArrayList<String> haetutTagit = engine.getTagit();
