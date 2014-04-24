@@ -67,7 +67,7 @@ public class NakymaBuilder {
             tekstikentta.setMargin(new Insets(2, 2, 2, 2));
             //asetetaan tekstikentälle sama nimi kuin comboboxilla jotta ne voidaan tunnistaa myöhemmin
             tekstikentta.setName(valinta.getName());
-            tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
+            tekstikentta.setToolTipText("Anna nimet muodossa: 'Etunumi Sukunimi' tai 'Sukunimi, Etunimi' Kirjoita henkilöiden väliin ' and '");
             lomake.add(tekstikentta, gbc);
 
             x++;
@@ -106,7 +106,7 @@ public class NakymaBuilder {
             }
 
             if (kentta == Kentta.author || kentta == Kentta.editor) {
-                tekstikentta.setToolTipText("Erottele henkilöt pilkulla");
+                tekstikentta.setToolTipText("Anna nimet muodossa: 'Etunumi Sukunimi' tai 'Sukunimi, Etunimi' Kirjoita henkilöiden väliin ' and '");
             }
 
             gbc.gridx = x;
