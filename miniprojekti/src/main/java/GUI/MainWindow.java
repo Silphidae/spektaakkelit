@@ -113,6 +113,11 @@ public class MainWindow extends javax.swing.JFrame {
         haeTagilla.setText("Hae tagilla:");
 
         tagit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tagit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tagitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout listausLayout = new javax.swing.GroupLayout(listaus);
         listaus.setLayout(listausLayout);
@@ -258,12 +263,13 @@ public class MainWindow extends javax.swing.JFrame {
                 engine.poistaViite(parseCitationKey(viite));
             }
         }
-        
+        paivitaTagit();
         paivitaViitelista();
     }//GEN-LAST:event_poistaActionPerformed
 
     private void jTabbedPane3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane3FocusGained
         paivitaViitelista();
+        paivitaTagit();
 
     }//GEN-LAST:event_jTabbedPane3FocusGained
 
@@ -339,6 +345,21 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_lisaaTagiActionPerformed
+
+    private void tagitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagitActionPerformed
+
+        if (tagit.getSelectedItem() == null) {
+            return;
+        }
+        
+        String tag = tagit.getSelectedItem().toString();
+
+        if (tag.isEmpty()) {
+            paivitaViitelista();
+        } else {
+            viitelista.setListData(engine.listaaByTag(tag));
+        }
+    }//GEN-LAST:event_tagitActionPerformed
     
     private String parseCitationKey(Object viite) {
         //Splitataan citation key taulukon ekaksi alkioksi
