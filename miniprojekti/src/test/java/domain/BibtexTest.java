@@ -1,7 +1,6 @@
 package domain;
 
-import Database.Database;
-import Engine.EngineStub;
+import java.io.File;
 import Engine.IEngine;
 import Syotetarkistus.Syotetarkastaja;
 import java.io.FileNotFoundException;
@@ -29,6 +28,24 @@ public class BibtexTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    public void testFilenLuontiIlmanTiedostonNimeaPalauttaaNull() {
+        try {
+            assertEquals(null, bibtex.generoiTiedosto(""));
+        } catch (FileNotFoundException ex) {
+            assertTrue(false);
+            ex.printStackTrace();
+        }
+    }
+
+    public void testFileOlionLuontiOnnistuuByTag() {
+        try {
+            assertEquals(new File("testaaByTag.bib"), bibtex.generoiTiedostoByTag("testaaByTag.bib", "kuvitteellinenTagi"));
+        } catch (FileNotFoundException ex) {
+            assertTrue(false);
+            ex.printStackTrace();
+        }
     }
 
     public void testFilenLuonti() throws FileNotFoundException {
