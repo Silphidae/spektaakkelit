@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 public class MainWindow extends javax.swing.JFrame {
-    
+
     private IEngine engine;
     private int x; //käytetään lomakkeen GridBagLayoutissa määrittämään gridx
     private int y; //käytetään lomakkeen GridBagLayoutissa määrittämään gridy
@@ -28,18 +28,18 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         paivitaViitetyypit();
         paivitaTagit();
-        
+
         x = 0;
         y = 0;
-        
+
     }
-    
+
     public MainWindow(IEngine engine) {
         this.engine = engine;
         initComponents();
         paivitaViitetyypit();
         paivitaTagit();
-        
+
         x = 0;
         y = 0;
     }
@@ -242,21 +242,21 @@ public class MainWindow extends javax.swing.JFrame {
     private void poistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaActionPerformed
         int valitutViitteet = viitelista.getSelectedValuesList().size();
         int valinta = 0;
-        
+
         if (valitutViitteet == 0) {
             JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
         } else if (valitutViitteet < 6) {
             String poistettavat = "";
-            
+
             for (Object o : viitelista.getSelectedValuesList()) {
                 poistettavat += o.toString() + "\n";
             }
-            
+
             valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko seuraavat viitteet:\n" + poistettavat);
         } else {
             valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko " + valitutViitteet + " viitettä?");
         }
-        
+
         if (valinta == JOptionPane.YES_OPTION) {
             for (Object viite : viitelista.getSelectedValuesList()) {
                 //Splitataan citation key taulukon ekaksi alkioksi
@@ -274,30 +274,30 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane3FocusGained
 
     private void viitetyypitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viitetyypitActionPerformed
-        
+
         Viitetyyppi viitetyyppi = (Viitetyyppi) viitetyypit.getSelectedItem();
-        
+
         Set<Kentta> pakollisetKentat = engine.getPakollisetKentat(viitetyyppi);
         Set<Kentta> muutKentat = engine.getEiPakollisetKentat(viitetyyppi);
-        
+
         NakymaBuilder.teeNakymaLomakkeelle(lomake, pakollisetKentat, muutKentat, Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString()), x, y, lomakeScroll, false, null);
 
     }//GEN-LAST:event_viitetyypitActionPerformed
-    
+
 
     private void lisaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaActionPerformed
         Map<Kentta, String> lomakkeenSisalto = NakymaBuilder.haeLomakkeenTiedot(lomake);
         Viitetyyppi lisattavanViitteenTyyppi = Viitetyyppi.valueOf(viitetyypit.getSelectedItem().toString());
-        
+
         ArrayList<String> virheet = engine.lisaaViite(lisattavanViitteenTyyppi, lomakkeenSisalto);
-        
+
         if (virheet != null) {
             String virheviesti = "";
-            
+
             for (String virhe : virheet) {
                 virheviesti += virhe + "\n";
             }
-            
+
             JOptionPane.showMessageDialog(this, virheviesti);
         } else {
             JOptionPane.showMessageDialog(this, "Viite lisättiin onnistuneesti");
@@ -319,7 +319,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void muokkaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_muokkaaActionPerformed
         int valitutViitteet = viitelista.getSelectedValuesList().size();
-        
+
         if (valitutViitteet == 0) {
             JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
         } else if (valitutViitteet > 1) {
@@ -330,9 +330,9 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_muokkaaActionPerformed
 
     private void lisaaTagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTagiActionPerformed
-        
+
         int valitutViitteet = viitelista.getSelectedValuesList().size();
-        
+
         if (valitutViitteet == 0) {
             JOptionPane.showMessageDialog(this, "Ei valittuja viitteitä");
         } else {
@@ -351,7 +351,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (tagit.getSelectedItem() == null) {
             return;
         }
-        
+
         String tag = tagit.getSelectedItem().toString();
 
         if (tag.isEmpty()) {
@@ -360,16 +360,16 @@ public class MainWindow extends javax.swing.JFrame {
             viitelista.setListData(engine.listaaByTag(tag));
         }
     }//GEN-LAST:event_tagitActionPerformed
-    
+
     private String parseCitationKey(Object viite) {
         //Splitataan citation key taulukon ekaksi alkioksi
         String[] viiteSplit = viite.toString().split(":");
         return viiteSplit[0];
     }
-    
+
     private void tyhjennaKentat() {
         Component[] komponentit = lomake.getComponents();
-        
+
         for (Component komponentti : komponentit) {
             if (komponentti instanceof JTextComponent) {
                 JTextComponent tekstikentta = (JTextComponent) komponentti;
@@ -377,13 +377,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void paivitaViitetyypit() {
         //combobox luodaan automaattisesti mutta sen arvot eivät ole oikein joten päivitetään ne
         viitetyypit.removeAllItems();
-        
+
         Viitetyyppi[] tyypit = engine.getViitetyypit();
-        
+
         viitetyypit.setModel(new DefaultComboBoxModel(tyypit));
         viitetyypit.setSelectedIndex(0);
     }
@@ -395,13 +395,16 @@ public class MainWindow extends javax.swing.JFrame {
         String[] sisalto = engine.listaaKaikkiViitteet();
         viitelista.setListData(sisalto);
     }
-    
+
     private void paivitaTagit() {
         tagit.removeAllItems();
-        
+
         ArrayList<String> haetutTagit = engine.getTagit();
-        
-        tagit.setModel(new DefaultComboBoxModel(haetutTagit.toArray()));
+
+        if (haetutTagit != null) {
+
+            tagit.setModel(new DefaultComboBoxModel(haetutTagit.toArray()));
+        }
         
         tagit.insertItemAt("", 0);
         tagit.setSelectedIndex(0);

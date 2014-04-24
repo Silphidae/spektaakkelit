@@ -187,12 +187,7 @@ public class EngineStub implements IEngine {
 
     @Override
     public ArrayList<String> getTagit() {
-        try {
-            return db.getTagit("");
-        } catch (SQLException ex) {
-            Logger.getLogger(EngineStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return db.getTagit("");
     }
 
     @Override

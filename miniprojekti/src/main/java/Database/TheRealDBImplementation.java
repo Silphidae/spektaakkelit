@@ -206,12 +206,7 @@ public class TheRealDBImplementation implements Database {
 
     @Override
     public ArrayList<String> getTagsByViite(String ckey) {
-        try {
-            return getTagit(" WHERE tagit.viite = '" + ckey + "'");
-        } catch (SQLException ex) {
-            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return getTagit(" WHERE tagit.viite = '" + ckey + "'");
     }
 
     @Override
@@ -225,7 +220,7 @@ public class TheRealDBImplementation implements Database {
     }
 
     @Override
-    public ArrayList<String> getTagit(String rajaus) throws SQLException {
+    public ArrayList<String> getTagit(String rajaus) {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -244,19 +239,26 @@ public class TheRealDBImplementation implements Database {
 
             return tagit;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Virhe: " + e.getMessage());
             return null;
+        } catch (NamingException ex) {
+            Logger.getLogger(TheRealDBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (yhteys != null) {
-                yhteys.close();
-            }
-            if (kysely != null) {
-                kysely.close();
-            }
-            if (tulokset != null) {
-                tulokset.close();
+            try {
+                if (yhteys != null) {
+                    yhteys.close();
+                }
+                if (kysely != null) {
+                    kysely.close();
+                }
+                if (tulokset != null) {
+                    tulokset.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Virhe: " + e.getMessage());
             }
         }
+        return null;
     }
 }

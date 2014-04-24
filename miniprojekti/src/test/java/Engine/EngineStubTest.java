@@ -225,5 +225,45 @@ public class EngineStubTest extends TestCase {
         assertNull(engine.getViitetyyppi("ckey4"));
     }
     
+    public void testKaikkiTagitHaetaan() {
+        ArrayList<String> tagit = new ArrayList();
+        tagit.add("tag1");
+        tagit.add("tag2");
+        
+        when(db.getTagit("")).thenReturn(tagit);
+        
+        assertTrue(tagit.equals(engine.getTagit()));
+    }
+    
+    public void testTagiinKuuluvatViitteetHaetaanOikein() {
+        Viite v = new Article(new Syotetarkastaja());
+        v.lisaaKentta(Kentta.author, "Pekka Pekkarinen");
+        v.lisaaKentta(Kentta.year, "1987");
+        v.lisaaKentta(Kentta.journal, "Lehti");
+        v.lisaaKentta(Kentta.title, "Nimi");
+        v.lisaaCitationKey("ckey");
+        
+        Viite v2 = new Book(new Syotetarkastaja());
+        v2.lisaaKentta(Kentta.author, "Pekka Maurinen");
+        v2.lisaaKentta(Kentta.year, "1956");
+        v2.lisaaKentta(Kentta.publisher, "Julkaisija");
+        v2.lisaaKentta(Kentta.title, "KirjanNimi");
+        v2.lisaaCitationKey("ckey2");
+        
+        ArrayList<Viite> viitteet = new ArrayList();
+        viitteet.add(v);
+        viitteet.add(v2);
+        
+        when(db.listByTag("tag")).thenReturn(viitteet);
+        
+        String[] pitaisiPalauttaa = {v.toString(), v2.toString()};
+        
+        assertTrue(Arrays.equals(pitaisiPalauttaa, engine.listaaByTag("tag")));
+    }
+    
+    public void testPalautetaanTyhjaTaulukkoKunTagiaEiOle() {
+        String[] asd = engine.listaaByTag("xokwybpb");
+        assertEquals(0, asd.length);
+    }
     
 }
