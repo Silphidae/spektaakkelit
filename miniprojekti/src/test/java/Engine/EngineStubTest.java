@@ -97,8 +97,19 @@ public class EngineStubTest extends TestCase {
     }
 
     public void testPoistaViiteToimii() {
-        engine.poistaViite("HaTu2013");
-        verify(db).removeEntry("HaTu2013");
+        engine.poistaViite("ckey");
+        verify(db).removeEntry("ckey");
+    }
+    
+    public void testPoistoPoistaaEnsinTagiViittaukset() {
+        ArrayList<String> tagit = new ArrayList();
+        tagit.add("tag1");
+        tagit.add("tag2");
+        when(db.getTagsByViite("ckey")).thenReturn(tagit);
+        
+        engine.poistaViite("ckey");
+        verify(db).removeTagFromViite("ckey","tag1");
+        verify(db).removeTagFromViite("ckey","tag2");
     }
 
     public void testPalautetaanViitetyypit() {
@@ -223,6 +234,16 @@ public class EngineStubTest extends TestCase {
         assertEquals(Viitetyyppi.book, engine.getViitetyyppi("ckey2"));
         assertEquals(Viitetyyppi.inproceedings, engine.getViitetyyppi("ckey3"));
         assertNull(engine.getViitetyyppi("ckey4"));
+    }
+    
+    public void testTaginLisaysSaaAikaanTietokantakyselyn() throws NamingException, SQLException {
+        engine.addTagi("ckey", "tagi");
+        verify(db).addTag("ckey", "tagi");
+    }
+    
+    public void testViitteeseenLiittyvienTagienHaku() {
+        engine.getTagsByViite("ckey");
+        verify(db).getTagsByViite("ckey");
     }
     
     public void testKaikkiTagitHaetaan() {
