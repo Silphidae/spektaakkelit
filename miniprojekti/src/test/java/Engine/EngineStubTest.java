@@ -323,14 +323,17 @@ public class EngineStubTest extends TestCase {
         v.lisaaKentta(Kentta.title, "Nimi");
         v.lisaaCitationKey("ckey");
 
-        ArrayList<Viite> viitteet = new ArrayList();
-        viitteet.add(v);
+        engine.addTagi("ckey", "test1");
+        engine.addTagi("ckey", "test2");
+              
+        ArrayList<String> tagit = new ArrayList<>();
+        tagit.add("test2");
         
-        when(db.listByTag("tag")).thenReturn(viitteet);
+        when(db.getTagsByViite("ckey")).thenReturn(tagit);
         
-        String[] pitaisiPalauttaa = {v.toString()};
+        engine.removeTagi("ckey", "test1");
         
-        assertTrue(Arrays.equals(pitaisiPalauttaa, engine.listaaByTag("tag")));
+        assertEquals(tagit, engine.getTagsByViite("ckey"));
     }
     
 }
