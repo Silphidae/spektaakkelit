@@ -236,6 +236,26 @@ public class EngineStubTest extends TestCase {
         assertNull(engine.getViitetyyppi("ckey4"));
     }
     
+    public void testViimeksiLisattyMuistetaan() {
+        HashMap<Kentta, String> article = new HashMap();
+        article.put(Kentta.author, "Etunimi Sukunimi");
+        article.put(Kentta.year, "1999");
+        article.put(Kentta.title, "Otsikko");
+        article.put(Kentta.journal, "Paras Lehti");
+        engine.lisaaViite(Viitetyyppi.article, article);
+        
+        assertEquals("S99", engine.getViimeksiLisatynCkey());
+        
+        HashMap<Kentta, String> article2 = new HashMap();
+        article2.put(Kentta.author, "Ekanimi Tokanimi");
+        article2.put(Kentta.year, "1999");
+        article2.put(Kentta.title, "Otsikko");
+        article2.put(Kentta.journal, "Paras Lehti");
+        engine.lisaaViite(Viitetyyppi.article, article2);
+        
+        assertEquals("T99", engine.getViimeksiLisatynCkey());
+    }
+        
     public void testTaginLisaysSaaAikaanTietokantakyselyn() throws NamingException, SQLException {
         engine.addTagi("ckey", "tagi");
         verify(db).addTag("ckey", "tagi");
