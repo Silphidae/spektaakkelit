@@ -287,4 +287,50 @@ public class EngineStubTest extends TestCase {
         assertEquals(0, asd.length);
     }
     
+    public void testViitteeseenKuuluvatTagitPalautuvatOikein() {
+        Viite v = new Article(new Syotetarkastaja());
+        v.lisaaKentta(Kentta.author, "Pekka Pekkarinen");
+        v.lisaaKentta(Kentta.year, "1987");
+        v.lisaaKentta(Kentta.journal, "Lehti");
+        v.lisaaKentta(Kentta.title, "Nimi");
+        v.lisaaCitationKey("ckey");
+        
+        engine.addTagi("ckey", "test1");
+        engine.addTagi("ckey", "test2");
+                
+        ArrayList<String> tagit = new ArrayList<>();
+        tagit.add("test1");
+        tagit.add("test2");
+        
+        when(db.getTagsByViite("ckey")).thenReturn(tagit);
+        
+        ArrayList<String> haku = engine.getTagsByViite("ckey");
+        
+        assertEquals(haku.get(0), "test1");
+        assertEquals(haku.get(1), "test2");
+    }
+    
+    public void testTaginPoistoViitteeltaAiheuttaaKyselyn() {
+        engine.removeTagi("A77", "test");
+        verify(db).removeTagFromViite("A77","test");
+    }
+    
+    public void testTagiPoistuuViitteeltaToivotusti() {
+        Viite v = new Article(new Syotetarkastaja());
+        v.lisaaKentta(Kentta.author, "Pekka Pekkarinen");
+        v.lisaaKentta(Kentta.year, "1987");
+        v.lisaaKentta(Kentta.journal, "Lehti");
+        v.lisaaKentta(Kentta.title, "Nimi");
+        v.lisaaCitationKey("ckey");
+
+        ArrayList<Viite> viitteet = new ArrayList();
+        viitteet.add(v);
+        
+        when(db.listByTag("tag")).thenReturn(viitteet);
+        
+        String[] pitaisiPalauttaa = {v.toString()};
+        
+        assertTrue(Arrays.equals(pitaisiPalauttaa, engine.listaaByTag("tag")));
+    }
+    
 }

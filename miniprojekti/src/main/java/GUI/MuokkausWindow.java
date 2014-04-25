@@ -36,7 +36,7 @@ public class MuokkausWindow extends javax.swing.JFrame {
         initComponents();
 
         viitetyyppi = engine.getViitetyyppi(ckey);
-        ArrayList tagit = engine.getTagsByViite(ckey);//kesken!!!
+        ArrayList tagit = engine.getTagsByViite(ckey);
         NakymaBuilder.teeNakymaLomakkeelle(lomake, engine.getPakollisetKentat(viitetyyppi), engine.getEiPakollisetKentat(viitetyyppi), viitetyyppi, 0, 0, null, true, tagit);
         NakymaBuilder.taytaLomakkeenTiedot(lomake, kentat);
         
@@ -184,6 +184,8 @@ public class MuokkausWindow extends javax.swing.JFrame {
         int valinta = 0;
         if (tagit.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ei valittuja tageja");
+        } else if (tagit.size()==1) {
+            valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko tagi?");
         } else {
             valinta = JOptionPane.showConfirmDialog(this, "Poistetaanko tagit?");
         }
